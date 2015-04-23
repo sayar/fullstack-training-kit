@@ -1,0 +1,157 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.MacroEditorModel
+@using Umbraco.Cms.Web.Model.BackOffice.ParameterEditors
+@using Umbraco.Framework.Persistence.Model.Constants;
+@using Umbraco.Cms.Web.Model.BackOffice.PropertyEditors;
+@{
+    Layout = "../Shared/_TabbedEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/MacroEditor.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+           $(document).ready(function () {                
+                Umbraco.Editors.MacroEditor.getInstance().init({
+                    activeTabIndex: @Model.ActiveTabIndex,
+                    activeTabIndexField: $("#@Html.IdFor(x => Model.ActiveTabIndex)"),
+                    macroTypeDropDown: $("#@Html.IdFor(x => Model.MacroType)"),
+                    selectedMacroType: "@Model.MacroType",
+                    selectedMacroItem: "@Model.SelectedItem",
+                    macroParameters: @Html.ToJsonString(Model.MacroParameters),
+                    availableMacroItems: @Html.ToJsonString(Model.AvailableMacroItems),                    
+                    availableMacroParamEditors: @Html.ToJsonString(Model.AvailableParameterEditors),
+                    populateUrl: "@Url.GetEditorUrl("PopulateMacroParameters", new Guid(CorePluginConstants.MacroEditorControllerId), null)",
+                }); 
+            });
+        })(jQuery);
+    </script>
+}
+@section Tabs {
+    <li><a href="#t-macro-properties"><span>Macro Properties</span></a></li>
+    <li><a href="#t-macro-parameters"><span>Macro Parameters</span></a></li>
+}
+@using (Html.BeginForm("Edit", new Guid(CorePluginConstants.MacroEditorControllerId), null, new { enctype = "multipart/form-data" }))
+{
+    @Html.UmbValidationSummary("Please correct the errors and try again.")
+    
+    @Html.UmbEditorBar();
+ 
+    @Html.HiddenFor(x => Model.ActiveTabIndex)
+                                                               
+    <div id="editorContent" class="has-editor-bar scrolling-content padded-content">
+        
+        @if (Model.Id.IsNullValueOrEmpty())
+        {
+            <p class="notice">@("Macro.UnSaved.Message".Localize())</p>
+        }
+        
+        @*Render Macro properties tab*@
+        <div id="macroPropertiesTab">
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(x => Model.Name)
+                @Html.UmbEditorFor(x => Model.Alias)
+            </div>
+            <div class="property-pane clearfix">
+                @{
+                    var macroTypes = Model.AvailableMacroItems.Select(x => new SelectListItem {Value = x.Item1, Text = x.Item1, Selected = x.Item1 == Model.MacroType});
+                }
+                @Html.UmbEditorFor(x => Model.MacroType, x => Model.MacroType, Html.DropDownListFor(x => Model.MacroType, macroTypes))
+                
+                <div class="property-editor clearfix">
+                    <div class="property-editor-label">
+                        <label for="@Html.IdFor(x => Model.SelectedItem)" data-bind="text: selectedItemLabel"></label>
+                    </div>
+                    <div class="property-editor-control">                                
+                        <select data-val="true" 
+                            data-val-required="Ensure a macro item is selected for the current macro type"
+                            data-bind="options: macroItems, value: selectedMacroItem, optionsValue: 'value',optionsText: 'text', optionsCaption: 'Please Select...'"                                
+                            id="@Html.IdFor(x => Model.SelectedItem)" name="@Html.NameFor(x => Model.SelectedItem)" >                            
+                        </select>
+                    </div>
+                </div>
+                                
+            </div>
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(x => Model.UseInEditor)
+                @Html.UmbEditorFor(x => Model.RenderContentInEditor)
+            </div>
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(x => Model.CachePeriodSeconds)
+                @Html.UmbEditorFor(x => Model.CacheByPage)
+                @Html.UmbEditorFor(x => Model.CachePersonalized)
+            </div>
+        </div>
+        @*Render Macro parameters tab*@
+        <div id="macroParametersTab">
+            <div class="property-pane clearfix" id="macroParametersPopulate">
+                <p class="notice">
+                    You can automatically populate the macro parameters by clicking the 'Populate' button. 
+                    This will scan the macro item/file that you've selected to determine its parameters and 
+                    automatically fill in the name, alias and type of parameter.
+                </p>
+                <button data-bind="click: populateParameters" title="Automatically populate macro parameters">Populate</button>
+            </div>
+            <div class="property-pane clearfix">
+                <table id="macroParameterTable" class="standard">
+                    <thead>
+                    <tr>
+                        <th>Show</th>
+                        <th>Alias</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody data-bind="template: { name : 'macroParameterRow', foreach: macroParameters, templateOptions: { availableMacroParamEditors : availableMacroParamEditors } }">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><input data-bind="checked: show" type="checkbox" /></td>
+                            <td>
+                                <span data-valmsg-for="NewParameter.Alias" class="field-validation-valid" data-valmsg-replace="true"></span>
+                                <input class="ignore" data-bind="value: alias" name="NewParameter.Alias" data-val="true" data-val-required="The Alias field is required." type="text" />
+                            </td>
+                            <td>
+                                <span data-valmsg-for="NewParameter.Name" class="field-validation-valid" data-valmsg-replace="true"></span>
+                                <input class="ignore" data-bind="value: name" name="NewParameter.Name" data-val="true" data-val-required="The Name field is required." type="text" />
+                            </td>
+                            <td>
+                                <select data-bind="options: availableMacroParamEditors, optionsValue: 'value', optionsText: 'name', value: parameterEditorId " >               
+                                </select>
+                            </td>
+                            <td><button data-bind="click: addNew" class="create-button" title="Add parameter"></button></td>
+                        </tr>
+                    </tfoot>
+                    
+                </table>
+            </div>
+        </div>
+    </div>   
+    
+    @*Jquery template to render the macro parameters*@
+    <script type="text/html" id='macroParameterRow'>
+    <tr>
+        <td>    
+            <input data-bind="checked: show(), value: show(), attr: { name: 'MacroParameters[' + index() + '].Show' }" type="checkbox" />
+            <input data-bind="attr: { name: 'MacroParameters[' + index() + '].Show' }" type="hidden" value="false" />
+        </td>
+        <td>
+            <span data-bind="attr: { 'data-valmsg-for': 'MacroParameters[' + index() + '].Alias' }" class="field-validation-valid" data-valmsg-replace="true"></span>
+            <input data-bind="attr: { value: alias, name: 'MacroParameters[' + index() + '].Alias' }" data-val="true" data-val-required="The Alias field is required." type="text" value="test" />
+        </td>
+        <td>
+            <span data-bind="attr: { 'data-valmsg-for': 'MacroParameters[' + index() + '].Name' }" class="field-validation-valid" data-valmsg-replace="true"></span>
+            <input data-bind="attr: { value: name, name: 'MacroParameters[' + index() + '].Name' }" data-val="true" data-val-required="The Name field is required." type="text" value="Test" />
+        </td>
+        <td>
+            <select data-bind="options: $item.availableMacroParamEditors, optionsValue: 'value', optionsText: 'name', value: parameterEditorId, attr: { name: 'MacroParameters[' + index() + '].ParameterEditorId' }" >               
+            </select>
+        </td>
+        <td>
+            <button data-bind="value: alias, click: deleteItem" name="submit.DeleteParameter" class="delete-button" title="Delete parameter"></button>
+        </td>
+    </tr>
+    </script>
+    
+}

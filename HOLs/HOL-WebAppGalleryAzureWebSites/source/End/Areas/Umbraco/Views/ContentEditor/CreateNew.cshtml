@@ -1,0 +1,16 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.CreateContentModel
+@{
+    Layout = "../Shared/_CreateNewLayout.cshtml";
+    
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+
+@section NoticeBoard {
+    @Html.DisplayFor(x => Model.NoticeBoard)
+}
+
+@if (((IEnumerable<DocumentTypeInfo>)ViewBag.AvailableDocumentTypes).Any())
+{
+    @Html.UmbNextButton()
+}

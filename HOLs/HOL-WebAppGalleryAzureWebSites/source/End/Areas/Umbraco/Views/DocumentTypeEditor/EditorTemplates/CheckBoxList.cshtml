@@ -1,0 +1,18 @@
+﻿@model IEnumerable<SelectListItem>
+
+<div class="table-box @ViewBag.CssClass">
+    <table class="standard highlight-row">
+    @foreach (var c in Model)
+    {
+        var id = string.Concat(ViewData.ModelMetadata.PropertyName, "_", c.Value);
+        
+        <tr>
+            <td class="check-box-cell"><input type="checkbox" id="@id" 
+                       name="@ViewData.ModelMetadata.PropertyName" 
+                       value="@c.Value"
+                       @(c.Selected ? "checked='checked'" : "") /></td>
+            <td><label for="@id">@c.Text</label></td>
+        </tr> 
+    }    
+    </table>
+</div>

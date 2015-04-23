@@ -1,0 +1,51 @@
+﻿@model PackageInstallerStateModel
+@{
+    Html
+        .RequiresCss("Packaging.css", "Styles")
+        .RequiresJs("Umbraco.Editors/AppRestarter.js", "Scripts");
+    
+    Layout = "../Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    (function ($) {
+        $(window).load(function () {
+            Umbraco.Editors.AppRestarter.getInstance().init({
+                ajaxUrl: "@Url.GetEditorUrl("PerformRecycleApplication", typeof(PackagingEditorController), null)",
+                redirectUrl: "@Url.Action("RunPackageActions", "PackagingEditor", new { id = Model.PackageId, state = Model.State })"                
+            });
+        });
+    })(jQuery);
+</script>
+
+<div>
+    <div id="editor" class="panel">
+        <div class="boxhead">
+            <h2>
+                Local package repository</h2>
+        </div>
+        <div class="boxbody">
+            <div class="padded-content scrolling-content">
+                <div class="property-pane">
+                    <div class="notice">
+                        <h4>
+                            Please wait while your application restarts</h4>
+                        <br />
+                        <div data-bind="visible: status() != 'restarted'">
+                            <div class="progress-bar"></div>
+                            <div >Waiting for server response...</div>
+                        </div>                        
+                        <br />
+                        <div data-bind="text: statusMsg"></div>                        
+                        <div data-bind="html: ysod"></div>                        
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <div class="boxfooter">
+            <div class="statusBar">
+                <h5>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>

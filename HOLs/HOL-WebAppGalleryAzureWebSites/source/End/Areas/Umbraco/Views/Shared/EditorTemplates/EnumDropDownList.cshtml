@@ -1,0 +1,5 @@
+﻿@model dynamic
+@using Umbraco.Framework;
+
+@Html.DropDownListFor(x => Model, new SelectList(
+    EnumHelper.GetDisplayNameValueCollection(Model.GetType()), "Item1", "Item3", Convert.ToInt64(Model)))

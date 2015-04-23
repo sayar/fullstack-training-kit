@@ -1,0 +1,17 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.CreateMacroModel
+
+@Html.ValidationMessageFor(x => Model.MacroType)
+<div class="editor-label">
+    @Html.LabelFor(x => Model.MacroType)
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(x => Model.MacroType, Model.AvailableMacroTypes)
+</div>
+
+@Html.ValidationMessageFor(x => Model.Name)
+<div class="editor-label">
+    @Html.LabelFor(x => Model.Name)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(x => Model.Name)
+</div>

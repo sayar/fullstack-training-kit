@@ -1,0 +1,93 @@
+﻿@using Microsoft.Web.Mvc;
+@using Umbraco.Cms.Web;
+@using ClientDependency.Core;
+@using ClientDependency.Core.Mvc;
+@using Umbraco.Cms.Web.Model.BackOffice.Editors;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    @{
+        Html
+            .RequiresCss("ericmeyer.reset.css", "Styles", 0)
+            //.RequiresCss("jQueryUI.css", "Styles", 1)            
+            .RequiresCss("Site.css", "Styles", 1)
+            .RequiresCss("Messaging.css", "Styles", 1)
+            .RequiresCss("Buttons.css", "Styles", 2)
+            .RequiresCss("Panel/style.css", "Modules", 3)
+            .RequiresCss("jQueryUI/ui-lightness/jquery-ui-1.8.7.custom.css", "Modules", 3)
+            //.RequiresCss("jQueryUI/v4/jquery-ui-umbraco-v4.css", "Modules", 3)
+            .RequiresCss("Validation.css", "Styles", 3)
+            .RequiresCss("Editor.css", "Styles", 4)
+            .RequiresCss("Dashboard.css", "Styles", 4)
+            .RequiresCss("UmbracoTabs/UmbracoTabs.css", "Modules")
+            .RequiresCss("CollapsePanel/CollapsePanel.css", "Modules")
+            .RequiresCss("Modal/jqModal.css", "Modules")
+            .RequiresCss("Notifications/Notifications.css", "Modules");
+    }
+    @{
+        Html
+            .RequiresJs("jQuery/jquery.js", "Scripts", 0)
+            .RequiresJs("Base2/base2.js", "Scripts", 0)
+            .RequiresJs("Umbraco.System/NamespaceManager.js", "Scripts", 0)
+            .RequiresJs("zClip/jquery.zclip.js", "Modules", 1)
+            .RequiresJs("Umbraco.System/Extensions.js", "Scripts", 2)
+            .RequiresJs("Umbraco.System/QueryStrings.js", "Scripts", 2)
+            .RequiresJs("jQuery/jquery.validate.js", "Scripts", 2)
+            //.RequiresJs("jQuery/jquery.validate.min.js", "Scripts", 2)
+            .RequiresJs("jQuery/jquery.unobtrusive-ajax.min.js", "Scripts", 3)
+            .RequiresJs("jQuery/jquery.validate.unobtrusive.js", "Scripts", 4)
+            //.RequiresJs("jQuery/jquery.validate.unobtrusive.min.js", "Scripts", 4)
+            .RequiresJs("jQuery/jquery-ui-1.8.7.custom.min.js", "Scripts", 10)
+            .RequiresJs("jQuery/jquery.tmpl.js", "Scripts", 10)
+            .RequiresJs("KnockoutJs/knockout-1.2.1.js", "Scripts", 11)
+            .RequiresJs("KnockoutJs/knockout.extensions.js", "Scripts", 12)
+            .RequiresJs("jQuery/jquery.cookies.js", "Scripts", 11)
+            .RequiresJs("Umbraco.System/WindowManager.js", "Scripts", 11)
+            .RequiresJs("Umbraco.System/BaseViewModel.js", "Scripts", 1)
+            .RequiresJs("Umbraco.PropertyEditors/PropertyEditor.js", "Scripts", 20)
+            .RequiresJs("Umbraco.PropertyEditors/PropertyEditorContext.js", "Scripts", 20)
+            .RequiresJs("Umbraco.PropertyEditors/PropertyEditorManager.js", "Scripts", 20)
+            .RequiresJs("Tree/TreeSyncManager.js", "Modules", 20)
+            .RequiresJs("Umbraco.System/ClientApiManager.js", "Scripts", 22)
+            .RequiresJs("Umbraco.UI/UIElement.js", "Scripts", 30)
+            .RequiresJsFolder(Url.GetScriptsPath().Path + "/Umbraco.UI/UIElements", 31)
+            .RequiresJs("Umbraco.UI/UIElementFactory.js", "Scripts", 32)
+            .RequiresJs("Umbraco.UI/UIPanel.js", "Scripts", 33)
+            .RequiresJs("Umbraco.UI/EditorBar.js", "Scripts", 34)
+            .RequiresJs("UmbracoTabs/UmbracoTabs.js", "Modules")
+            .RequiresJs("Modal/jqModal.js", "Modules")
+            .RequiresJs("Modal/jqDnR.js", "Modules", 101)
+            .RequiresJs("Notifications/NotificationManager.js", "Modules")
+            .RequiresJs("Umbraco.System/UmbracoUtils.js", "Scripts")
+            .RequiresJs("Umbraco.System/HiveId.js", "Scripts")
+            .RequiresJs("Umbraco.UI/HiveIdClipboard.js", "Scripts")
+            .RequiresJs("Umbraco.UI/HierarchicalCheckBoxList.js", "Scripts");
+    }
+    @* Render styles/scripts *@
+    @Html.Raw(Html.RenderCssHere(new List<IClientDependencyPath>() { Url.GetStylesPath(), Url.GetModulesPath() }))
+    @Html.Raw(Html.RenderJsHere(new List<IClientDependencyPath>() { Url.GetScriptsPath(), Url.GetModulesPath() }))
+    
+    @* Render a head section *@
+    @RenderSection("Head", false)
+</head>
+<body>
+    @RenderBody()
+
+    <script type="text/javascript">        
+        (function($) {
+            $(document).ready(function () {
+                $u.Sys.NotificationManager.getInstance().showNotifications("@ViewBag.NotificationId");
+                $u.Ctl.TreeSyncManager.getInstance().syncTree("@ViewBag.success");
+                //setup keyboard shortcuts
+                Umbraco.Utils.bindShortcuts($("body"));
+                //ensure all scrolling content is at the top
+                $(".scrolling-content").scrollTop(0);
+            });
+        })(jQuery);
+        
+    </script>
+
+</body>
+</html>

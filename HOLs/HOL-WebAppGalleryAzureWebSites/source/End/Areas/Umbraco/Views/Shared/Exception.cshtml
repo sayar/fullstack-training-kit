@@ -1,0 +1,49 @@
+﻿@inherits System.Web.Mvc.WebViewPage<System.Web.Mvc.HandleErrorInfo>
+@{Html.RequiresCss("Exception.css", "Styles");}
+<div id="editor" class="panel">
+    <div class="boxhead">
+        <h2>
+            Exception occurred</h2>
+    </div>
+    <div class="boxbody">
+        <div id="exception" class="padded-content scrolling-content">
+            <h2 class="error">
+                An error occurred while processing your request.</h2>
+            <h3>
+                Exception</h3>
+            <div>
+                @Model.Exception.Message
+            </div>
+            @if (Model.Exception.InnerException != null)
+            {
+                <h3>
+                    Inner exception</h3>
+                <div>
+                    @Model.Exception.InnerException.Message
+                </div>
+            }
+            <h3>
+                Stack trace</h3>
+            <div id="stackTrace">
+                @Model.Exception.StackTrace
+            </div>
+            @if (Model.Exception.Data.Count > 0)
+            {
+                <h3>
+                    Data</h3>
+                <div>
+                    @foreach (var d in Model.Exception.Data.Keys)
+                    {
+                        @Model.Exception.Data[d]
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <div class="boxfooter">
+        <div class="statusBar">
+            <h5>
+                Status bar example</h5>
+        </div>
+    </div>
+</div>

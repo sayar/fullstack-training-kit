@@ -1,0 +1,14 @@
+﻿@inherits RenderViewPage
+@using System.Web.Mvc.Html;
+@using Umbraco.Cms.Web;
+@using Umbraco.Framework;
+@{
+    Layout = "_DevDatasetLayout.cshtml";
+    ViewBag.Title = DynamicModel.Name;
+}
+@section PageTitle
+{
+    @DynamicModel.Name
+}
+
+@Umbraco.RenderMacro("bookList")

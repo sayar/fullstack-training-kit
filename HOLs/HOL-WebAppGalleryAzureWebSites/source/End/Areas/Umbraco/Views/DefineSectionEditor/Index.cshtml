@@ -1,0 +1,43 @@
+﻿@using Umbraco.Framework.Persistence.Model.Constants;
+@{
+    Layout = "../Shared/_ModalLayout.cshtml";
+
+    Html.RequiresJs("Umbraco.Editors/Dialogs/DefineSectionEditor.js", "Scripts");
+}
+@section Head {
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.DefineSectionEditor.getInstance().init();
+            });
+        })(jQuery);
+    </script>
+}
+
+<p class="notice" style="margin-top: 0;">Define a section so that templates using this template as a layout can inject their own content into it.</p>
+<div class="property-pane clearfix">
+    <div class="property-editor clearfix">
+        <div class="property-editor-label">Section Type</div>
+        <div class="property-editor-control">
+            <select data-bind="value: type">
+                <option value="body">Body Section</option>
+                <option value="named">Named Section</option>
+            </select>
+        </div>
+    </div>
+    <div data-bind="visible: type() == 'named'">
+        <div class="property-editor clearfix">
+            <div class="property-editor-label">Section Name</div>
+            <div class="property-editor-control">
+                <input type="text" data-bind="value: name" />
+            </div>
+        </div>
+        <div class="property-editor clearfix">
+            <div class="property-editor-label">Is Required?</div>
+            <div class="property-editor-control">
+                <input type="checkbox" data-bind="checked: required" />
+            </div>
+        </div>
+    </div>
+</div>
+<button id="btnInsertSectionDefinition" data-bind="click: save">Insert</button> or <a id="btnCancelInsertSectionDefinition" href="#" class="cancel" data-bind="click: cancel">Cancel</a>

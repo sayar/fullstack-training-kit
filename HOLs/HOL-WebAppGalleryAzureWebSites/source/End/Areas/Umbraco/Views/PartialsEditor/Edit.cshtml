@@ -1,0 +1,43 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.FileEditorModel
+@{
+    Layout = "../Shared/_FileContentEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    ViewBag.Action = "Save";
+    ViewBag.ControllerId = new Guid(CorePluginConstants.PartialsEditorControllerId);
+    ViewBag.TabTitle = "Partial Editor";
+
+    Html
+        .RequiresJs("CodeMirror/codemirror.js", "Modules", 100)
+        .RequiresJs("CodeMirror/mode/css/css.js", "Modules", 101)
+        .RequiresJs("Umbraco.Editors/ScriptEditor.js", "Scripts", 102)
+        .RequiresJs("Umbraco.Editors/PartialsEditor.js", "Scripts", 105);
+    Html
+        .RequiresCss("CodeMirror/codemirror.css", "Modules", 100)
+        .RequiresCss("CodeMirror/theme/umbraco.css", "Modules", 101);
+        
+}
+@section Head {
+    <script type="text/javascript">
+
+        var editor = undefined; // Store a reference to the editor globally so that we can access from dialog windows
+        
+        (function ($) {
+            $(document).ready(function () {
+                editor = Umbraco.Editors.PartialsEditor.getInstance();
+                editor.init({
+                    editorTextBoxId: "@Html.IdFor(x => Model.FileContent)",
+                    name: "@Model.Name",
+                    id: "@Model.Id",
+                    parentId: "@Model.ParentId",
+                    insertFieldUrl: "@Url.GetEditorUrl("Index", new Guid(CorePluginConstants.InsertFieldEditorControllerId), new { id = Model.Id })",
+                    insertMacroUrl: "@Url.GetEditorUrl("Index", new Guid(CorePluginConstants.InsertMacroEditorControllerId), new { id = Model.Id })",
+                    codeMirrorOpts: {
+                        mode: "text/html"
+                    }
+                });
+            });
+        })(jQuery);
+        
+    </script>
+}

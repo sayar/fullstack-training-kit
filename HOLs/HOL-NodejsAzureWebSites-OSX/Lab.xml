@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Lab xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
+  <Id>NodejsAzureWebSites-OSX</Id>
+  <Technologies>
+    <Technology>Windows Azure</Technology>
+    <Technology>Node.js</Technology>
+  </Technologies>
+  <Author>
+    <Blog></Blog>
+    <Email></Email>
+    <Name>ntotten</Name>
+  </Author>
+  <Description>In this hands-on lab you will learn the basics of the Windows Azure Web Sites service for Node.js applications. In Exercise 1, you will see how to use the Windows Azure portal for creating a web site and then publish a "Hello World" Node.js application using Git. In Exercise 2, you will learn how to use the Node.js Command-Line Tools for publishing applications.</Description>
+  <Document ConversionType="Html">.\HOL.md</Document>
+  <Title>Building and Publishing Node.js Applications with Windows Azure Web Sites (OS X)</Title>
+  <Version>1.0.3</Version>
+  <Source></Source>
+  <CustomProperties>
+    <Property Name="ContentType" Value="OSS" />
+    <Property Name="GitHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-NodejsAzureWebSites-OSX" />
+  </CustomProperties>
+</Lab>

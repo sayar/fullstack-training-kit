@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DependencyCheckerConfiguration version="2.0">
+	<title>Building and Publishing Node.js Applications with Windows Azure Web Sites (Windows)</title>
+	<dependencies>
+		<dependency 
+                        hint="NodeJS" 
+		        name="Node.JS" 
+		        description="Node.JS is a server-side environment for JavaScript." 
+		        helpLink="wpi://NodeJS" 
+		        type="WebPI" />		
+		<dependency 
+                        hint="AzureNodePowershell" 
+		        name="Windows Azure SDK for Node.js (for exercise 2 only)" 
+		        description="Windows Azure SDK for Node.js" 
+		        helpLink="wpi://AzureNodePowershell" 
+		        type="WebPI" />
+		<dependency 
+			hint="Git version *" 
+                        name="GIT Version Control System (for exercise 1 only)" 
+                        description="Git is a free and open source distributed version control system." 
+                        helpLink="http://git-scm.com/download" 
+                        type="Uninstall" />
+		<dependency  
+			hint="WebMatrix"
+			name="Microsoft WebMatrix 2 Release Candidate"
+			description=""
+			helpLink=""
+			type="WebPI" />
+	</dependencies>
+</DependencyCheckerConfiguration>

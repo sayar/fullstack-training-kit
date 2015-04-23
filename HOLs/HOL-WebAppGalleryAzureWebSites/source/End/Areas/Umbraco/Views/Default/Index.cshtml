@@ -1,0 +1,126 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.BackOfficeDefaultModel
+@using Umbraco.Cms.Web.Trees;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=100" > <!-- IE9 mode -->
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/x-icon" href='@Url.Content("~/Areas/Umbraco/Content/Images/umbracoFavicon.ico")' />
+    @{
+        Html
+           .RequiresCss("ericmeyer.reset.css", "Styles", 0)
+           .RequiresCss("Site.css", "Styles", 1)
+           .RequiresCss("Panel/style.css", "Modules", 3)
+            //.RequiresCss("jQueryUI/v4/jquery-ui-umbraco-v4.css", "Modules", 3)
+           .RequiresCss("Modal/jqModal.css", "Modules")
+           .RequiresCss("jQueryUI/ui-lightness/jquery-ui-1.8.7.custom.css", "Modules", 3)
+           .RequiresCss("Notifications/Notifications.css", "Modules");
+    }
+    @{
+        Html
+           .RequiresJs("jQuery/jquery.js", "Scripts", 0)
+           .RequiresJs("Base2/base2.js", "Scripts", 0)
+           .RequiresJs("Umbraco.System/NamespaceManager.js", "Scripts", 0)
+           .RequiresJs("Umbraco.System/Extensions.js", "Scripts", 2)
+           .RequiresJs("Umbraco.System/QueryStrings.js", "Scripts", 2)
+           .RequiresJs("Umbraco.System/WindowManager.js", "Scripts", 11)
+           .RequiresJs("Umbraco.System/UmbracoApplication.js", "Scripts", 20)
+           .RequiresJs("jQuery/jquery.bbq.js", "Scripts", 20)
+           .RequiresJs("Umbraco.System/HistoryManager.js", "Scripts", 21)
+           .RequiresJs("Umbraco.System/ClientApiManager.js", "Scripts", 22)
+           .RequiresJs("jQuery/jquery-ui-1.8.7.custom.min.js", "Scripts", 30)
+           .RequiresJs("Modal/jqModal.js", "Modules", 100)
+           .RequiresJs("Modal/jqDnR.js", "Modules", 101)
+           .RequiresJs("Notifications/NotificationManager.js", "Modules")
+           .RequiresJs("Umbraco.System/UmbracoUtils.js", "Scripts")
+           .RequiresJs("Umbraco.System/HiveId.js", "Scripts");
+
+        //Client-side localization dependencies
+        foreach (var dep in Umbraco.Framework.Localization.Web.JavaScript.JavaScriptGenerator.ScriptResourceDependencies)
+        {
+            Html.RequiresJsResource(dep.Item1, dep.Item2, 102);
+        } 
+    }
+    @* Render styles/scripts *@
+    @Html.Raw(Html.RenderCssHere(Url.GetStylesPath()))
+    @Html.Raw(Html.RenderJsHere(new List<IClientDependencyPath>() { Url.GetScriptsPath(), Url.GetModulesPath() }))
+
+    @* Read all texts into a variable called "Localization" *@
+    @* TODO: the "localization" path is configurable in the umbraco.cms.system.config/system/paths tag *@
+    @* TODO: Only read the texts that are needed *@
+    <script src="@Url.Content("~/localization/script/all/?var=Localization")"></script>    
+</head>
+<body>
+    <div id="container">
+        @Html.Partial("HeaderPartial")
+        <div id="main">
+            <div id="leftColumn">
+                <div id="treeContainer" class="panel">
+                    <div class="boxhead">
+                        <h2>Content</h2>
+                    </div>
+                    <div class="boxbody">
+                        @Html.RenderTree(Model.TreeModel)
+                    </div>
+                    <div class="boxfooter">
+                        <div class="statusBar">
+                            <h5>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div id="appContainer" class="panel">
+                    <div class="boxhead">
+                        <h2>
+                            Sections</h2>
+                    </div>                    
+                    <div class="boxbody">
+                        <div id="trayContainer">
+                            @Html.Action("ApplicationTray")
+                        </div>                        
+                    </div>
+                    <div class="boxfooter">
+                        <div class="statusBar">
+                            <h5>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="rightColumn">
+                <div id="editorContainer">                       
+                    <iframe id="contentFrame" name="contentFrame" frameBorder="0">
+                    </iframe>                
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("CtxMenuDefPartial", Model.MenuItems)
+    <script type="text/javascript">
+
+        (function ($) {
+            $(document).ready(function () {
+
+                //create the umbraco application instance assigned to the 'window.top' object
+                $(window.top).umbracoApplication({
+                    startupDashboard: "@Model.CurrentApplicationAlias",
+                    mainTree: $u.Sys.ApiMgr.getMainTree(),
+                    historyMgr: $u.Sys.ApiMgr.getHistoryManager(),
+                    windowMgr: Umbraco.System.WindowManager.getInstance(),
+                    searchBox: $("#searchBox"),
+                    contentFrame: $("#contentFrame"),
+                    editorContainer: $("#editorContainer"),
+                    appTrayUrl: "@Url.Action("ApplicationTray", "Default", new {area = "Umbraco"})",
+                    loginUrl: "@Url.Action("Login", "Default", new { displayType = LoginDisplayType.DisplayingOverlay })"
+                });               
+
+            });
+        })(jQuery);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+/*
+ * umbraco js tree theme
+ * Supported features: dots/no-dots, icons/no-icons, focused, loading
+ * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
+ */
+
+.jstree-umbraco 
+{
+	/* since the first arrow is hidden we need to offset the margin */
+	margin-left:-10px;
+	font-family: Arial,Lucida Grande;
+}
+.jstree-umbraco li, 
+.jstree-umbraco ins
+{
+	background-image: url("d.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+.jstree-umbraco li a 
+{
+	padding:0;
+	margin-left: -4px;
+}
+.jstree-umbraco > ul > li > ins 
+{
+	/* hide the first arrow in the tree */
+	background: transparent ! important;
+}
+.jstree-umbraco li > a > span
+{
+	margin-right: 20px;
+}
+.jstree-umbraco li
+{
+	background-position: -90px 0;
+	background-repeat: repeat-y;
+	position:relative;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.jstree-umbraco li.jstree-last
+{
+	background: transparent;
+}
+
+.jstree-umbraco .jstree-open > ins
+{
+	background: url("arrows.png") -18px -43px no-repeat;
+}
+.jstree-umbraco .jstree-open:hover > ins
+{
+	background-position: -2px -43px;
+}
+
+.jstree-umbraco .jstree-closed > ins
+{
+	background: url("arrows.png") 0px -20px no-repeat;
+}
+.jstree-umbraco .jstree-closed:hover > ins
+{
+	background-position: 0px 2px;
+}
+
+.jstree-umbraco .jstree-leaf > ins
+{
+	background-position: -36px 0;
+}
+
+.jstree-umbraco .jstree-hovered span
+{
+	/*background: #e7f4f9;
+	border: 1px solid #d8f0fa;
+	padding: 0 2px 0 1px;*/
+	text-decoration:underline;
+}
+.jstree-umbraco .jstree-clicked
+{
+	background: #E5F2F9;
+	border: 1px solid #99DEFD;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 0 2px 0 1px;
+}
+.jstree-umbraco a .jstree-icon
+{
+	background-position: -56px -19px;
+}
+.jstree-umbraco a.jstree-loading .jstree-icon
+{
+	background: url("../../../../Content/Images/throbber.gif") center center no-repeat !important;
+}
+
+/*.jstree-umbraco.jstree-focused { background:#ffffee; }*/
+
+
+.jstree-umbraco .jstree-no-dots li, .jstree-umbraco .jstree-no-dots .jstree-leaf > ins
+{
+	background: transparent;
+}
+/*
+.jstree-umbraco .jstree-no-dots .jstree-open > ins
+{
+	background-position: -18px 0;
+}
+.jstree-umbraco .jstree-no-dots .jstree-closed > ins
+{
+	background-position: 0 0;
+}
+*/
+
+.jstree-umbraco .jstree-no-icons a .jstree-icon
+{
+	display: none;
+}
+
+.jstree-umbraco .jstree-search
+{
+	font-style: italic;
+}
+
+.jstree-umbraco .jstree-no-icons .jstree-checkbox
+{
+	display: inline-block;
+}
+.jstree-umbraco .jstree-no-checkboxes .jstree-checkbox
+{
+	display: none !important;
+}
+.jstree-umbraco .jstree-checked > a > .jstree-checkbox
+{
+	background-position: -38px -19px;
+}
+.jstree-umbraco .jstree-unchecked > a > .jstree-checkbox
+{
+	background-position: -2px -19px;
+}
+.jstree-umbraco .jstree-undetermined > a > .jstree-checkbox
+{
+	background-position: -20px -19px;
+}
+.jstree-umbraco .jstree-checked > a > .jstree-checkbox:hover
+{
+	background-position: -38px -37px;
+}
+.jstree-umbraco .jstree-unchecked > a > .jstree-checkbox:hover
+{
+	background-position: -2px -37px;
+}
+.jstree-umbraco .jstree-undetermined > a > .jstree-checkbox:hover
+{
+	background-position: -20px -37px;
+}
+
+#vakata-dragged.jstree-umbraco ins
+{
+	background: transparent !important;
+}
+#vakata-dragged.jstree-umbraco .jstree-ok
+{
+	background: url("d.png") -2px -53px no-repeat !important;
+}
+#vakata-dragged.jstree-umbraco .jstree-invalid
+{
+	background: url("d.png") -18px -53px no-repeat !important;
+}
+#jstree-marker.jstree-umbraco
+{
+	background: url("d.png") -41px -57px no-repeat !important;
+}
+
+.jstree-umbraco a.jstree-search
+{
+	color: aqua;
+}
+
+#vakata-contextmenu.jstree-umbraco-context, #vakata-contextmenu.jstree-umbraco-context li ul
+{
+	background: #f0f0f0;
+	border: 1px solid #979797;
+	-moz-box-shadow: 1px 1px 2px #999;
+	-webkit-box-shadow: 1px 1px 2px #999;
+	box-shadow: 1px 1px 2px #999;
+	background: url("ContextMenuBg.gif") repeat-y scroll left center #F0F0F0;
+	border: 1px solid #979797;
+	display: block;
+	font-family: Arial,Lucida Grande;
+	font-size: 11px;
+	margin: 0;
+	padding: 2px 3px 0;
+	width: 180px;
+}
+#vakata-contextmenu.jstree-umbraco-context ins
+{
+	/*float: left;*/
+	background-image: url(menuSprites.png);
+	margin-top: 1px;
+	width: 17px;
+	height: 16px;
+	margin: 3px 13px 1px 2px;
+}
+#vakata-contextmenu.jstree-umbraco-context li
+{
+	border-left: medium none;
+	height: 26px;
+}
+#vakata-contextmenu.jstree-umbraco-context a
+{
+	border: 0 none;
+	color: #1A1818;
+	height: 20px;
+	line-height: 20px;
+	text-decoration: none;
+	text-indent: 0;
+}
+#vakata-contextmenu.jstree-umbraco-context a:hover, #vakata-contextmenu.jstree-umbraco-context .vakata-hover > a
+{
+	padding: 0 5px;
+	background: #E5F2F9;
+	border: 1px solid #99DEFD;
+	color: black;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+#vakata-contextmenu.jstree-umbraco-context li.jstree-contextmenu-disabled a, #vakata-contextmenu.jstree-umbraco-context li.jstree-contextmenu-disabled a:hover
+{
+	color: silver;
+	background: transparent;
+	border: 0;
+	padding: 1px 4px;
+}
+#vakata-contextmenu.jstree-umbraco-context li.vakata-separator
+{
+	background: white;
+	border-top: 1px solid #e0e0e0;
+	margin: 0;
+	height: 1px;
+}
+#vakata-contextmenu.jstree-umbraco-context li ul
+{
+	margin-left: -4px;
+}
+
+/* IE6 BEGIN */
+.jstree-umbraco li, .jstree-umbraco ins, #vakata-dragged.jstree-umbraco .jstree-invalid, #vakata-dragged.jstree-umbraco .jstree-ok, #jstree-marker.jstree-umbraco
+{
+	_background-image: url("d.gif");
+}
+.jstree-umbraco .jstree-open ins
+{
+	_background-position: -72px 0;
+}
+.jstree-umbraco .jstree-closed ins
+{
+	_background-position: -54px 0;
+}
+.jstree-umbraco .jstree-leaf ins
+{
+	_background-position: -36px 0;
+}
+.jstree-umbraco a ins.jstree-icon
+{
+	_background-position: -56px -19px;
+}
+#vakata-contextmenu.jstree-umbraco-context ins
+{
+	_display: none;
+}
+#vakata-contextmenu.jstree-umbraco-context li
+{
+	_zoom: 1;
+}
+.jstree-umbraco .jstree-undetermined a .jstree-checkbox
+{
+	_background-position: -20px -19px;
+}
+.jstree-umbraco .jstree-checked a .jstree-checkbox
+{
+	_background-position: -38px -19px;
+}
+.jstree-umbraco .jstree-unchecked a .jstree-checkbox
+{
+	_background-position: -2px -19px;
+}
+/* IE6 END */
+
+
+/* tree node overlays / custom styles */
+
+.jstree-umbraco .umbraco-node-overlay 
+{
+    position: absolute;
+    z-index: 123456;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    left:11px;
+    top: 0;
+}
+
+.jstree-umbraco li.dim a
+{
+	color:#C0C0C0;
+}
+
+.jstree-umbraco li.overlay-new > .umbraco-node-overlay
+{   	
+	background: url(OverlayNewVersion.png) no-repeat;
+}
+
+.jstree-umbraco li.overlay-protect > .umbraco-node-overlay
+{   	
+	background: url(OverlayProtect.gif) no-repeat 10px 10px;
+}

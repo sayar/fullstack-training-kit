@@ -1,0 +1,32 @@
+﻿.app-traycontent
+{
+	background: url('tray-sprites.png') -18px -18px;
+}
+.app-traymedia
+{
+	background: url('tray-sprites.png') -18px -90px;
+}
+.app-trayusers
+{
+	background: url('tray-sprites.png') -18px -162px;
+}
+.app-traysettings
+{
+	background: url('tray-sprites.png') -18px -234px;
+}
+.app-traydeveloper
+{
+	background: url('tray-sprites.png') -18px -306px;
+}
+.app-traymember
+{
+	background: url('tray-sprites.png') -18px -378px;
+}
+.app-traystats
+{
+	background: url('tray-sprites.png') -18px -450px;
+}
+.app-traytranslation
+{
+	background: url('tray-sprites.png') -18px -522px;
+}

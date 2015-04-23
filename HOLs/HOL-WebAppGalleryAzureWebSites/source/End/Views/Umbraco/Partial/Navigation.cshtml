@@ -1,0 +1,21 @@
+﻿@inherits RenderViewPage
+@using Umbraco.Cms.Web;
+
+ @{
+     var Homepage = @DynamicModel;
+     while (Homepage.ContentType.Alias != "homePage")
+     {
+         Homepage = Homepage.Parent;
+     }
+ }
+  <ul>
+  <li><a href="@Homepage.Url">Home</a></li>
+  @foreach (var item in Homepage.Children)
+  {
+      if (@item.CurrentTemplate != null)
+      {
+          var childName = item.Name ?? "(No name yet)";
+          <li><a href="@item.Url">@childName </a></li>
+      }
+  }
+  </ul>

@@ -1,0 +1,71 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.HostnamesModel
+@{
+    Layout = "../Shared/_DialogLayout.cshtml";  
+      
+    ViewBag.Title = "Manage hostnames";
+    ViewBag.Action = "Hostname";
+    
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    Html.EnablePartialViewValidation();
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/HostnameDialog.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.HostnameDialog.getInstance().init({
+                    id: "@Model.Id",
+                    assignedHostNames: @Html.ToJsonString(@Model.AssignedHostnames),
+                    virtualDirectory: "@Model.VirtualDirectory"
+                });
+            });
+        })(jQuery);
+    </script>
+}
+<div data-bind="visible: !success()" id="hostnameDialog">
+    <h2>
+        Manage hostnames</h2>
+    <div class="big narrow-editor clearfix">              
+               
+        <div class="editor-label">
+            @Html.LabelFor(x => Model.NewHostname)
+        </div>
+        
+        <div class="add-new-box">
+            @Html.ValidationMessageFor(x => Model.NewHostname)
+            <div class="editor-field">            
+                @Html.TextBoxFor(x => Model.NewHostname, 
+                    new Dictionary<string, object> { { "data-bind", "value: currentValue, valueUpdate:'afterkeydown'" } })
+            </div>
+            <button data-bind="click: addNew" class="create-button" title="Add hostname"></button>
+        </div>
+        
+        <div data-bind="visible: virtualDirectory.length > 0">
+            <p><small>The current site is running inside of a Virtual Directory <strong>@Model.VirtualDirectory/</strong></small></p>
+            <p data-bind="visible: currentValue().length > 0">
+                <small>The resulting hostname will route to: <strong data-bind="text: resultRoute"></strong></small>
+            </p>
+        </div>
+
+        <div data-bind="visible: assignedHostnames().length > 0">
+            <div class="editor-label">
+                @Html.LabelFor(x => Model.AssignedHostnames)
+            </div>
+            <div class="property-pane">
+                <ul data-bind="template: { name : 'assignedHostnames', foreach: assignedHostnames }" class="hostnames">    
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+@Html.HiddenFor(x => Model.Id)
+
+<input type="hidden" name="DataValidation" id="DataValidation" data-bind="value: success()" value="" />
+
+@*The jQuery template to render the items*@
+<script id='assignedHostnames' type='text/html'> 
+<button style="float:right;" name="submit.DeleteHostname" class="delete-button" title="Delete hostname" data-bind="click: deleteItem"></button>
+<li class='clearfix'><div data-bind="text: resultRoute"></div><span data-bind="text:hostname"></span></li> 
+</script>

@@ -1,0 +1,21 @@
+﻿@model IEnumerable<NotificationMessage>
+
+@foreach (var n in Model)
+{
+    var cssClass = "";
+    switch (n.Type)
+    {
+        case NotificationType.Error:
+            cssClass = "error";
+            break;
+        case NotificationType.Warning:
+        case NotificationType.Info:
+            cssClass = "notice";
+            break;
+        case NotificationType.Success:
+            cssClass = "success";
+            break;
+    }
+    <p class="@cssClass">@n.Message</p>            
+@*<p class="notice">@("Content.UnSaved.Message".Localize())</p>*@
+}

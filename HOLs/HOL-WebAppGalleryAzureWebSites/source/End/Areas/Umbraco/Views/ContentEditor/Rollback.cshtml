@@ -1,0 +1,67 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.RollbackModel
+@using Umbraco.Framework.Localization;
+@using System.Reflection;
+@{
+    Layout = "../Shared/_DialogLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    ViewBag.Title = "Rollback";
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/RollbackDialog.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.RollbackDialog.getInstance().init({
+                    diffUrl: "@Url.GetEditorUrl("Diff", (Guid)ViewBag.ControllerId, null)",
+                    ajaxUrl: "@Url.GetEditorUrl("Rollback", (Guid)ViewBag.ControllerId, null)",
+                    id: "@Model.Id"
+                });
+            });
+        })(jQuery);
+    </script>
+}
+<div data-bind="visible: !success()">
+    <h2>Select a target version to compare the current version of <strong>'@Model.Name'</strong> to</h2>
+    <div class="property-pane clearfix">
+        <div class="property-editor clearfix">
+            <div class="property-editor-label">Current</div>
+            <div class="property-editor-control permissions-grids-container">
+                @Model.Name <small>Created: @Model.CreateDate.ToShortDateString() @Model.CreateDate.ToShortTimeString()<br/>
+                Last status change: @Model.LastRevision.MetaData.StatusType.GetNameOrAlias() on @Model.LastRevision.MetaData.UtcStatusChanged.ToString()</small>
+            </div>
+        </div>
+        <div class="property-editor clearfix">
+            <div class="property-editor-label">Target</div>
+            <div class="property-editor-control permissions-grids-container">
+                @Html.DropDownList("version", Model.Versions, "Select a version...", new Dictionary<string, object> { { "data-bind", "value: selectedVersion, event: { change: diff }" } })
+            </div>
+        </div>
+        <div class="property-editor clearfix">
+            <div class="property-editor-label">View</div>
+            <div class="property-editor-control permissions-grids-container">
+                <input type="radio" id="viewMode_diff" name="viewMode" checked="checked" value="diff" data-bind="checked: viewMode" /><label for="viewMode_diff">Diff</label> &nbsp; 
+                <input type="radio" id="viewMode_current" name="viewMode" value="current" data-bind="checked: viewMode" /><label for="viewMode_current">Current</label> &nbsp; 
+                <input type="radio" id="viewMode_target" name="viewMode" value="target" data-bind="checked: viewMode" /><label for="viewMode_target">Target</label>
+            </div>
+        </div>
+    </div>
+    <div class="property-pane clearfix diff-container" data-bind="visible: selectedVersion() != ''">
+        <div class="progress-spinner" data-bind="visible: loading()"></div>
+        <p style="text-align: center;" data-bind="visible: viewMode() == 'diff' && !loading()">This shows the differences between the current version and the target version, where <del>Red</del> <br />identifies text that will be removed and <ins>Green</ins> identifies text that will be added.</p>
+        <p style="text-align: center;" data-bind="visible: viewMode() == 'current' && !loading()">This displays the current version as html, if you wish to see the difference between 2 versions<br />at the same time, use the diff view.</p>
+        <p style="text-align: center;" data-bind="visible: viewMode() == 'target' && !loading()">This displays the target version as html, if you wish to see the difference between 2 versions<br />at the same time, use the diff view.</p>
+        <table class="diff-grid" data-bind="visible: !loading(), css: { current: viewMode() == 'current',  target: viewMode() == 'target' }">
+            <tbody data-bind='template: { name: "diffGridRow", foreach: diffData }'></tbody>
+        </table>
+    </div>
+</div>
+@Html.HiddenFor(x => Model.Id)
+<input type="hidden" name="DataValidation" id="DataValidation" data-bind="value: success()" value="" />
+
+<script id='diffGridRow' type='text/html'>
+    <tr>
+        <th data-bind="text: Key"></th>
+        <td data-bind="html: Value"></td>
+    </tr>
+</script>

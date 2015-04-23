@@ -1,0 +1,68 @@
+﻿#container.login-box 
+{
+	top:50px;
+	width:340px;
+	height:332px;
+	margin:auto;	
+	position:relative;
+	font-size:0.7em;
+	background: url("../images/login-bg.png") no-repeat bottom left;
+}
+
+.login-box .logo 
+{
+	height:60px;	
+	background: url("../images/login-header.png") no-repeat 0px 0px;
+}
+
+.login-box p 
+{
+	color:#999;
+	padding:0px 10px;
+	margin-bottom:25px;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"]
+{
+	border: #999 1px solid;	
+	width: 180px;
+	background:url("../images/gradient-bg.png") repeat-x;
+}
+
+#inputFields
+{
+	width:240px;
+	margin:auto;	
+}
+
+#inputFields .editor-label
+{
+	float:left;
+	width:60px;
+	clear:left;
+	padding-top:6px;
+	margin: 3px 0px 15px 0px;
+}
+
+#inputFields .editor-field
+{
+	width:180px;
+	float:left;
+	margin: 3px 0px 15px 0px;
+}
+
+.login-box input[type="submit"]
+{
+	position:absolute;
+	top:230px;
+	right:45px;
+}
+
+#pageValidation 
+{
+	position: absolute;
+	bottom: 20px;
+	width: 200px;
+	left: 100px;
+}

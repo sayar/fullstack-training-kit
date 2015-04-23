@@ -1,0 +1,9 @@
+﻿@model string[]
+
+<div class="table-box doc-links">
+    @{
+        var model = Model.Select(x => !x.StartsWith("/") ? ViewContext.HttpContext.Request.Url.Scheme + "://" + x : x);       
+    }
+    
+    @Html.TableVertical(model, 1, @<a href="@item" target="_blank">@item</a>, new { @class = "standard" })
+</div>

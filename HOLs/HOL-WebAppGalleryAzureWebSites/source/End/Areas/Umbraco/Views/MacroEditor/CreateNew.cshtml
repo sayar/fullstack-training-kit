@@ -1,0 +1,11 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.CreateMacroModel
+@{
+    Layout = "../Shared/_CreateNewLayout.cshtml";
+    ViewBag.ControllerId = new Guid(CorePluginConstants.MacroEditorControllerId);
+    ViewBag.Title = "Create new macro";
+
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+
+@Html.UmbNextButton()

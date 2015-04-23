@@ -1,0 +1,31 @@
+.CodeMirror-scroll.cm-s-umbraco {
+    overflow: auto;
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    font-size:1.2em;
+    line-height:1.2em;
+    height:auto;
+}
+
+.cm-s-umbraco span.cm-keyword {color: #708;}
+.cm-s-umbraco span.cm-atom {color: #219;}
+.cm-s-umbraco span.cm-number {color: #164;}
+.cm-s-umbraco span.cm-def {color: #00f;}
+.cm-s-umbraco span.cm-variable {color: black;}
+.cm-s-umbraco span.cm-variable-2 {color: #05a;}
+.cm-s-umbraco span.cm-variable-3 {color: #0a5;}
+.cm-s-umbraco span.cm-property {color: black;}
+.cm-s-umbraco span.cm-operator {color: black;}
+.cm-s-umbraco span.cm-comment {color: #a50;}
+.cm-s-umbraco span.cm-string {color: #a11;}
+.cm-s-umbraco span.cm-string-2 {color: #f50;}
+.cm-s-umbraco span.cm-meta {color: #555;}
+.cm-s-umbraco span.cm-error {color: #f00;}
+.cm-s-umbraco span.cm-qualifier {color: #555;}
+.cm-s-umbraco span.cm-builtin {color: #30a;}
+.cm-s-umbraco span.cm-bracket {color: #cc7;}
+.cm-s-umbraco span.cm-tag {color: #170;}
+.cm-s-umbraco span.cm-attribute {color: #00c;}

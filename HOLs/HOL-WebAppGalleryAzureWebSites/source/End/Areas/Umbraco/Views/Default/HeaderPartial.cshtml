@@ -1,0 +1,41 @@
+﻿@using System.Reflection
+@using Umbraco.Cms.Web;
+
+<div id="header" class="clearfix">
+    <div class="right">
+        @using (Html.BeginForm("Logout", "Default", FormMethod.Post))
+        {
+            <button class="logout">
+                <span>Logout</span>
+            </button>
+        }
+        @*<button class="help">
+            <span>
+                Help</span>
+        </button>
+        *@
+        <button class="about">
+            <span>About</span>
+        </button>
+    </div>
+    <div class="left">        
+       @* <button class="create">
+            <span>
+                Create</span>
+        </button>*@
+        @Html.Partial("SearchPartial", new Umbraco.Cms.Web.Model.BackOffice.SearchModel())
+    </div>
+</div>
+
+<div style="display: none;">
+    <div id="about">
+        <img src="@Url.Content("~/Areas/Umbraco/Content/Images/login-header.png")" alt="Umbraco 5" />
+        <p>@UmbracoWebApplication.ProductVersionInfo (Assembly version: @UmbracoWebApplication.ProductVersion)</p>
+        <p>Copyright &copy; 2001 - @DateTime.Today.Year Umbraco / Niels Hartvig</p>
+        <p>Developed by the <a href="http://our.umbraco.org/wiki/about/core-team?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">Umbraco Core Team</a></p>
+        <p>Umbraco is licensed under the <a href="http://umbraco.com/products/license?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">open source license MIT</a></p>
+        <p>Visit <a href="http://umbraco.com/?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">umbraco.com</a> for more information.</p>
+        <p><a href="http://www.famfamfam.com/lab/icons/silk/" target="_blank">Silk icons</a> by <a href="http://www.famfamfam.com" target="_blank">FamFamFam</a></p>
+        <p><br />Dedicated to Gry, August, Villum and Oliver!</p>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.StylesheetRuleEditorModel
+@{
+    Layout = "../Shared/_EditorLayout.cshtml";
+    ViewBag.Title = Model.Id.IsNullValueOrEmpty() ? "Create rule" : "Edit rule";
+
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@section Head {
+    <style type="text/css">
+        #stylesheet-rule-preview 
+        {   
+            @Model.Styles 
+        }
+    </style>
+}
+
+@using (Html.BeginForm("EditRule", new Guid(CorePluginConstants.StylesheetEditorControllerId)))
+{ 
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.ParentId)
+    
+    @Html.UmbValidationSummary("Please correct the errors and try again.")
+            
+    @Html.UmbEditorBar();
+            
+    <div id="editorContent" class="has-editor-bar padded-content scrolling-content stylesheet-rule-editor">
+        
+        @if (Model.Id.IsNullValueOrEmpty())
+        {
+            <p class="notice">@("StylesheetRule.UnSaved.Message".Localize())</p>
+        }
+        
+        <div class="property-pane clearfix">
+
+            @Html.UmbEditorFor(x => Model.Name, x => Model.Name,
+                @<text>
+                    @Html.TextBoxFor(x => Model.Name)<br />
+                    <small>Name to identify the rule in the rich text editor</small>
+                </text>) 
+
+            @Html.UmbEditorFor(x => Model.Selector, x => Model.Selector,
+                @<text>
+                    @Html.TextBoxFor(x => Model.Selector)<br />
+                    <small>The CSS selector for the rule eg: h1, .redHeader, .blueText</small>
+                </text>) 
+
+            <div class="property-editor clearfix">
+                <div class="property-editor-label">
+                    <label for="styles">Styles</label>
+                </div>
+                <div class="property-editor-control">
+                    @Html.TextAreaFor(x => Model.Styles)
+                </div>
+            </div>
+
+            <div class="property-editor clearfix">
+                <div class="property-editor-label">
+                    <label for="preview">Preview</label>
+                </div>
+                <div class="property-editor-control">
+                    <p id="stylesheet-rule-preview">a b c d e f g h i j k l m n o p q r s t u v w x t z<br />
+                    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z<br />
+                    1 2 3 4 5 6 7 8 9 0 € £ $ % & (.,;:'\"!?) <br />
+                    <br />
+                    Just keep examining every bid quoted for zinc etchings</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

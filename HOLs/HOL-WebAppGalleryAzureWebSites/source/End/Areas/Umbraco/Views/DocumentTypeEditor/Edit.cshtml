@@ -1,0 +1,33 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.DocumentTypeEditorModel
+@using Umbraco.Framework.Persistence.Model.Constants
+@{
+    Layout = "../Shared/_SchemaEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    ViewBag.ControllerId = new Guid(CorePluginConstants.DocumentTypeEditorControllerId);
+    ViewBag.TreeRootId = FixedHiveIds.ContentRootSchema.GetHtmlId();
+}
+
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/DocumentTypeEditor.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {                
+                Umbraco.Editors.DocumentTypeEditor.getInstance().init({
+                    defaultTemplate: "@Model.DefaultTemplateId"        
+                }); 
+            });
+        })(jQuery);
+    </script>
+}
+
+@section CompositionTab {
+<div class="property-pane clearfix">
+    @Html.UmbEditorFor(m => Model.IsAbstract, "Sets whether document type is intended only to be inherited by others.  If checked it will not be selectable for content entry directly.", "")
+</div>
+<div class="property-pane clearfix">
+    @Html.UmbEditorFor(m => Model.AllowedTemplates, Html.EditorFor(l => l.AllowedTemplates, "CheckBoxList", new { CssClass = "allowed-templates" }))
+    @{var defaultTemplateList = new SelectList(Model.AllowedTemplates.Where(x => x.Selected), "Value", "Text", Model.DefaultTemplateId);}    
+    @Html.UmbEditorFor(m => Model.DefaultTemplateId, Html.DropDownListFor(l => Model.DefaultTemplateId, defaultTemplateList, "Choose...", new Dictionary<string, object> { { "data-bind", "options: selectedTemplates, optionsText: 'text', optionsValue: 'value', optionsCaption: 'Choose...', value: defaultTemplate" } }))
+</div>
+}

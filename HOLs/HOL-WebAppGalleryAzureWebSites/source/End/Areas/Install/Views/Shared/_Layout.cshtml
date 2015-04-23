@@ -1,0 +1,120 @@
+﻿@model dynamic
+@{
+    Html
+        .RequiresJs("Umbraco.System/Extensions.js", "Scripts", 1)
+        .RequiresJs("KnockoutJs/knockout-1.2.1.js", "Scripts", 10);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Umbraco 5 Configuration Wizard</title>
+    <link rel="icon" type="image/x-icon" href='@Url.Content("~/Areas/Umbraco/Content/Images/umbracoFavicon.ico")' />
+    <link media="all" rel="stylesheet" href="@Url.Content("~/Areas/Install/Content/Styles/jquery-ui-1.8.6.custom.css")" />
+    <link media="all" type="text/css" rel="stylesheet" href="@Url.Content("~/Areas/Install/Content/Styles/reset.css")" />
+    <link media="all" rel="stylesheet" href="@Url.Content("~/Areas/Install/Content/Styles/all.css")" />
+    <link media="all" type="text/css" rel="stylesheet" href="@Url.Content("~/Areas/Install/Content/Styles/form.css")" />
+    <script src="@Url.Content("~/Areas/Install/Scripts/jquery.1.4.4.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/Umbraco/Scripts/Umbraco.System/NamespaceManager.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/Install/Scripts/jquery.ui.selectmenu.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/Install/Scripts/jquery.cycle.all.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/Install/Scripts/jquery.simplelightbox.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/Install/Scripts/jquery.passwordstrength.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/Install/Scripts/jquery.zrssfeed.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/Install/Scripts/Installer.js")" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+		<link media="all" rel="stylesheet" href="@Url.Content("~/Areas/Install/Conent/Sytles/lt7.css")" />
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+    <!--[if lt IE 7]><script type="text/javascript" src="@Url.Content("~/Areas/Install/Scripts/js/ie-png.js")"></script><![endif]-->
+    @Html.Raw(Html.RenderCssHere(new List<IClientDependencyPath>() { Url.GetStylesPath(), Url.GetModulesPath() }))
+    @Html.Raw(Html.RenderJsHere(new List<IClientDependencyPath>() { Url.GetScriptsPath(), Url.GetModulesPath() }))
+</head>
+<body class="welcome">
+    <!-- all page -->
+    <section id="wrapper">
+        <div class="wholder">
+            <!-- header -->
+            <header id="header">
+                <div class="holder">
+                    <strong class="logo"><a href="http://umbraco.com">Umbraco</a></strong>
+                </div>
+            </header>
+            <!-- all content -->
+            <section id="main">
+                <!-- tabset -->
+                <nav class="tabset">
+                    <ul>
+                        <li class='@(ViewBag.ActiveIndex == 0 ? "active" : "")'>1 - Welcome<em>&nbsp;</em></li>
+                        <li class='@(ViewBag.ActiveIndex == 1 ? "active" : "")'>2 - Database<em>&nbsp;</em></li>
+                        <li class='@(ViewBag.ActiveIndex == 2 ? "active" : "")'>3 - Create User<em>&nbsp;</em></li>
+                        <li class='@(ViewBag.ActiveIndex == 3 ? "active" : "")'>4 - Starter Kit<em>&nbsp;</em></li>
+                        <li class='@(ViewBag.ActiveIndex == 4 ? "active" : "")'>5 - You’re Done<em>&nbsp;</em></li>
+                    </ul>
+                    <div class="b">
+                        &nbsp;</div>
+                </nav>
+                <!-- content -->
+                <section class="content">
+                    @Html.ValidationSummary()
+                    @RenderBody()
+                </section>
+            </section>
+        </div>
+    </section>
+    <!-- bg page -->
+    <div class="bg-main">
+        <div class="color2" style="height: 1050px; display: none;">
+            <div class="bg-c">
+            </div>
+        </div>
+        <div class="color3" style="height: 1050px; display: none;">
+            <div class="bg-c">
+            </div>
+        </div>
+        <div class="color1" style="height: 1050px; display: none;">
+            <div class="bg-c">
+            </div>
+        </div>
+        <div class="color4" style="height: 1050px; display: none;">
+            <div class="bg-c">
+            </div>
+        </div>
+        <div class="color5" style="height: 1050px; display: block;">
+            <div class="bg-c">
+            </div>
+        </div>
+    </div>
+    <!-- lightbox -->
+    <div class="lightbox" id="lightbox">
+        <a href="#" class="btn-close btn-close-box">close</a>
+        <div class="t">
+            &nbsp;</div>
+        <div class="c">
+            <div class="heading">
+                <strong class="title">Name of skin</strong> <span class="create">Created by: <a href="#">
+                    Cogworks</a></span>
+            </div>
+            <div class="carusel">
+                <ul>
+                    <li>
+                        <img src="@Url.Content("~/Areas/Install/Content/Images/img09.jpg")" alt="image description"></li>
+                    <li>
+                        <img src="@Url.Content("~/Areas/Install/Content/Images/img10.jpg")" alt="image description"></li>
+                    <li>
+                        <img src="@Url.Content("~/Areas/Install/Content/Images/img11.jpg")" alt="image description"></li>
+                </ul>
+            </div>
+            <footer class="btn-box">
+                <a href="#single-tab4" class="single-tab btn-install btn-close-box">Install</a>
+            </footer>
+        </div>
+        <div class="b">
+            &nbsp;</div>
+    </div>
+    <input name="step" type="hidden" id="step" value="welcome" />
+    <div class="version-info">
+        @UmbracoWebApplication.ProductVersionInfo, build @UmbracoWebApplication.ProductVersion
+    </div>
+</body>
+</html>

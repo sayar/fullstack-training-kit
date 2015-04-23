@@ -1,0 +1,62 @@
+﻿.umb-tabs, .umb-tabs ul
+{
+	height:19px;
+}
+
+.umb-tabs li.tab 
+{
+	display:inline-block;
+	background-color:#F1F1F1;	
+	width:auto;
+	background: url("Images/left_both.gif") no-repeat scroll left top transparent;
+	border-bottom:1px solid #CAC9C9;
+	outline:medium none;
+	height:100%;
+	float:left;
+	position:relative;
+	z-index:100;
+}
+.umb-tabs .tab a 
+{
+	display:inline-block;	
+	padding:0 0 0 9px;
+	font-size:11px;
+	line-height: normal;
+	color:#333333;
+	font-weight:bold;
+	text-decoration:none;
+	background: url("Images/left_both.gif") no-repeat scroll left top transparent;
+	height:100%;
+}
+.umb-tabs .tab a:hover 
+{
+	text-decoration:underline;
+}
+
+.umb-tabs .tab a span 
+{
+	background:url("Images/right_both.gif") no-repeat scroll right top transparent;
+	padding:3px 15px 0 6px;
+	display:block;
+}
+
+.umb-tabs .tab.tab-on 
+{
+	padding-bottom:1px;
+	border-width:0px;
+}
+.umb-tabs .tab.tab-on a
+{
+	background-position:0 -150px;	
+}
+.umb-tabs .tab.tab-on a span
+{
+	background-position:100% -150px;
+	color:#333333;
+	padding-bottom:1px;
+}
+
+.umb-tabs .tab-content
+{
+	
+}

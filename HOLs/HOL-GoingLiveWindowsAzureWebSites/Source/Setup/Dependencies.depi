@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DependencyCheckerConfiguration version="2.0">
+	<title>Creating a Windows Azure Mobile Service with a Custom API</title>
+	<dependencies>
+		<dependency hint="HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DevDiv\Web Tools\Servicing\1~.0\VWDExpress11.Version,HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DevDiv\Web Tools\Servicing\1~.0\VisualStudio11.Version;^1\.[0-9]\.([3-9][0-9]\d*).[0-9]$"
+            name="Visual Studio Web Development Feature Or Visual Studio Express 2012 for Web"
+            description="Microsoft Visual Studio Ultimate 2012, Microsoft Visual Studio Premium 2012, Microsoft Visual Studio Professional 2012 or Microsoft Visual Studio Express 2012 for Web"
+            helpLink="http://www.microsoft.com/visualstudio/"
+            disableSkip="false"
+            type="Registry" />
+    </dependencies>
+</DependencyCheckerConfiguration>

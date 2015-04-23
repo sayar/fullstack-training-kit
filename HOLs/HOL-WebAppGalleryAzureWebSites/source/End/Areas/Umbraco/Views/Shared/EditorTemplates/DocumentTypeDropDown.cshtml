@@ -1,0 +1,38 @@
+﻿@model Umbraco.Framework.HiveId
+@using System.Text;
+
+@{Html.RequiresJs("Umbraco.Editors/DocTypeInfo.js", "Scripts");}
+
+@{
+    var docTypes = (IEnumerable<DocumentTypeInfo>)ViewBag.AvailableDocumentTypes;
+    var docTypeSelectList = docTypes.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text);
+    
+    //ensure the validation attributes are added to our select list
+    var validationsForModel = Html.GetUnobtrusiveValidationAttributes("SelectedDocumentTypeId", ViewData.ModelMetadata);
+    var validationAttributes = new StringBuilder();
+    foreach (var i in validationsForModel)
+    {
+        validationAttributes.Append(i.Key);
+        validationAttributes.Append("='");
+        validationAttributes.Append(i.Value);
+        validationAttributes.Append("' ");
+    }
+}
+
+<select name="@Html.NameFor(x => Model)" id="@Html.IdFor(x => Model)" @Html.Raw(validationAttributes.ToString()) >
+@foreach (var docType in docTypes)
+{
+    <option value="@docType.Id.ToString()" 
+        data-img="@docType.Thumbnail" 
+        data-description="@docType.Description"
+        data-title="@docType.Name">@docType.Name</option>
+}
+</select>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#@Html.IdFor(x => Model)").umbracoDocTypeInfo({
+            docTypeThumbnailBaseUrl: "@ViewBag.DocTypeThumbnailBaseUrl"
+        });
+    });
+</script>

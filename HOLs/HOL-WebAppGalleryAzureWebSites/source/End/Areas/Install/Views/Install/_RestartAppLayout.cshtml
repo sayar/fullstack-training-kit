@@ -1,0 +1,49 @@
+﻿@using Umbraco.Cms.Web.Mvc.Controllers.BackOffice;
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    Html.RequiresJs("Umbraco.System/Extensions.js", "Scripts", 1)
+        .RequiresJs("~/Areas/Install/Scripts/InstallerUtility.js"); 
+}
+
+<!-- installing umbraco -->
+<div class="tab  install-tab" id="datebase-tab">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        
+        <div class="loader" data-bind="visible: status() == 'restarting'">
+            <p>Please wait while the Umbraco application is restarted.</p>
+            <p>Waiting for server response... </p>
+            <div class="hold">
+                <div id="progressBarRestart" class="progress-bar"></div>                
+            </div>
+        </div>               
+
+        <div class="loader" data-bind="visible: status() == 'restarted'">
+            <p>@ViewBag.Message</p>
+            <div class="hold">
+                <div id="progressBarInstall" class="progress-bar"></div>
+                <span class="progress-bar-value" data-bind="text: installPercentage() + '%'"></span>
+            </div>            
+        </div>
+
+        <strong data-bind="text: statusMsg"></strong>
+        <div data-bind="html: ysod"></div>
+
+        @RenderBody()
+
+    </div>
+    <!-- btn box -->
+    <footer class="btn-box" data-bind="visible: status() == 'error' || status() == 'complete'">
+        <div class="t">&nbsp;</div>
+        <a class="btn-step btn btn-continue" href="@ViewBag.NextButtonUrl" data-bind="visible: status() != 'error'"><span>Continue</span></a>
+        <a class="btn-step btn btn-back" href="@ViewBag.PrevButtonUrl" data-bind="visible: status() == 'error'"><span>Back</span></a>
+    </footer>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Umbraco.Installer.InstallerUtility.init({
+            appRestartUrl : "@ViewBag.RestartUrl",
+            getProgressUrl: "@ViewBag.GetProgressUrl"
+        });
+    });
+</script>

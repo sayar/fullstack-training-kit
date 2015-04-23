@@ -1,0 +1,59 @@
+﻿@model dynamic
+@{
+    Layout = "_Layout.cshtml";
+    
+    //Required vals:
+    //ViewBag.Title
+    //ViewBag.ControllerId  
+}
+
+@section Head {
+    @RenderSection("Head", false)
+}
+<div id="editor" class="panel">
+    <div class="boxhead">
+        <h2>
+            @ViewBag.Title</h2>
+    </div>
+    <div class="boxbody">        
+        @using (Html.BeginForm("CreateNew", (Guid)ViewBag.ControllerId))
+        { 
+            @Html.UmbValidationSummary("Please correct the errors and try again.")
+            
+            <div id="editorContent" class="padded-content scrolling-content">
+                
+                @RenderSection("NoticeBoard", false)
+
+                <div class="big narrow-editor clearfix">
+
+                    @if (IsSectionDefined("Editor"))
+                    {
+                        @RenderSection("Editor")
+                    }
+                    else
+                    {
+                        @Html.EditorFor(x => Model)
+                    }
+                                        
+                    @RenderBody()
+
+                </div>
+            </div>
+        }
+    </div>
+    <div class="boxfooter">
+        <div class="statusBar">
+            <h5>
+            </h5>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //this places the cursor on the first available input that is not a button
+    (function ($) {
+        $(document).ready(function () {
+            $("form:first").focusFirst();
+        });
+    })(jQuery);
+</script>

@@ -1,0 +1,29 @@
+﻿@model DateTime?
+
+@{
+    Html
+        .RequiresCss("DateTimePicker/datetimepicker.css", "Modules")
+        .RequiresJs("DateTimePicker/jquery-ui-timepicker-addon.js", "Modules", 100)
+        .RequiresJs("DateTimePicker/UmbracoDateTimePicker.js", "Modules", 101);
+}
+
+<div class="date-time-picker">    
+    @{
+        //this is all required because of the Nullable model and MVC just doesn't natively support it
+        object txtVal = "";
+        if (Model.HasValue) 
+        {
+            txtVal = Model.Value;
+        };
+    }
+    @Html.TextBoxFor(x => Model, new {Value = string.Format(ViewData.ModelMetadata.EditFormatString, txtVal), @Class = "date-time"})
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            var id = "@Html.IdFor(x => Model)";
+            $("#" + id).umbracoDateTimePicker(true, "Choose Date", "No date chosen", "Clear date");
+        });
+    })(jQuery);
+</script>

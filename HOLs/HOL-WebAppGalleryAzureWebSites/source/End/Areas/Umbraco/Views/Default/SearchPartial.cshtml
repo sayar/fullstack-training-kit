@@ -1,0 +1,26 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.SearchModel
+@using Umbraco.Cms.Web;
+@{
+    Html
+        .RequiresJs("Umbraco.Editors/SearchBox.js", "Scripts", 100)
+        .RequiresJs("jQuery/jquery.watermark.min.js", "Scripts", 101);
+}
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            var treeElementId = '@(ViewBag.TreeElementId == null ? "mainTree" : (string)ViewBag.TreeElementId)';
+            var searchAjaxUrl = "@Url.GetTreeSearchUrl()";
+            var searchUrl = "@Url.Action("Search", "Default")";
+            $('#@Html.IdFor(x => Model.SearchText)').umbracoSearchBox({
+                searchAjaxUrl: searchAjaxUrl, 
+                treeElementId: treeElementId,
+                searchUrl: searchUrl,
+                windowMgr: Umbraco.System.WindowManager.getInstance()
+            });
+        });
+    })(jQuery);
+</script>
+
+<div id="searchBox">
+    @Html.TextBoxFor(x => Model.SearchText)
+</div>

@@ -1,0 +1,180 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.AbstractSchemaEditorModel
+@using Umbraco.Framework;
+@using Umbraco.Cms.Web;
+@using Umbraco.Framework.Persistence.Model.Constants
+@{
+    Layout = "../Shared/_TabbedEditorLayout.cshtml";
+}
+@section Head {
+    @{
+        Html
+            .RequiresCss("MSDropDown/dd.css", "Modules");
+        
+        Html
+            .RequiresJs("Umbraco.Editors/BaseDocumentTypeEditor.js", "Scripts")
+            .RequiresJs("CollapsePanel/CollapsePanel.js", "Modules")
+            .RequiresJs("MSDropDown/jquery.dd.js", "Modules");
+
+        foreach (var spriteFileUrl in Model.SpriteFileUrls)
+        {
+            Html.RequiresCss(spriteFileUrl);
+        }
+    }
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {                
+                Umbraco.Editors.BaseDocumentTypeEditor.getInstance().init({
+                    showNewProperty: @Model.IsCreatingNewProperty.ToString().ToLower() ,
+                    activeTabIndex: @Model.ActiveTabIndex ,
+                    activeTabIndexField: $("#@Html.IdFor(x => Model.ActiveTabIndex)"),
+                    iconsBaseUrl: "@Url.Content(Model.IconsBaseUrl)",
+                    thumbnailsBaseUrl: "@Url.Content(Model.ThumbnailsBaseUrl)"
+                }); 
+            });
+        })(jQuery);
+    </script>
+    @RenderSection("head", false)
+}
+@section tabs {
+    <li><a href="#t-user-properties"><span>Info</span></a></li>
+    <li><a href="#t-structure-properties"><span>Composition</span></a></li>
+    <li><a href="#t-properties"><span>Properties</span></a></li>
+    <li><a href="#t-tabs-properties"><span>Tabs</span></a></li>
+}
+@{
+    //need to change the post action based on whether this is new content or existing content
+    //if it's new content, we need to post the parent doc type id to create the doc type with, if its 
+    //existing content, we just post the existing doc type id to lookup and bind.
+    var action = !Model.Id.IsNullValueOrEmpty() ? "Edit" : "Create";
+    var urlParams = !Model.Id.IsNullValueOrEmpty() ? (object)new { id = Model.Id } : (object)new { docTypeId = Model.ParentId };
+}
+@using (Html.BeginForm(action, (Guid)ViewBag.ControllerId, urlParams, new { enctype = "multipart/form-data" }))
+{
+    @Html.UmbValidationSummary("Please correct the errors and try again.")
+                
+    //field to store the active tab index
+    @Html.HiddenFor(x => Model.ActiveTabIndex)
+                
+    @Html.UmbEditorBar();
+    
+    <div id="editorContent" class="has-editor-bar scrolling-content padded-content">
+        
+        @Html.DisplayFor(x => Model.NoticeBoard)
+        
+        @* Info *@
+        <div>
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(x => Model.Name)
+                @Html.UmbEditorFor(x => Model.Alias)
+            </div>
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(m => Model.Icon, Html.DropDownListFor(l => Model.Icon, Model.AvailableIcons))
+                @Html.UmbEditorFor(m => Model.Thumbnail, Html.DropDownListFor(l => Model.Thumbnail, Model.AvailableThumbnails))
+                @Html.UmbEditorFor(x => Model.Description)
+            </div>
+            
+            @RenderSection("InfoTab", false)
+            
+        </div>
+        @* Composition *@
+        <div>
+            <div class="property-pane clearfix inherit-from">
+                @Html.UmbEditorFor(m => Model.InheritFrom, Html.EditorFor(l => l.InheritFrom, "HierarchicalCheckBoxList"))
+            </div>
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(m => Model.AllowedChildren, Html.EditorFor(l => l.AllowedChildren, "CheckBoxList"))
+            </div>
+            
+            @RenderSection("CompositionTab", false)
+
+        </div>
+        @* Properties *@
+        <div>
+            <p class="notice inheritance-notice" style="margin-top: 2px; display: none;">Changes have been made to the list of types this type inherits from. Please re-save to be able to see any new inherited properties.</p>
+            <div class="property-pane properties">
+                @Html.Partial("PropertiesTabPartial", Model)
+            </div>
+            @RenderSection("PropertiesTab", false)
+        </div>
+        @* Tabs *@
+        <div>
+            <p class="notice inheritance-notice" style="margin-top: 2px; display: none;">Changes have been made to the list of types this type inherits from. Please re-save to be able to see any new inherited tabs.</p>
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(m => Model.NewTabName,
+                                    @<span>
+                                        @Html.TextBoxFor(l => Model.NewTabName)
+                                        <input type="submit" id="submit_Tab" name="submit.Tab" value="New tab" />
+                                    </span>)
+            </div>
+            <div class="property-pane clearfix">
+                @Html.Partial("TabListPartial", Model)
+            </div>
+            @RenderSection("TabsTab", false)
+        </div>
+
+        @RenderBody()
+
+    </div>				
+}
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var rootId = "@ViewBag.TreeRootId";
+        var rootNode = window.top.jQuery("li#" + rootId);
+        if (rootId != "" && rootNode.length > 0) {
+            var path = $u.Ctl.TreeSyncManager.getInstance().getPath("@ViewBag.success", true);
+            if (path.length > 0) {
+
+                // Lookup all expanded paths, and see if we need to remove any items (ie, path has changed)
+                var firstPath = path[0]; // Just grab first path so we can get the syncing items id
+                var lastNodeId = new $u.Sys.HiveId(firstPath[firstPath.length - 1]); // Get the id of the item being synced
+
+                var tree = $u.Sys.ApiMgr.getMainTree(); // Get a reference to the tree
+                var $nodes = tree.getJsTree().get_container().find("#" + lastNodeId.htmlId()); // Get a list of nodes (we probably shouldn't use id if we have duplicates)
+
+                for (var i = 0; i < $nodes.length; i++) {
+
+                    var found = false;
+
+                    // Workout nodes actual path
+                    var actualPathString = "," + lastNodeId.htmlId() + ",";
+                    var ancestors = $($nodes[i]).parents("li");
+                    for (var j = 0; j < ancestors.length; j++) {
+                        var anchestor = $(ancestors[j]);
+                        if (anchestor.hasClass("tree-root")) break;
+                        actualPathString = "," + anchestor.attr("id") + actualPathString;
+                    }
+
+                    // Now loop through paths to sync 
+                    for (var j = 0; j < path.length; j++) {
+
+                        // Workout path as string
+                        var targetPathString = ",";
+                        for (var k = 1; k < path[j].length; k++) {
+                            var nodeId = new $u.Sys.HiveId(path[j][k]);
+                            targetPathString += nodeId.htmlId() + ",";
+                        }
+
+                        if (targetPathString == actualPathString) {
+                            found = true;
+                        }
+                    }
+
+                    if (!found) {
+                        tree.removeNode($($nodes[i]), true);
+                    }
+                }
+
+                // Sync the paths
+                for (var i = 0; i < path.length; i++) {
+                    var pathElement = path[i];
+                    $u.Sys.ApiMgr.getMainTree().syncNode(pathElement);
+                }
+            }
+        }
+
+    });
+
+</script>

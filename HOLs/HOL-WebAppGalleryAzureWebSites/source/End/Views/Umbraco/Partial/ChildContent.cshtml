@@ -1,0 +1,21 @@
+﻿@inherits RenderViewPage
+@using Umbraco.Cms.Web;
+
+  
+   <div class="roundedbox">
+
+  <h2>Child content retrieved from the Model</h2>
+  @foreach (var item in Model.ChildContent())
+  {
+    var childName = item.AsDynamic().Name ?? "(No name yet)";
+    <p>Child node name: <b><a href="@item.NiceUrl()">@childName</a></b>, of type <em>@item.ContentType.Name</em>.</p>
+  }
+
+  <h2>Child content retrieved from the DynamicModel</h2>
+  @foreach (var item in DynamicModel.Children)
+  {
+    var childName = item.Name ?? "(No name yet)";
+    <p>Child node name: <b><a href="@item.Url">@childName</a></b>, of type <em>@item.ContentType.Name</em>.</p>
+  }
+
+  </div>

@@ -1,0 +1,44 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.MoveModel
+@using Umbraco.Cms.Web.Mvc.Controllers
+@using Umbraco.Cms.Web.Trees;
+@{
+    Layout = "../Shared/_DialogLayout.cshtml";
+    /* REQUIRED VIEWBAG PARAMS in child view:
+    ViewBag.ActionName = 
+    ViewBag.Title = 
+    ViewBag.HeaderTitle = 
+    */    
+    
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/MoveCopyDialog.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.MoveCopyDialog.getInstance().init({
+                    ajaxUrl: "@Url.GetEditorUrl((string)ViewBag.ActionName, (Guid)ViewBag.ControllerId, null)",
+                    selectedItemId: "@Model.SelectedItemId"
+                });
+            });
+        })(jQuery);
+    </script>
+}
+<h2>
+    @ViewBag.HeaderTitle</h2>
+<div class="property-pane clearfix">
+    <div class="box dialog-tree">
+        @Html.RenderTree(Model.TreeRenderModel)
+    </div>
+    @RenderSection("TreeBottom", false)
+</div>
+@Html.HiddenFor(x => Model.SelectedItemId)
+@Html.HiddenFor(x => Model.ToId, new Dictionary<string, object> { { "data-bind", " value: toId" } })
+<input type="hidden" name="DataValidation" id="DataValidation" data-bind="value: success()"
+    value="" />
+@RenderBody()
+@section Notice {
+    <div class="notice" data-bind="text: msgText, css: { notice: !hasSelectedNode(), success: hasSelectedNode() }">
+    </div>
+}

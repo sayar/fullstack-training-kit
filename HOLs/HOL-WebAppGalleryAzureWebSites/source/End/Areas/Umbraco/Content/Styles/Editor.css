@@ -1,0 +1,965 @@
+﻿h2 
+{
+	margin:0px 0px 10px 0px;
+}
+
+hr 
+{
+    height: 1px;
+    background-color: #EFEFEF;
+    border: none;
+    margin:2px 0px 2px 0px;
+}
+
+.hidden {display:none;}
+
+.float-all *
+{
+    float:left;
+}
+
+#editor 
+{	
+	font-size: 0.75em;
+	background:none;
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+}
+
+
+/* scaffolding mvc styles for editor pane */
+#editor .editor-label label
+{
+	/*display:block;*/
+	color:Black;
+	/*margin: 10px 5px 5px 5px;*/
+}
+#editor .editor-field input[type="text"],
+#editor .editor-field input[type="password"],
+#editor .editor-field select,
+#editor .editor-field textarea
+{
+	/*display:block;*/
+	color:Black;
+	/*margin:5px 5px 5px 5px;*/
+}
+/* end scaffolding mvc styles for editor pane */
+
+#editor ul.ui-sortable input
+{
+    margin: 0 5px 0 0;
+}
+
+#editor ul.ui-sortable li
+{
+    border-left: solid 10px #ccc;
+    padding-left: 5px;
+    margin-bottom: 5px;
+    cursor: move;
+}
+
+#editor ul.ui-sortable li.inherited
+{
+    cursor: default;
+}
+
+#editor .boxhead 
+{
+	
+}
+#editorBar 
+{
+    position: relative;
+    left: 0;
+	height:32px;
+	background:url("../../Modules/UmbracoTabs/Images/background.gif");
+	background-color:#E0E0E0;
+	border-bottom:1px solid #CAC9C9;
+	overflow:hidden;
+	width:100%;
+}
+#editorBar .outer-container 
+{
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 15px;
+    right: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+#editorBar .inner-container 
+{
+    position: absolute;
+    left: 0px;
+    height:26px;
+}
+#editorBar .container 
+{
+    float: left;
+}
+#editorBar .ui-panel, 
+#editorBar input,
+#editorBar button,
+#editorBar select
+{
+    display:block;
+    float:left;
+}
+#editorBar .ui-panel
+{
+    padding-top: 2px;
+}
+#editorBar input,
+#editorBar select
+{
+	vertical-align: middle;
+}
+#editorBar a.btn-scroll
+{
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    padding: 3px;
+    width: 7px;
+}
+#editorBar a.btn-scroll:hover
+{
+    background-color: #dedffd;
+}
+#editorBar .btn-scroll-left  
+{
+    left: 3px; 
+    display:inline-block;
+    width:7px;
+    height:20px;
+    background: transparent url(../Images/arrow-left.gif) no-repeat 0px 0px;
+}
+#editorBar .btn-scroll-right  
+{
+    right: 3px; 
+    display:inline-block;
+    width:7px;
+    height:20px;
+    background: transparent url(../Images/arrow-right.gif) no-repeat 0px 0px;
+}
+
+.property-pane 
+{
+	background:url("../images/property-background.gif") repeat-x scroll center top #FFFFFF;
+	border:1px solid #D9D7D7;
+	clear:both;
+	display:block;
+	line-height:1.1;
+	margin-bottom:7px;
+	padding:5px;
+	position:relative;
+	text-align:left;
+	
+	-webkit-box-shadow: 1px 1px 1px #DDD;
+	-moz-box-shadow: 1px 1px 1px #DDD;
+	box-shadow: 1px 1px 1px #DDD;
+}
+
+.property-pane .property-pane
+{
+    background: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    
+    -webkit-box-shadow: 0 0 0 #DDD;
+	-moz-box-shadow: 0 0 0 #DDD;
+	box-shadow: 0 0 0 #DDD;
+}
+
+.property-editor
+{
+    display: block;
+    
+}
+
+.property-pane > label, 
+.property-pane > .field > label,
+.property-editor > .property-editor-label,
+.property-editor .editor-label,
+.narrow-editor
+{
+	clear:left;
+	float:left;
+	padding-bottom:10px;
+	padding-right:1%;
+	width:28%;
+	display:block;
+	color:Black;
+}
+
+#editor .property-pane > label, 
+#editor .property-pane > .field > label,
+#editor .property-editor > .property-editor-label,
+#editor .property-editor .editor-label
+{
+	width:16%;
+}
+
+#editor .narrow-editor .property-pane > label, 
+#editor .narrow-editor .property-pane > .field > label,
+#editor .narrow-editor .property-editor > .property-editor-label,
+#editor .narrow-editor .property-editor .editor-label
+{
+	width:28%;
+}
+
+.property-pane .editor-label,
+.property-pane .display-label
+{
+	clear:left;
+	float:left;
+	font-weight:bold;
+	padding-bottom:10px;
+	display:block;
+	color:Black;
+	padding-top:5px;
+}
+
+.property-pane .editor-label label 
+{
+	padding-right:7px;
+}
+
+.property-editor .property-editor-control
+{
+	clear:right;
+	float:left;
+	padding-bottom:5px;
+	width:70%;
+}
+.property-editor small
+{
+    display: block;    
+    margin-bottom: 8px;
+}
+.property-editor .property-editor-control-full-width 
+{
+	padding-bottom:5px;
+	width:100%;
+	display:block;
+}
+
+.property-pane .editor-field,
+.property-pane .display-field
+{
+	clear:right;
+	float:left;
+	padding-bottom:5px;
+}
+
+property-pane h2 
+{
+	/*font-size: 14px;*/
+	color: #999;
+	margin: 7px 0px 0px 0px;
+	padding-bottom: 0px;
+	/*line-height: 14px;*/
+}
+
+
+.validation-summary .expand-button, 
+.validation-summary .collapse-button  
+{
+	float:right;
+	margin:5px;
+}
+
+.property-editor.invalidated 
+{
+	padding: 5px 0px 5px 0px;
+	margin: 5px 0px 5px 0px;
+}
+.property-editor.invalidated #editor input[type=text], 
+.property-editor.invalidated #editor input[type=password], 
+.property-editor.invalidated #editor select, 
+.property-editor.invalidated #editor textarea
+{
+	background: #FBE3E4;
+}
+
+.property-editor  .field-validation-error 
+{
+	margin:5px 0px;
+	display: block;
+}
+.property-validator .field-validation-error 
+{
+	
+}
+
+
+table.standard
+{
+	padding: 4px;
+	color:#000;
+}
+table.standard td
+{
+	vertical-align:middle;
+	padding:4px;
+}
+table.standard thead tr th 
+{
+	border-bottom: 1px solid #CCC;
+	font-weight: bold;
+	padding: 4px;
+	/*padding-right: 25px;*/
+}
+table.standard tbody tr td 
+{
+	border-bottom: 1px solid #EFEFEF;
+}
+table.standard.highlight-row tbody tr:hover  
+{
+	background-color: #E5F2F9;
+}
+
+#editor .boxbody 
+{
+	overflow:hidden;
+}
+
+#editor .scrolling-content 
+{	
+	position:absolute;
+	top:0px;
+	left:0;
+	bottom:0;
+	right:0;
+	overflow:auto;
+}
+#editor #editorContent.has-editor-bar 
+{
+    top:33px;
+}
+
+#editor #editorContent > p
+{
+    margin-top: 0.2em;
+}
+
+.table-box
+{
+	color: #333;
+	padding: 2px 2px 2px 2px;	
+	border: #CCC 1px solid;	
+	background:#FFF url(../images/na-checkbox.png) 10px 10px no-repeat;
+	margin:0px 0px 3px 0px;
+	width: 250px;
+    min-height: 28px;
+}
+.table-box table 
+{
+	width:100%;
+    background: #FFF;
+}
+.table-box table .check-box-cell,
+.table-box table .radio-button-cell 
+{
+	width:20px;
+}
+.table-box table tbody td label 
+{
+	display:block;
+	cursor:pointer;
+}
+
+.table-box table .indent
+{
+    padding-left: 0;
+}
+.table-box table .indent-0
+{
+    padding-left: 4px;
+}
+
+.property-pane input[type=text], 
+.property-pane input[type=password], 
+.property-pane select, 
+.property-pane textarea
+{
+	margin:0px 0px 3px 0px;
+	width: 250px;
+}
+.padded-content 
+{
+	padding:7px 10px;	
+}
+.narrow-editor
+{
+	width:600px;
+}
+.property-pane textarea
+{
+	height:60px;
+}
+#editor .box 
+{
+	background-color:#FFF;
+}
+/*
+.property-pane input[type=checkbox] 
+{
+	width:20px;
+	height:16px;
+}
+*/
+
+
+#editor .draggable-rows
+{
+	padding:8px;
+	border: 1px dashed #999;
+	margin:8px;
+	cursor:move;
+}
+
+.property-pane .property-editor div 
+{
+	color:black;
+}
+
+.seperator-ui-element
+{
+    background: transparent url(../images/seperator.gif) left top no-repeat;
+    margin: 2px 2px 0 5px;
+    width: 2px;
+    height: 20px;
+    vertical-align: middle;
+    display:inline-block;
+    float: left;
+}
+
+.button-ui-element
+{
+    vertical-align: middle;
+    cursor: pointer;
+    margin: 1px 0 0 0;
+    width: 22px;
+    height: 22px;
+    display:inline-block;
+    border: 0;
+    border: solid 1px transparent;
+}
+
+.button-ui-element:hover
+{
+    border: solid 1px #0a246a;
+    background-color: #b2bbd0;
+}
+
+.select-list-ui-element
+{
+    padding: 1px;
+    border: solid 1px #ccc;
+    font-size: 0.9em;
+    margin: 2px 5px 0;
+}
+
+.allowed-templates 
+{
+	
+}
+
+#definedTabs .collapse-panel 
+{
+	cursor:move;
+}
+#definedTabs .tab-property-empty 
+{
+	height:20px;
+	border: 1px dashed #999;
+	text-align:center;
+	display:block;
+	padding-top:7px;
+}
+#definedTabs .collapse-panel .delete-button 
+{
+	float:right;
+	margin-left:5px;
+}
+
+input.date 
+{
+	width: 80px !important;
+}
+input.date-time 
+{
+	width:140px !important;
+}
+
+ul.document-links
+{
+	list-style: circle inside;	
+}
+ul.document-links li 
+{
+	line-height:1.3em;
+}
+ul.document-links a 
+{
+	text-decoration:underline;
+}
+
+#editor .big h2 
+{
+    font-size:1.7em;
+    color:#BBB;
+    font-weight:normal;
+}
+#editor .big input,
+#editor .big select,
+#editor .big textarea
+{
+	font-size:1.8em;
+	width:560px;
+}
+#editor .big input[type=radio],
+#editor .big input[type=checkbox]
+{
+    width:30px;
+    margin:0;
+}
+#editor .big .editor-label 
+{
+	font-size: 1.2em;
+	margin: 10px 0px;
+}
+#editor .big .float-all
+{
+    height:35px
+}
+#editor .big .float-all input[type=radio],
+#editor .big .float-all input[type=checkbox]
+{
+    margin-top:8px;    
+}
+#editor .big .float-all label
+{
+    margin-top:8px;    
+    padding-right:20px;
+    font-size:1.2em;
+}
+#editor .big .file-data input[type=text] 
+{
+    width:75%;
+}
+#editor .big .file-data select
+{
+    width:20%;
+}
+#editor .big.narrow-editor .next-button 
+{
+	font-size: 2em;
+    float: right;
+    margin-right: 40px;
+}
+#editor .big ul li 
+{
+    display:block;
+    font-size:1.2em;
+}
+
+.doc-type-info 
+{
+	display:block;
+	padding:10px;
+	width:560px;
+	color:Black;
+}
+.doc-type-info img
+{
+	height: 256px;
+	width:256px;
+	display:block;
+}
+.doc-type-info p 
+{
+	display:block;
+	float:right;
+	width:280px;
+}
+.sort-table,
+.permissions-table 
+{
+    width: 100%;
+}
+.sort-table tbody tr
+{
+	cursor:move;
+}
+.sort-table .index-col 
+{
+	width:75px;
+	text-align:center;
+}
+.sort-table .date-col
+{
+	width:110px;
+	text-align:left;
+}
+.sort-table .ui-sortable-helper 
+{
+	background-color:#FFF6BF !important;
+	border:1px solid #FFD324 !important;	
+}
+
+.sort-target 
+{
+	background-color:#FFF6BF !important;
+	border:1px solid #FFD324 !important;	
+}
+
+.permissions-table td
+{
+    line-height: 1.6em;
+}
+
+.permissions-table .radio-col
+{
+	width:50px;
+    text-align: center;
+}
+
+.permissions-table .initialSelection
+{
+    background-color: #f5f5f5;
+}
+
+table.standard.highlight-row tbody tr:hover .initialSelection
+{
+	background-color: #dce9ef;
+}
+
+.permissions-table td img
+{
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+#definedTabs .sort-target  
+{
+	padding: 7px;
+}
+#tabItems
+{
+	margin: 0 2px;
+}
+#tabItems .sort-target 
+{
+	padding: 8px;
+}
+
+#tabItems .delete-button {
+    float: right;
+    margin: 3px 2px 0 0;
+}
+
+#editor #tabItems .draggable-rows
+{
+    margin: 8px 0;
+}
+
+#editor .search 
+{
+}
+
+#editor .big.search input[type="text"]
+{
+	width:420px;
+}
+#editor .big.search input[type="submit"]
+{
+	width:150px;
+}
+
+.search-results ul 
+{
+	padding:10px;
+}
+.search-results li 
+{
+	padding:5px;
+	border-bottom:1px solid #EFEFEF;
+}
+.search-results li a span.title
+{
+	font-size:1.2em;
+	font-weight:bold;
+	display:block;
+}
+.search-results li a span.description 
+{
+	margin:5px 0px;
+	display:block;
+}
+.search-results li a:hover
+{
+	text-decoration:none;
+}
+.search-results li a:hover span.title 
+{
+	text-decoration:underline;
+}
+.doc-links 
+{
+    width:auto !important;
+}
+.doc-links a
+{
+    display:block;
+    padding:3px;
+}
+.doc-links table.standard tr td 
+{
+    border-bottom:none!important;
+    padding:0;
+}
+
+#editorContent .box.dialog-tree {
+    min-height: 300px;    
+}
+
+#macroParameterTable
+{
+    width:100%;
+}
+#macroParameterTable th 
+{
+    text-align:center;
+} 
+#macroParameterTable td 
+{
+    height:50px;
+    vertical-align:bottom;
+    text-align:center;
+}
+#macroParameterTable td input[type=checkbox]
+{
+    margin-bottom:10px;
+}
+#macroParameterTable td button 
+{
+    margin-bottom: 10px;
+} 
+#macroParameterTable td input[type=text],
+#macroParameterTable td select
+{
+    width:90%;
+} 
+
+#macroParametersPopulate p 
+{
+    margin:5px 0px 5px 0px;
+}
+#macroParametersPopulate button 
+{
+    margin-bottom:5px;
+}
+
+#editorBar .progress-spinner 
+{
+    margin-top: 3px;
+    margin-left: 5px;
+}
+
+#stylesheet-rule-preview 
+{   
+    border: solid 1px #ccc;
+    padding: 8px;
+    width: 320px; 
+}
+
+.stylesheet-rule-editor input[type=text],
+.stylesheet-rule-editor textarea
+{
+    width: 335px !important;
+}
+
+.stylesheet-rule-editor textarea
+{
+    height: 250px !important;
+}
+
+#editor .big .add-new-box 
+{
+    position:relative;
+}
+#editor .big .add-new-box .create-button
+{
+    position:absolute;
+    bottom:12px;
+    right:5px;
+}
+
+ul.hostnames li
+{
+    padding:5px;
+    border-bottom: 1px solid #EFEFEF;
+}
+ul.hostnames li span 
+{
+    display:none;
+}
+ul.hostnames button 
+{
+    margin-top:5px;
+}
+#hostnameDialog p
+{
+    margin:0;
+}
+
+del {
+    background-color: #FFE6E6;
+    padding: 0 2px;
+}
+
+ins {
+    background-color: #E6FFE6;
+    padding: 0 2px;
+}
+
+.diff-grid
+{
+    width: 100%;
+}
+
+.diff-grid th,
+.diff-grid td
+{
+    padding: 5px 0;
+}
+
+.diff-grid th
+{
+    font-weight: bold;
+    width: 30%;
+}
+
+.diff-grid td
+{
+    border-bottom: solid 1px #ccc;
+}
+
+.diff-grid.current ins
+{
+    display: none;
+}
+
+.diff-grid.current del
+{
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.diff-grid.target del
+{
+    display: none;
+}
+
+.diff-grid.target ins
+{
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.sortable-checkbox-list .col1
+{
+     float: left; 
+     margin-right: 20px;
+}
+
+.sortable-checkbox-list .col2
+{
+     float: left; 
+}
+
+.sortable-checkbox-list .col2 ul
+{
+     border: solid 1px #ccc; 
+     padding: 2px;
+     background: #fff; 
+     width: 240px;
+}
+
+.sortable-checkbox-list .col2 ul li 
+{
+     line-height: 1.9em; 
+     margin: 3px !important;
+}
+
+.sortable-checkbox-list .col2 ul li:hover
+{
+    background: #dce9ef;
+}
+
+.sortable-checkbox-list p 
+{
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+span.hive-id
+{
+    position: relative;
+    display: block;
+}
+
+span.hive-id img
+{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+}
+
+.copy-hive-id-wrapper
+{
+    position: relative;
+    margin-left: 5px;
+}
+
+h2.inherited
+{
+    color: #ccc;
+}
+
+#definedTabs .collapse-panel.inherited
+{
+    color: #999;
+    cursor: default;
+    background: #fff url(../images/property-background.gif) left -10px repeat-x;
+    border-style: dashed;
+}
+
+table.tab-list th
+{
+    line-height: 1.5em; 
+}
+
+table.tab-list td
+{
+    padding: 5px 10px 0 0;
+}
+
+.draggable-rows input.ordinal
+{
+    width: 60px;
+}
+
+.new-property .collapse-panel > a
+{
+    background: transparent url(../images/create.png) left center no-repeat;
+    padding-left: 20px;
+}

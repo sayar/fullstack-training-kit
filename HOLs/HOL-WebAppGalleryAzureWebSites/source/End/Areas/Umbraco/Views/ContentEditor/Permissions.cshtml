@@ -1,0 +1,53 @@
+﻿@using System.Collections.Concurrent
+@model Umbraco.Cms.Web.Model.BackOffice.Editors.PermissionsModel
+@{
+    Layout = "../Shared/_DialogLayout.cshtml";  
+      
+    ViewBag.Title = "Manage permissions";
+    ViewBag.Action = "Permissions";
+    
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    Html.EnablePartialViewValidation();
+}
+@section Head {
+    @{
+        Html
+            .RequiresJs("Umbraco.UI/PermissionsGrid.js", "Scripts")
+            .RequiresJs("Umbraco.Editors/PermissionsDialog.js", "Scripts");
+    }
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.PermissionsDialog.getInstance().init({
+                    id: "@Model.Id",
+                    userGroupPermissions: @Html.ToJsonString(@Model.UserGroupPermissions)
+                });
+            });
+        })(jQuery);
+    </script>
+}
+<div>
+    <h2>Manage permissions</h2>
+    <div class="narrow-editor clearfix" data-bind="visible: userGroups().length > 0">              
+               
+        <div class="property-pane">
+            @*User Groups Dropdown*@
+            @Html.UmbEditorFor(x => Model, Html.DropDownListFor(x => Model.UserGroupPermissions, new SelectList(Model.UserGroupPermissions, "UserGroupHtmlId", "UserGroupName"), new { @class = "user-group-selector" }))
+        </div>
+
+        @*Permissions Grids*@
+        <div class="property-pane permissions-grids-container">
+            @foreach (var userGroupsPermissionsModel in Model.UserGroupPermissions)
+            {
+                <div id="@userGroupsPermissionsModel.UserGroupId.GetHtmlId()" class="permissions-grid-container"></div>
+            }
+        </div>
+
+    </div>
+    <div class="narrow-editor clearfix" data-bind="visible: userGroups().length == 0">              
+               
+        <div class="notice">@("Permissions.NoUserGroups.Message".Localize())</div>
+
+    </div>
+</div>

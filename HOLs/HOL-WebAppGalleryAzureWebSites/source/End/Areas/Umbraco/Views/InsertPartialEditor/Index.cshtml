@@ -1,0 +1,29 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.InsertPartialModel
+@using Umbraco.Framework.Persistence.Model.Constants;
+@{
+    Layout = "../Shared/_ModalLayout.cshtml";
+
+    Html.RequiresJs("Umbraco.Editors/Dialogs/InsertPartialEditor.js", "Scripts");
+}
+@section Head {
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.InsertPartialEditor.getInstance().init({
+                    availablePartials: @Html.ToJsonString(@Model.AvailablePartials)
+                });
+            });
+        })(jQuery);
+    </script>
+}
+
+<p class="notice" style="margin-top: 0;">Select a partial view to insert into the template.</p>
+<div class="property-pane clearfix">
+    <div class="property-editor clearfix">
+        <div class="property-editor-label">Partial View</div>
+        <div class="property-editor-control">
+            <select data-bind="options: availablePartials, value: selectedPartial, optionsText: 'text', optionsValue: 'value', optionsCaption: 'Choose...'"></select>
+        </div>
+    </div>
+</div>
+<button id="btnInsertPartial" data-bind="click: save">Insert</button> or <a id="btnCancelInsertPartial" href="#" class="cancel" data-bind="click: cancel">Cancel</a>

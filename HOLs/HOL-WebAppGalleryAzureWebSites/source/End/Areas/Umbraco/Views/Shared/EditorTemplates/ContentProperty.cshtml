@@ -1,0 +1,31 @@
+﻿@model ContentProperty
+@if (Model.PropertyEditorModel != null)
+{
+    <div id="@Model.Id.GetHtmlId()" class="content-property">
+        <div class="property-pane clearfix">
+            <div class="property-validator">
+                @Html.ValidationMessage(Model.Id.GetHtmlId())
+            </div>
+            @{
+                var tooltip = Model.DocTypeProperty.Alias;
+                if (!Model.DocTypeProperty.SchemaName.IsNullOrWhiteSpace())
+                {
+                    tooltip = tooltip + " (from " + Model.DocTypeProperty.SchemaName + ")";
+                }
+            }
+            @Html.UmbEditorFor(
+                label => Model,
+                validation => Model.PropertyEditorModel,
+                editor => Model.PropertyEditorModel,                
+                Html.GetEmbeddedViewPath((object)Model.PropertyEditorModel),
+                string.Empty,
+                Model.DocTypeProperty.Description,
+             tooltip,
+                (bool)Model.PropertyEditorModel.ShowUmbracoLabel,
+                new { UmbracoPropertyId = Model.Id.GetHtmlId() })
+                @*Store this property's alias *@
+                @Html.EditorFor(x => Model.Alias, string.Empty, "__Alias__")
+        </div>
+    </div>
+
+}

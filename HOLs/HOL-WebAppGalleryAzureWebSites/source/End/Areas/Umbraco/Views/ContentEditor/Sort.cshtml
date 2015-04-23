@@ -1,0 +1,55 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.SortModel
+@using Umbraco.Framework.Localization;
+@using System.Reflection;
+@{
+    Layout = "../Shared/_DialogLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    ViewBag.Title = "Sort";
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/SortDialog.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.SortDialog.getInstance().init({
+                    ajaxUrl: "@Url.GetEditorUrl("Sort", (Guid)ViewBag.ControllerId, null)",
+                    parentId: "@Model.ParentId",
+                    items: @Html.ToJsonString(Model.Items)
+                });
+            });
+        })(jQuery);
+    </script>
+}
+<h2>
+    Sort content</h2>
+<div class="property-pane">
+    <div class="box">
+        <table class="standard highlight-row sort-table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th class="date-col">
+                        Creation date
+                    </th>
+                    <th class="index-col">
+                        Sort order
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-bind="template: { name : 'sortableRows', foreach: items }">
+            </tbody>
+        </table>
+    </div>
+</div>
+@Html.HiddenFor(x => Model.ParentId)
+
+@*The jQuery template to render the items*@
+<script id='sortableRows' type='text/html'> 
+<tr data-id="${id}"> 
+    <td>${ name }</td>
+    <td class="date-col">${ utcCreated }</td> <td class="index-col" data-bind="text: sortIndex" ></td> 
+</tr> 
+</script>

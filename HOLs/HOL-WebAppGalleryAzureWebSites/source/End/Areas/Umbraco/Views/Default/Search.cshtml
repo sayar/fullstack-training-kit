@@ -1,0 +1,51 @@
+﻿
+@section Head {
+    @{
+        Html
+              .RequiresJs("Umbraco.Editors/SearchDialog.js", "Scripts", 100)
+              .RequiresJs("jQuery/jquery.watermark.min.js", "Scripts", 101);
+    }
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.SearchDialog.getInstance().init({
+                    ajaxUrl: "@Url.GetTreeSearchUrl()",
+                    treeId: "@Request.QueryString["treeId"]",
+                    inputField: $("#searchTerm")
+                });
+            });
+        })(jQuery);
+    </script>
+}
+<div id="editor" class="panel">
+    <div class="boxhead">
+        <h2>
+            Search</h2>
+    </div>
+    <div class="boxbody">
+        <div class="padded-content narrow-editor">
+            <div class="big search">
+                <input type="text" id="searchTerm" data-bind="value: searchTerm" value='@Request.QueryString["searchTerm"]' />
+                <input type="submit" value="Search" id="searchButton" data-bind="click: doSearch" />
+            </div>
+            <ul class="search-results" data-bind="template: { name : 'searchResults', foreach: results }">
+                
+            </ul>
+        </div>
+    </div>
+    <div class="boxfooter">
+        <div class="statusBar">
+            <h5>
+            </h5>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="searchResults">
+    <li>
+        <a href="#" data-bind="click: gotoItem" data-id="${id}">
+            <span class='title'>${title}</span>
+            <span class='description'>${description}</span>
+        </a>        
+    </li>
+</script>

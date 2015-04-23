@@ -1,0 +1,43 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.AbstractSchemaEditorModel
+@using System.Linq;
+@using Umbraco.Framework.Persistence.Model.Constants;
+<h2>Add new property</h2>
+<div class="new-property">
+    @Html.UmbCollapsePanel("Click here to add a new property", "Cancel creating new property", "newPropertyPanel", false,
+        @<text>
+        @Html.EditorFor(x => Model.NewProperty, new { AvailableDataTypes = Model.AvailableDataTypes, AvailableTabs = Model.AvailableTabs })
+        @Html.HiddenFor(x => x.IsCreatingNewProperty)
+        </text>)
+</div>
+<div id="definedTabs">
+    @* Show props on defined tabs *@
+    @foreach (var t in Model.DefinedTabs.Union(Model.InheritedTabs.DistinctBy(y => y.Alias).Where(y => !Model.DefinedTabs.Any(z => z.Alias == y.Alias))).OrderBy(x => x.SortOrder))
+    {
+        var inherited = !Model.DefinedTabs.Any(x => x.Alias == t.Alias);
+        
+        <br />
+        <h2 id="tab-@t.Alias" class="@(inherited ? "inherited" : "")">
+            Tab: @t.Name</h2>
+        <div class="tab-properties @(inherited ? "inherited" : "")" data-tab-alias="@t.Alias" data-tab-id="@t.Id">
+            @{
+        //Get the properties for the current tab
+        var tabbedInheritedProps = Model.InheritedProperties.Where(x =>
+            Model.InheritedTabs.Single(y => y.Id == x.TabId).Alias == t.Alias)
+            .OrderBy(x => x.SortOrder);
+            }
+            @Html.EditorFor(props => tabbedInheritedProps, "DocumentTypeProperties", string.Empty,
+                new { AvailableDataTypes = Model.AvailableDataTypes, AvailableTabs = Model.AvailableTabs })
+            @{
+        //Get the properties for the current tab
+        var tabbedProps = Model.Properties.Where(x =>
+            Model.DefinedTabs.Single(y => y.Id == x.TabId).Alias == t.Alias)
+            .OrderBy(x => x.SortOrder);
+            }
+            @Html.EditorFor(props => tabbedProps, "DocumentTypeProperties", string.Empty,
+                new { AvailableDataTypes = Model.AvailableDataTypes, AvailableTabs = Model.AvailableTabs })
+        </div>
+    }
+    @*used as a template for javascript to copy, so we can set the localized text here*@
+    <div id="emptyTabPropertyTemplate" style="display: none" class="tab-property-empty">
+        No properties</div>
+</div>

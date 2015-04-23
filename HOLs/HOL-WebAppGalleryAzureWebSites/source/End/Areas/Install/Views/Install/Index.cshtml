@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.ActiveIndex = 0;
+}
+<!-- welcome box -->
+<div class="tab main-tabinfo">
+    <div class="container">
+        <h1>
+            Welcome to the Umbraco installation</h1>
+        <h2>
+            Thanks for downloading the Umbraco CMS installer.
+        </h2>
+        <p>
+            You are just a few minutes away from getting up and running. The installer will
+            take you through the following process:-</p>
+        <ul class="text-list">
+            <li><strong>1.</strong><span>Set up a database. There are a number of options available
+                such as MS SQL Server and MS SQL Express Edition or you may wish to use the
+                Microsoft SQL CE 4 database. You may need to consult your web host or system administrator.</span></li>
+            <li><strong>2.</strong><span>You can then choose to install one of our great starter
+                kits and a skin.</span></li>
+            <li><strong>3.</strong><span>But whatever you do, don't forget to become part of the
+                Umbraco community, one of the friendliest developer communities you will find. It’s
+                what makes Umbraco such a great product and so much fun to use.</span></li>
+        </ul>
+        <span class="enjoy">Enjoy!</span>
+    </div>
+    <!-- btn box -->
+    <footer class="btn-box">
+        <div class="t">
+            &nbsp;</div>
+        <a class="btn btn-get" href="@Url.Action("Database", "Install")"><span>Lets get started!</span></a>
+    </footer>
+</div>

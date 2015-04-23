@@ -1,0 +1,17 @@
+﻿@inherits WebViewPage<List<System.Exception>>
+@{
+    Layout = "";
+}              
+<p>
+    <strong>Oops, seems like the installation encountered some issues.</strong>
+</p>
+<p>
+    Here's an overview of the exceptions, see the umbraco log for full details</p>
+
+<ul style="list-style:disc outside none; padding-left:10px">
+    @foreach (var ex in Model)
+    { 
+    <li>@ex.Message</li>
+    }
+</ul>
+       

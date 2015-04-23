@@ -1,0 +1,11 @@
+﻿@model DateTimeOffset?
+
+@if (!Model.HasValue)
+{
+    <span>This item has not been published</span>
+}
+else
+{       
+    <span>Last published: @string.Format(ViewData.ModelMetadata.DisplayFormatString, Model.Value)</span>
+    <input type="submit" id="submit_Unpublish" name="submit.Unpublish" value="Unpublish" />
+}

@@ -1,0 +1,16 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.CreateFileModel
+@{
+    Layout = "../Shared/_CreateNewLayout.cshtml";
+    if (string.IsNullOrEmpty(ViewBag.ControllerId.ToString()))
+    {
+        ViewBag.ControllerId = new Guid(CorePluginConstants.PartialsEditorControllerId);
+    }
+    if (string.IsNullOrEmpty(ViewBag.Title))
+    {
+        ViewBag.Title = "Create a partial";
+    }
+
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@Html.UmbNextButton()

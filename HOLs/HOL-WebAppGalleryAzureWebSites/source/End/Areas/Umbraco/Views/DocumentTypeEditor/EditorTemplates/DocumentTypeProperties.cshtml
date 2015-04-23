@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Umbraco.Cms.Web.Model.BackOffice.Editors.DocumentTypeProperty>
+@using Umbraco.Framework;
+@foreach (var p in Model)
+{
+    //get the data type list item associated with the data type id
+    var dt = ((IEnumerable<SelectListItem>)ViewBag.AvailableDataTypes).Where(x => HiveIdExtensions.CompareStrings(x.Value, p.DataType.Id.ToString(), ignoreProviderId: true)).SingleOrDefault();
+    var dtName = dt == null ? string.Empty : dt.Text;
+    var inherited = !p.SchemaId.IsNullValueOrEmpty();
+
+    if (inherited)
+    {
+        <div class="collapse-panel inherited">
+            <span>@string.Concat(p.Name, " (", p.Alias, "), ", "Type:", dtName)</span>
+        </div>
+    }
+    else
+    {
+        @Html.UmbCollapsePanel(string.Concat(p.Name, " (", p.Alias, "), ", "Type:", dtName),
+            "Edit \"" + p.Name + "\"",
+            p.Id.ToString(),
+            true,
+            Html.EditorFor(x => p, string.Empty, p.Id.GetHtmlId()))  
+    }
+}

@@ -1,0 +1,59 @@
+﻿@model TreePickerRenderModel
+@using Umbraco.Cms.Web.Trees;
+@using Umbraco.Framework;
+
+@{
+    //create variables for various ids
+    var TreePickerId = @Model.Id + "_treepicker";
+    
+    var TitleLabelId = TreePickerId + "_title";
+    var ChooseLinkId = TreePickerId + "_choose";
+    var DeleteLinkId = TreePickerId + "_delete";
+    var TreeId = TreePickerId + "_tree";
+
+    //need to merge the additional parameters to pass to the tree controller
+    var additionalParams = Model.AdditionalParameters.ToDictionary();
+    if (!additionalParams.ContainsKey("DialogMode")) {
+        additionalParams.Add("DialogMode", true);
+    }
+    if (!additionalParams.ContainsKey("OnNodeClick")) {
+        additionalParams.Add("OnNodeClick", "Umbraco.UI.TreePicker.nodeClickHandler");
+    }
+    if (!additionalParams.ContainsKey("OnNodeClickCallback")) {
+        additionalParams.Add("OnNodeClickCallback", Model.NodeClickHandler);
+    }
+    if (!additionalParams.ContainsKey("TreePickerId")) {
+        additionalParams.Add("TreePickerId", TreePickerId);
+    }
+}
+
+@{
+    Html.RequiresJs("Umbraco.UI/TreePicker.js", "Scripts");
+}
+<script type="text/javascript">    
+    (function ($) {
+        $(document).ready(function () {
+            $("#@TreePickerId").treePicker({
+                selectedValue: "@Model.SelectedValue",
+                selectedText: "@Model.SelectedText",
+                modalTitle: "@Model.ModalTitle"
+            });
+        });
+    })(jQuery);
+</script>
+
+<div id="@TreePickerId">
+    <input type="hidden" id="@Model.Id" name="@Model.Name" data-bind="value: selectedValue" />
+    <span id="@TitleLabelId" style="padding-right: 5px;" data-bind="text: selectedText, visible: selectedText"></span>
+    <a href="javascript:void(0);" id="@DeleteLinkId" style="color: Red; padding-right: 5px;" data-bind="visible: selectedText, click: deleteLink">@Model.DeleteLinkText</a>
+    <a href="javascript:void(0);" id="@ChooseLinkId" style="color: #1541A9;" data-bind="click: chooseLink">@Model.ChooseLinkText</a>
+    <div style="display: none;">
+        @Html.RenderTree(
+            new TreeRenderModel(
+                Url.GetTreeUrl(
+                    Model.StartNodeId,
+                    Model.TreeControllerId,
+                    additionalParams.ToFormCollection()),
+                TreeId) { ManuallyInitialize = true })
+    </div>
+</div>

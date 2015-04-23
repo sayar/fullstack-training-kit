@@ -1,0 +1,22 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.CopyModel
+@{
+    Layout = "MoveCopyLayout.cshtml";  
+    ViewBag.ActionName = "Copy";
+    ViewBag.Title = "Copy";
+    ViewBag.HeaderTitle = "Select where the document '" + Model.SelectedItemName + "' should be copied to below";
+
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+
+@section TreeBottom {
+<br />
+<div>
+    <span class="editor-label">
+        @Html.LabelFor(x => Model.RelateToOriginal)
+    </span>
+    <span class="editor-field">
+        @Html.CheckBoxFor(x => Model.RelateToOriginal, new Dictionary<string, object> { { "data-bind", "checked: relateToOriginal" } })
+    </span>
+</div>
+}

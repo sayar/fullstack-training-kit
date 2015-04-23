@@ -1,0 +1,115 @@
+﻿@model IEnumerable<PackageModel>
+@{
+    Html
+        .RequiresCss("Packaging.css", "Styles")
+        .RequiresJs("Umbraco.Editors/PackagingInstaller.js", "Scripts");
+
+    Layout = "../Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            Umbraco.Editors.PackageInstaller.getInstance().init();
+        });
+    })(jQuery);
+</script>
+<div>
+    <div id="editor" class="panel">
+        <div class="boxhead">
+            <h2>Local package repository</h2>
+        </div>
+        <div class="boxbody">
+            <div class="padded-content scrolling-content">
+                        <h2>
+                            Upload package to local repository</h2>
+                <div class="property-pane">
+                    <div id="uploadPackage">
+                        @using (Html.BeginForm("AddLocalPackage", "PackagingEditor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.ValidationMessage("PackageFileValidation")
+                            
+                            <label for="file">
+                                Filename:</label>
+                            <input type="file" name="file" id="file" /> 
+                            <br />
+                            <button type="submit" id="upload" name="upload" value="upload" data-bind="enable: canUpload">Upload</button>
+                            <br />
+                            <input type="checkbox" id="autoinstall" name="autoinstall" value="autoinstall" data-bind="checked: autoInstall" /><label for="autoinstall" style="width: 400px;">Auto install package (Please also accept the terms below)</label>
+                        }
+                    </div>
+                </div>
+                            <h2>
+                                Install a local package</h2>
+                <div class="property-pane">
+                    <div class="notice">
+                        <h4>
+                            Only install packages from sources you know and trust!</h4>
+                        <p>
+                            When installing an Umbraco package you should use the same caution as when you install
+                            an application on your computer.</p>
+                        <p>
+                            A malicious package could damage your Umbraco installation just like a malicious
+                            application can damage your computer.</p>
+                        <p>
+                            It is recommended to install from the official Umbraco package repository or a custom
+                            repository whenever it's possible.</p>
+                        <p>
+                            <input type="checkbox" id="risks" data-bind="checked: acceptTerms" /><label for="risks">I
+                                understand the security risks associated with installing a local package</label></p>
+                    </div>
+                    @if (Model.Any())
+                    {
+                        <div style="margin-top: 5px;">
+                            @using (Html.BeginForm("ManagePackage", "PackagingEditor", FormMethod.Post))
+                            {
+                                <ul class="box package-list" data-bind="style: { 'background-color': acceptTerms() ? 'transparent' : '#EEE' }">
+                                    @foreach (var p in Model)
+                                    {
+                                        <li class="clearfix">
+                                            <div class="action">
+                                                @if (!p.IsPackageInstalled)
+                                                {
+                                                    
+                                                    <button data-bind="enable: acceptTerms(), click: validateInstall, css: { clickable : acceptTerms() }" title="Install package" class="big-install-button" value="@(p.Metadata.Id + "-" + p.Metadata.Version)" name="install" id="@(p.Metadata.Id + "-" + p.Metadata.Version)"></button>
+                                                }
+                                                else if (p.IsVersionInstalled)
+                                                {
+                                                    <button data-bind="enable: acceptTerms(), click: validateUninstall, css: { clickable : acceptTerms() }" title="Uninstall package" class="big-remove-button" value="@(p.Metadata.Id + "-" + p.Metadata.Version)" name="uninstall" id="@(p.Metadata.Id + "-" + p.Metadata.Version)"></button>
+                                                }
+                                                else
+                                                {
+                                                    <div style="width: 96px;height: 96px;"></div>
+                                                }
+                                            </div>
+                                            <div class="info" style="width: 500px;">
+                                                @if (!p.IsPackageInstalled)
+                                                {
+                                                    <button style="float:right" name="remove" id="remove" value="@(p.Metadata.Id + "-" + p.Metadata.Version)" data-bind="enable: acceptTerms(), click: validateRemoval">
+                                                        Remove from local repository</button>
+                                                }
+                                                @if (p.Metadata.IconUrl != null)
+                                                {
+                                                    <img src="@p.Metadata.IconUrl" class="icon" />
+                                                }
+                                                <h4>@p.Metadata.Title</h4>
+                                                <em>@p.Metadata.Version</em>
+                                                <p>@p.Metadata.Description</p>
+                                                <a href="@p.Metadata.ProjectUrl" target="_blank">@p.Metadata.ProjectUrl</a>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="boxfooter">
+            <div class="statusBar">
+                <h5>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>

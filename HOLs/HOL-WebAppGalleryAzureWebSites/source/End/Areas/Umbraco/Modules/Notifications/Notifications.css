@@ -1,0 +1,72 @@
+﻿.notification-bubble
+{
+	display:none;
+	width: 231px;
+	min-height: 35px;	
+	position:absolute;
+	z-index:99999;
+	bottom:5px;
+	right: 5px;
+	cursor:pointer;
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.04, rgb(231,230,236)),
+		color-stop(0.6, rgb(255,255,255)),
+		color-stop(1, rgb(250,250,250))
+	);
+	background-image: -moz-linear-gradient(
+		center bottom,
+		rgb(231,230,236) 4%,
+		rgb(255,255,255) 60%,
+		rgb(250,250,250) 100%
+	);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#FFFFFFFF, endColorStr=#e7e6ecFF);
+	-ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#FFFFFFFF, endColorStr=#e7e6ecFF);
+	border: 1px solid #888;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	padding:10px;
+}
+.notification-bubble .icon 
+{
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+.notification-bubble h4, .notification-bubble .msg
+{
+	position: relative;
+	left: 30px;
+	width: 200px;
+}
+.notification-bubble h4
+{
+	font-size: 1em;
+	margin-bottom: 3px;
+}
+.notification-bubble .msg 
+{
+	font-size: 0.7em;
+}
+
+.notification-bubble .icon.success 
+{
+	background: url(images/success.png) no-repeat;
+}
+.notification-bubble .icon.info 
+{
+	background: url(images/info.png) no-repeat;
+}
+.notification-bubble .icon.error
+{
+	background: url(images/error.png) no-repeat;
+}
+.notification-bubble .icon.warning 
+{
+	background: url(images/warning.png) no-repeat;
+}

@@ -1,0 +1,131 @@
+.panel
+{
+	background: url(images/panel_bg.gif) top repeat-x !important;
+}
+
+.panelstatus
+{
+	margin: 0 auto; /* center for now */
+	width: 17em; /* ems so it will grow */
+	font-size: 100%;
+}
+
+.panel .boxhead
+{
+	background: url(images/panel_boxhead_bg.gif) top left no-repeat; 
+	height:19px;
+	
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+}
+
+.panel .boxhead h2, 
+.panel .boxfooter h5
+{
+	background: url(images/panel_boxhead_h2_bg.gif) top right no-repeat;
+	margin: 0px;
+	padding: 3px 0px 1px 10px;
+	font-weight: bold;
+	text-align: left;
+	font-family: "Trebuchet MS" , verdana, arial;
+	font-size: 11px;
+	color: #378080;
+	display: block;
+	height: 14px;
+	width: auto;
+}
+
+.panel .boxbody
+{
+	border-top: 1px solid #cac9c9;
+	border-right: 1px solid #cac9c9;
+	border-left: 1px solid #cac9c9;
+	/*background: url(images/panel_boxfooter_bg.gif) bottom left repeat-y #fff; 	*/
+	padding-left:1px;
+	
+	position:absolute;
+	top:19px;
+	left:0px;
+	bottom:12px;
+	right:0px;
+}
+
+.panel .boxfooter
+{
+	height: 12px;
+	background: url(images/panel_boxfooter_bg.gif) 11px 11px repeat-x #fff;
+	
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	right:0px;
+}
+
+.panel .boxfooter .statusBar
+{
+	height: 12px;
+	margin: 0px;
+	background: url(images/panel_boxfooter_statusBar_bg.gif) top left no-repeat;
+}
+.panel .boxfooter .statusBar h5
+{
+	display: block;
+	height: 12px;
+	margin: 0px;
+	padding: 0px;
+	background: url(images/panel_boxfooter_statusBar_h2_bg.gif) top right no-repeat;
+	font-size:11px;
+	padding-left:10px;
+	overflow:hidden;
+}
+
+
+/*
+.panelstatus .boxfooter
+{
+	font-size: 9px;
+	color: #999;
+	height: 15px;
+	padding: 5px 0 8px 15px;
+}
+
+.panel .content
+{
+	overflow: auto;
+	padding: 0px 10px 0px 10px;
+	margin: 0px;
+	position: relative;
+	width: auto !important;
+	width: 10em;
+}
+
+.panel .content .innerContent
+{
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+}
+
+.panel .menubar_panel
+{
+	background-image: url(../tabView/images/background.gif);
+	height: 32px;
+	display: block;
+	border-bottom: 1px solid #CAC9C9;
+	border-left: 1px solid #CAC9C9;
+	border-right: 1px solid #CAC9C9 !important;
+	overflow: hidden;
+	padding: 0px;
+	margin: 0px;
+}
+
+
+.guiDialogTinyMark
+{
+	font-family: "Trebuchet MS" , verdana, arial;
+	font-size: 10px;
+	color: #606057;
+}
+*/

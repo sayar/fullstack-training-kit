@@ -1,0 +1,84 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.ContentEditorModel
+@using Umbraco.Framework
+@using Umbraco.Framework.Persistence.Model.Constants
+@using Umbraco.Framework.Persistence.Model.Constants.AttributeDefinitions;
+@{
+    Layout = "../Shared/_ContentEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+
+    ViewBag.ControllerId = new Guid(CorePluginConstants.ContentEditorControllerId);
+    
+    //need to change the post action based on whether this is new content or existing content
+    //if it's new content, we need to post the doc type id to create the content with, if its 
+    //existing content, we just post the existing content id to lookup and bind.
+    ViewBag.Action = !Model.Id.IsNullValueOrEmpty() ? "Edit" : "Create";
+    //if the model is not null, then post the model id/revision back in the route params otherwise post
+    //the doc type id in the route params
+    ViewBag.UrlParams = !Model.Id.IsNullValueOrEmpty()
+        ? (object)new { id = Model.Id, revisionId = Model.RevisionId }
+        : (object)new { docTypeId = Model.DocumentTypeId, parentId = Model.ParentId };
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/ContentEditor.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+           $(document).ready(function () {                
+                Umbraco.Editors.ContentEditor.getInstance().init({
+                    activeTabIndex: @Model.ActiveTabIndex ,
+                    activeTabIndexField: $("#@Html.IdFor(x => Model.ActiveTabIndex)"),
+                    previewUrl: '@Model.GeneratePreviewUrl().EncodeJsString()'
+                }); 
+            });
+        })(jQuery);
+    </script>
+}
+@section Tabs {
+    @{foreach (var t in Model.SortedTabs.DistinctBy(x => x.Alias))
+      {
+        <li><a href="#t-@t.Id.ToString()"><span>@t.Name</span></a></li>
+      }}
+    <li><a href="#t-umb-properties"><span>General Properties</span></a></li>
+}
+@section UmbracoProperties{
+    <div class="property-pane clearfix">
+        @if (!Model.Id.IsNullValueOrEmpty())
+        {
+            @Html.UmbDisplayId(f => Model.Id)    
+        }        
+        @Html.UmbDisplayFor(m => Model.DocumentTypeName, tooltip: Model.DocumentTypeAlias)
+        @Html.UmbDisplayFor(f => Model.UtcCreated)
+        @Html.UmbDisplayFor(f => Model.UtcModified)
+        @*@Html.UmbDisplayFor(f => Model.CreatedBy)
+        @Html.UmbDisplayFor(f => Model.UpdatedBy)*@
+        @Html.UmbEditorFor(f => Model.UtcPublishedDate)
+        
+        @*@Html.UmbEditorFor(f => Model.UtcPublishScheduled)
+        @Html.UmbEditorFor(f => Model.UtcUnpublishScheduled)*@
+        
+        @if (Model.UtcPublishedDate.HasValue)
+        {
+            @Html.UmbEditorFor(m => Model.DocumentLinks)    
+        }
+        
+    </div>
+    @* Render the node name *@
+    @{ var nodeName = Model.Properties.Single(x => x.Alias == Umbraco.Framework.Persistence.Model.Constants.AttributeDefinitions.NodeNameAttributeDefinition.AliasValue); }
+    @Html.EditorFor(editor => nodeName, "ContentProperty", nodeName.Id.GetHtmlId())
+
+    @* Render the selected template *@
+    @{ var selectedTemplate = Model.Properties.Single(x => x.Alias == Umbraco.Framework.Persistence.Model.Constants.AttributeDefinitions.SelectedTemplateAttributeDefinition.AliasValue); }
+    @Html.EditorFor(editor => selectedTemplate, "ContentProperty", selectedTemplate.Id.GetHtmlId())
+
+    @* Render the domain list if there's a domain assigned *@
+    @*@{ var hostnames = Model.Properties.Single(x => x.Alias == Umbraco.Framework.Persistence.Model.Constants.Schemas.HostnameSchema.HostnameAlias); }
+    @if (!((string)hostnames.PropertyEditorModel.Value).IsNullOrWhiteSpace())
+    {
+        @Html.EditorFor(editor => hostnames, "ContentProperty", hostnames.Id.GetHtmlId())    
+    }*@
+}
+
+@Html.HiddenFor(x => Model.RevisionId)
+<script type="text/javascript">
+    Umbraco.PropertyEditors.PropertyEditorManager.getInstance().init(@Html.RenderPropertyEditorUIElements(Model.Properties));
+</script>

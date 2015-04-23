@@ -1,0 +1,11 @@
+﻿@model Guid
+@using Umbraco.Cms.Web.Model.BackOffice.PropertyEditors;
+@{
+    var propertyEditors = (IEnumerable<PropertyEditorMetadata>)ViewBag.AvailablePropertyEditors;
+    var selectListItems = new SelectList(propertyEditors.OrderBy(x => x.Name), "Id", "Name", Model);
+}
+
+@Html.DropDownListFor(x => Model, 
+    selectListItems, 
+    "--Select Property Editor--", 
+    new Dictionary<string, object> { { "data-bind", "event : { change : itemChanged }" } })

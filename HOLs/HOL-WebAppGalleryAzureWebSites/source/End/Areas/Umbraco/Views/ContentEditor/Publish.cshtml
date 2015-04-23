@@ -1,0 +1,46 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.PublishModel
+@using Umbraco.Framework.Localization;
+@using System.Reflection;
+@{
+    Layout = "../Shared/_DialogLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    ViewBag.Title = "Publish";
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/PublishDialog.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.PublishDialog.getInstance().init({
+                    ajaxUrl: "@Url.GetEditorUrl("Publish", (Guid)ViewBag.ControllerId, null)",
+                    id: "@Model.Id"
+                });
+            });
+        })(jQuery);
+    </script>
+}
+<div data-bind="visible: !success()">
+    <h2>
+        Publish content</h2>
+    <div class="property-pane">
+        <p>
+            Click 'Save' to publish '@Model.Name' and thereby making it's content publicly available.</p>
+        <p>
+            You can publish this page and all it's sub-pages by checking publish all children
+            below.</p>
+        <p>
+            @Html.CheckBoxFor(x => Model.IncludeChildren,
+                            new Dictionary<string, object> { { "data-bind", "checked: includeChildren" } })
+            @Html.LabelFor(x => Model.IncludeChildren, "Publish.IncludeChildren.Label".Localize(Assembly.Load("Umbraco.Cms.Web.Editors"), new { Name = Model.Name }, encode: false))
+        </p>
+        <p style="padding-left: 25px">
+            @Html.CheckBoxFor(x => Model.IncludeUnpublishedChildren,
+                            new Dictionary<string, object> { { "data-bind", "enable: includeChildren, checked: includeUnpublishedChildren" } })
+            @Html.LabelFor(x => Model.IncludeUnpublishedChildren, "Publish.IncludeUnpublishedChildren.Label".Localize(Assembly.Load("Umbraco.Cms.Web.Editors")))
+        </p>
+    </div>
+</div>
+@Html.HiddenFor(x => Model.Id)
+<input type="hidden" name="DataValidation" id="DataValidation" data-bind="value: success()"
+    value="" />

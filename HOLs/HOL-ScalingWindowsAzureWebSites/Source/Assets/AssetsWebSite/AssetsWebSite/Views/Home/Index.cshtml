@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+        </div>
+    </section>
+}
+<h1>My Sample Assets!</h1>
+<div class="asset">
+    <h3>HTML5 Video</h3>
+    <video width="400" height="300" controls>
+        <source src="~/Assets/Azure_Intro.mp4" />
+    </video>
+</div>
+<div class="asset">
+    <h3>Large Image</h3>
+    <div>
+        <img src="~/Assets/Picture.png" alt="Picture" />
+    </div>
+</div>

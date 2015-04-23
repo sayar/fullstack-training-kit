@@ -1,0 +1,50 @@
+/* Umbraco custom styles */
+
+#ui-datepicker-div {display:none;}
+
+.date-time-picker * {display: inline-block; margin-left:5px;}
+
+.date-time-picker a {cursor:pointer;}
+
+.date-time-picker button
+{
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	background: url(images/calSprite.png) 0px -16px no-repeat;
+	position: relative;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+	overflow: visible; /* removes extra side padding in IE */
+}
+.date-time-picker button::-moz-focus-inner
+{
+	border: none; /* overrides extra padding in Firefox */
+}
+.date-time-picker button span
+{
+	position: relative;
+	display: block;
+	white-space: nowrap;
+	visibility:hidden;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+	/* Safari and Google Chrome only - fix margins */
+	.date-time-picker button span
+	{
+		margin-top: -1px;
+	}
+}
+.date-time-picker button:hover
+{
+	background: url(images/calSprite.png) 0px 0px no-repeat;
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }

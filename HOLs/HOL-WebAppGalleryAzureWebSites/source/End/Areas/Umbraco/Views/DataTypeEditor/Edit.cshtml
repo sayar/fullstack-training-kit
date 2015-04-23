@@ -1,0 +1,65 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.DataTypeEditorModel
+@{
+    Layout = "../Shared/_TabbedEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/DataTypeEditor.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.DataTypeEditor.getInstance().init({
+                    propEditorDropDown: $("#@Html.IdFor(x => x.PropertyEditorId)")
+                });
+            });
+        })(jQuery);
+    </script>
+}
+@section tabs {
+    <li><a href="#t-user-properties"><span>Property Editor</span></a></li>
+}
+@{
+    //need to change the post action based on whether this is new content or existing content
+    //if it's new content, we need to post the parent doc type id to create the doc type with, if its 
+    //existing content, we just post the existing doc type id to lookup and bind.
+    var action = !Model.Id.IsNullValueOrEmpty() ? "Edit" : "Create";
+    var urlParams = !Model.Id.IsNullValueOrEmpty() ? (object)new { id = Model.Id } : null;
+}
+@using (Html.BeginForm(action, new Guid(CorePluginConstants.DataTypeEditorControllerId), urlParams, new { enctype = "multipart/form-data" }))
+{ 
+    @Html.UmbValidationSummary("Please correct the errors and try again.")
+
+    @Html.UmbEditorBar();
+
+    <div id="editorContent" class="has-editor-bar scrolling-content padded-content">
+        
+        @if (Model.Id.IsNullValueOrEmpty())
+        {
+            <p class="notice">@("DataType.UnSaved.Message".Localize())</p>
+        }
+        
+        @* Render Property editor on first tab *@
+        <div>
+            <div id="dataTypeDefinition" class="property-pane clearfix">
+                @Html.UmbEditorFor(x => Model.Name)
+                @Html.UmbEditorFor(x => Model.PropertyEditorId)
+                <label>
+                    Data Type GUID</label>
+                <div class="property-editor">
+                    <div class="property-content">
+                        <span id="propertyEditorGuid" data-bind="text: selectedId"></span>
+                    </div>
+                </div>
+            </div>
+            @if (Model.PropertyEditorId != null && Model.HasEditableProperties())
+            { 
+                <h2>
+                    Settings</h2>
+                <div class="property-pane clearfix">
+                    @Html.EditorFor(x => Model.PreValueEditorModel, Html.GetEmbeddedViewPath((object)Model.PreValueEditorModel))
+                </div>
+            }
+        </div>
+    </div>				
+}

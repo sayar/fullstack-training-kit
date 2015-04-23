@@ -1,0 +1,47 @@
+﻿@inherits RenderViewPage
+@using System.Web.Mvc.Html;
+@using Umbraco.Cms.Web;
+@using Umbraco.Framework;
+@{
+    Layout = "_DevDatasetLayout.cshtml";
+    ViewBag.Title = DynamicModel.Name;
+}
+@section PageTitle
+{
+    @DynamicModel.Name
+}
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="product-page cf">
+    <div class="product-info">
+        <img src="@Umbraco.GetMediaUrl(Model.Id, "image")" alt="@DynamicModel.Name" />
+        <br /><br />
+        <h4>Publisher: @(DynamicModel.Publisher)<br />Number of Pages: @(DynamicModel.NumberOfPages)</h4>
+    </div>
+    <div class="product-details">
+        <h2>Description</h2>
+        @Umbraco.Field(Model, "bodyText")
+
+        <div class="fb-like" data-href="@HttpContext.Current.Request.Url.ToString()" 
+             data-send="true" data-width="100" data-show-faces="false"></div>
+
+        <h3>Options</h3>
+        @{
+            var preValues = (Umbraco.Cms.Web.PropertyEditors.ListPicker.ListPickerPreValueModel)Umbraco.GetPreValueModel("content://p__nhibernate/v__guid/64726f70646f776e2d6c6973742d7065");
+        }
+        <ul>
+            @foreach (var option in preValues.Items)
+            {
+                <li id="@option.Id">@option.Value</li>
+            }
+        </ul>
+    </div>
+</div>

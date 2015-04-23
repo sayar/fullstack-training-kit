@@ -1,0 +1,30 @@
+﻿@using System.Reflection
+@using Umbraco.Framework
+@{
+    Layout = "_Layout.cshtml";
+
+    if (ViewBag.IsInstalled == null || !ViewBag.IsInstalled)
+    {
+        ViewBag.Title = "Introduction page - {0} needs to be installed".InvariantFormat(UmbracoWebApplication.ProductVersionInfo);
+    }
+    else
+    {
+        ViewBag.Title = "No content is published - {0}".InvariantFormat(UmbracoWebApplication.ProductVersionInfo);  
+    }
+}
+
+<h2>@ViewBag.Message</h2>
+
+@if (ViewBag.IsInstalled == null || !ViewBag.IsInstalled)
+{
+    <b>It looks like Umbraco isn't installed yet - @Html.ActionLink("click here to launch the install wizard", "Index", "Install").</b>
+}
+else
+{
+    <b>Looks like there's no content published yet! But don't worry, <a href="@Url.Action("App", "Default", new {area = Url.GetBackOfficeArea()})">it's easy to do that in the backoffice</a>.</b>    
+}
+
+<p>@UmbracoWebApplication.ProductVersionInfo runs on ASP.NET MVC3. This is a standard MVC-powered page included as a demo of how your MVC application can serve pages alongside those managed by Umbraco CMS.</p>
+<p>
+    <em>To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.</em>
+</p>

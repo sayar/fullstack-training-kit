@@ -1,0 +1,87 @@
+﻿@inherits Umbraco.Cms.Web.Dashboards.DashboardViewPage
+@{
+    Html.RequiresJs("WebToolkit/webtoolkit.md5.js", "Scripts");
+    Html.RequiresJs(Url.GetPluginsFolder() +  "/Core/Scripts/Dashboards.js");         
+       
+}              
+<script type="text/javascript">
+    (function ($) {
+           $(document).ready(function () {
+               Umbraco.Editors.Dashboards.init({
+                   userId: "@Context.User.Identity.Name",
+                   dashboardSelector: $("#dashboardStartHere")
+                }); 
+            });
+        })(jQuery);
+</script>
+<div class="property-pane" id="dashboardStartHere">
+    <div>
+        <div class="propertyItem clearfix" style="width: 100%">
+            <a data-bind="click:hide, visible: isVisible() == true" class="dashboard-hide-link">- Hide</a>
+            <a data-bind="click:show, visible: isVisible() == false" class="dashboard-hide-link">+ Show</a>
+            <div class="dashboard-wrapper" >
+                <h3 data-bind="visible: isVisible() == false" style="margin: 4px 0;">Start Here</h3>
+                <div data-bind="visible: isVisible">
+                <h2>
+                    Start Here</h2>
+                <img src="@Url.Content(@Url.GetBackOfficeFolder() + "/Content/Images/logo-small.png")" alt="Umbraco" class="dashboard-icon">
+                <h3>
+                    Thank you for choosing Umbraco!</h3>
+                <p>
+                    We think this could be the beginning of something beautiful. You have made a great
+                    choice, to help you get started here are some links to addtional information:
+                </p>
+                <h3>
+                    Find out more:</h3>
+                <div class="dashboard-col-wrapper">
+                    <div class="dashboard-cols">
+                        <div class="dashboard-col third">
+                            <h3>
+                                New to Umbraco</h3>
+                            <ul>
+                                <li>Download and read the <a href="http://umbraco.codeplex.com/documentation?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">
+                                    Umbraco Getting Started Guide</a></li>
+                                <li>Download the <a href="http://our.umbraco.org/projects/website-utilities/editors-manual?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo"
+                                    target="_blank">Editors Manual</a> for details on working with the Umbraco UI</li>
+                                <li>Watch the Umbraco foundation videos on <a href="http://www.youtube.com/user/UmbracoCMS?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo"
+                                    target="_blank">Youtube</a></li>
+                                <li>Find an Umbraco Certified Developer near you</li>
+                            </ul>
+                        </div>
+                        <div class="dashboard-col third">
+                            <h3>
+                                Go further</h3>
+                            <ul>
+                                <li>Find an add-on <a href="http://our.umbraco.org/projects?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">package</a>
+                                    to help you get going quickly</li>
+                                <li>Learn to extend Umbraco at <a href="http://umbraco.tv?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">Umbraco TV</a>
+                                    (some videos are free, some require a subscription)</li>
+                                <li>Read the API documentation on our <a href="http://our.umbraco.org/wiki/recommendations/recommended-reading-for-net-developers?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo"
+                                    target="_blank">Community Wiki</a></li>
+                                <li>Become a <a href="http://umbraco.com/products/training/schedule?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">
+                                    Certified Umbraco Developer</a> and learn from the source</li>
+                                <li>Find out about our <a href="http://umbraco.org/products?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">productivity
+                                    boosting tools</a></li>
+                            </ul>
+                        </div>
+                        <div class="dashboard-col third last">
+                            <h3>
+                                Get support</h3>
+                            <ul>
+                                <li>Ask a question in the <a href="http://our.umbraco.org/?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">Community
+                                    Forum</a></li>
+                                <li>Watch our <a href="http://umbraco.tv/?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">tutorial videos</a> (some
+                                    are free, some require a subscription)</li>
+                                <li>Find out about our <a href="http://umbraco.org/products?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo" target="_blank">commercial
+                                    support</a></li>
+                                <li>Find out about real-life <a href="http://umbraco.com/products/training/schedule?ver=@UmbracoWebApplication.ProductVersion&amp;ref=@UmbracoWebApplication.ProductVersionInfo"
+                                    target="_blank">training and certification</a> opportunities</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

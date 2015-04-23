@@ -1,0 +1,117 @@
+﻿#dashboardContent h1, #dashboardContent h2, #dashboardContent h3, #dashboardContent h4, #dashboardContent h5, #dashboardContent h6
+{
+    color: #333;
+}
+
+#dashboardContent h2
+{
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #CCC;
+    padding-left: 37px;
+    line-height: 32px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#dashboardContent h3
+{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#dashboardContent p
+{
+    font-size: 1.1em;
+    margin-top: 0;
+}
+
+#dashboardContent a 
+{ 
+    color: #1541A9;
+    text-decoration:underline;
+}
+
+.dashboard-wrapper
+{
+    padding: 5px 5px 5px 5px;
+    overflow: hidden;
+}
+
+
+.dashboard-icon
+{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.dashboard-hide-link
+{
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    text-decoration: none;
+    color: #666;
+    border: none;
+    font-size: .9em;
+    font-weight: bold;
+    padding: 5px;
+    margin: 0;
+    border-radius: 3px;
+    border: 1px solid #CCC;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: -webkit-gradient(linear,0% 0,0% 100%,from(#FEFEFE),to(#DDD));
+    background: -moz-linear-gradient(100% 100% 90deg,#DDD,#FEFEFE);
+    background: -webkit-gradient(linear,0% 0,0% 100%,from(#FEFEFE),to(#DDD));
+}
+
+.dashboard-col-wrapper
+{
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-col
+{
+    position: relative;
+    padding: 10px 1%;
+    background: url("../Images/property-background.gif") repeat-x scroll center top white;
+}
+
+#dashboardContent .dashboard-cols h3
+{
+    margin-top: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #CCC;
+}
+
+.dashboard-col-wrapper ul
+{
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    padding: 0;
+    list-style-image: url("../Images/list-item-orange.gif");
+}
+
+.dashboard-col-wrapper li
+{
+    line-height: 1.2em;
+    font-size: 1.1em;
+    padding-bottom: .5em;
+}
+
+.dashboard-cols .last
+{
+    margin-right: 0;
+}
+
+.third
+{
+    width: 30.33%;
+    float: left;
+    margin-right: 1%;
+}
+

@@ -1,0 +1,50 @@
+﻿@model FileEditorModel
+@using Umbraco.Cms.Web;
+@{
+    Layout = "../Shared/_FileContentEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    ViewBag.Action = "Save";
+    ViewBag.ControllerId = new Guid(CorePluginConstants.TemplateEditorControllerId);
+    ViewBag.TabTitle = "Template Editor";
+
+    Html
+        .RequiresJs("CodeMirror/codemirror.js", "Modules", 100)
+        .RequiresJs("CodeMirror/mode/xml/xml.js", "Modules", 101)
+        .RequiresJs("CodeMirror/mode/javascript/javascript.js", "Modules", 102)
+        .RequiresJs("CodeMirror/mode/htmlmixed/htmlmixed.js", "Modules", 103)
+        .RequiresJs("Umbraco.Editors/ScriptEditor.js", "Scripts", 104)
+        .RequiresJs("Umbraco.Editors/TemplateEditor.js", "Scripts", 105);
+    Html
+        .RequiresCss("CodeMirror/codemirror.css", "Modules", 100)
+        .RequiresCss("CodeMirror/theme/umbraco.css", "Modules", 101);
+}
+@section Head {
+    <script type="text/javascript">
+
+        var editor = undefined; // Store a reference to the editor globally so that we can access from dialog windows
+        
+        (function ($) {
+            $(document).ready(function () {
+                editor = Umbraco.Editors.TemplateEditor.getInstance();
+                editor.init({
+                    editorTextBoxId: "@Html.IdFor(x => Model.FileContent)",
+                    name: "@Model.Name",
+                    id: "@Model.Id",
+                    parentId: "@Model.ParentId",
+                    insertFieldUrl: "@Url.GetEditorUrl("Index", new Guid(CorePluginConstants.InsertFieldEditorControllerId), new { id = Model.Id })",
+                    insertPartialUrl: "@Url.GetEditorUrl("Index", new Guid(CorePluginConstants.InsertPartialEditorControllerId), new { id = Model.Id })",
+                    insertMacroUrl: "@Url.GetEditorUrl("Index", new Guid(CorePluginConstants.InsertMacroEditorControllerId), new { id = Model.Id })",
+                    defineSectionUrl: "@Url.GetEditorUrl("Index", new Guid(CorePluginConstants.DefineSectionEditorControllerId), new { id = Model.Id })",
+                    implementSectionUrl: "@Url.GetEditorUrl("Index", new Guid(CorePluginConstants.ImplementSectionEditorControllerId), new { id = Model.Id })",
+                    availableTemplates: @Html.ToJsonString((object)@ViewBag.AvailableTemplates),
+                    currentLayout: "@ViewBag.CurrentLayout",
+                    codeMirrorOpts: {
+                        mode: "text/html"
+                    }
+                });
+            });
+        })(jQuery);
+        
+    </script>
+}

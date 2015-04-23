@@ -1,0 +1,41 @@
+﻿@inherits RenderViewPage
+@using System.Web.Mvc.Html
+@using Umbraco.Cms.Web;
+@{
+    Layout = "_DevDatasetLayout.cshtml";
+    ViewBag.Title = DynamicModel.Name;
+}
+@section PageTitle
+{
+    @DynamicModel.Name
+}
+
+<h2>This page template contains some example markup for developers</h2>
+<p><em>This is so you can see how to place child content into pages.</em></p>
+
+<p>
+    @Umbraco.Field(Model, "bodyText")
+</p>
+
+<h2>
+    Parent retrieved from the Model</h2>
+<p>
+    @{
+        var parent = @Model.ParentContent();
+        var parentName = parent.AsDynamic().Name ?? "(No name)";
+    }
+    Parent node name: @parentName, of type: @parent.ContentType.Name.
+</p>
+<h2>
+    Parent retrieved from the DynamicModel</h2>
+<p>
+    @{
+        var parentDyn = @DynamicModel.Parent;
+        var parentDynName = parentDyn.Name ?? "(No name)";
+    }
+    Parent node name: @parentDynName, of type: @parentDyn.ContentType.Name.
+</p>
+<p>
+    <em>Created: @DynamicModel.UtcCreated</em>
+</p>
+@Html.Partial("ChildContent")

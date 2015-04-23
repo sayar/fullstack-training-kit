@@ -1,0 +1,19 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.FileEditorModel
+@{
+    Layout = "../Shared/_FileContentEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    ViewBag.Action = "Save";
+    ViewBag.ControllerId = new Guid(CorePluginConstants.StylesheetEditorControllerId);
+    ViewBag.TabTitle = "Stylesheet Editor";
+
+    Html
+        .RequiresJs("CodeMirror/codemirror.js", "Modules", 100)
+        .RequiresJs("CodeMirror/mode/css/css.js", "Modules", 101)
+        .RequiresJs("Umbraco.Editors/ScriptEditor.js", "Scripts", 102);
+    Html
+        .RequiresCss("CodeMirror/codemirror.css", "Modules", 100)
+        .RequiresCss("CodeMirror/theme/umbraco.css", "Modules", 101)
+        .RequiresCss("CodeMirror/mode/css/css.css", "Modules", 102);
+        
+}

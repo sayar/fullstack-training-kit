@@ -1,0 +1,53 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.LoginModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Insufficient Permissions</title>
+    <link rel="icon" type="image/x-icon" href='@Url.Content("~/Areas/Umbraco/Content/Images/umbracoFavicon.ico")' />
+    @{
+        Html
+           .RequiresCss("ericmeyer.reset.css", "Styles", 0)
+           .RequiresCss("Site.css", "Styles", 1)
+           .RequiresCss("Error.css", "Styles", 2)
+           .RequiresCss("Panel/style.css", "Modules", 3);
+    }
+    @{
+        Html
+           .RequiresJs("jQuery/jquery.js", "Scripts", 0)
+           .RequiresJs("Umbraco.System/NamespaceManager.js", "Scripts", 0)
+           .RequiresJs("Umbraco.System/Extensions.js", "Scripts", 1)
+           .RequiresJs("Umbraco.System/QueryStrings.js", "Scripts", 1)
+           .RequiresJs("Umbraco.System/WindowManager.js", "Scripts", 11)
+           .RequiresJs("Umbraco.System/UmbracoApplication.js", "Scripts", 20)
+           .RequiresJs("Umbraco.System/ClientApiManager.js", "Scripts", 22)
+           .RequiresJs("jQuery/jquery-ui-1.8.7.custom.min.js", "Scripts", 30);
+           
+    }
+    @* Render styles/scripts *@
+    @Html.Raw(Html.RenderCssHere(Url.GetStylesPath()))
+    @Html.Raw(Html.RenderJsHere(new List<IClientDependencyPath>() { Url.GetScriptsPath(), Url.GetModulesPath() }))
+
+    <script type="text/javascript">
+        //determine if this is not the top window (it should always be)
+        if (self != window.top) {
+            $u.Sys.ApiMgr.getApp().reloadTopWindow();
+        }
+    </script>
+
+</head>
+<body>
+    <div id="container">
+        <h1>Insufficient Permissions</h1>
+        <p>We have been able to authenticate you, however, it appears you do not have permission to access the page <strong>'@ViewBag.Url'</strong></p>
+        <h2>What to do now?</h2>
+        <ul>
+            <li><a href="@Url.Action("Logout")">Logout</a> and login again with an account that has the required permissions.</li>
+            <li>Contact your system administrator</li>
+        </ul>
+    </div>
+</body>
+</html>

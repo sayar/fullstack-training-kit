@@ -1,0 +1,67 @@
+﻿@model FileEditorModel
+@{
+    Layout = "../Shared/_TabbedEditorLayout.cshtml";
+}
+@section Head {
+
+    @if (IsSectionDefined("Head"))
+    {
+        @RenderSection("Head")
+    }
+    else {
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    Umbraco.Editors.ScriptEditor.getInstance().init({
+                        editorTextBoxId: "@Html.IdFor(x => Model.FileContent)",
+                        name: "@Model.Name",
+                        id: "@Model.Id",
+                        parentId: "@Model.ParentId"
+                    });
+                });
+            })(jQuery);
+        </script>   
+    }
+}
+@section tabs {
+    @if (!IsSectionDefined("tabs"))
+    {
+        <li><a href="#t-user-properties"><span>@ViewBag.TabTitle</span></a></li>
+        <li><a href="#t-umb-properties"><span>File Properties</span></a></li>   
+    }
+    else
+    {
+        @RenderSection("tabs")   
+    }
+}
+
+@using (Html.BeginForm((string)ViewBag.Action, (Guid)ViewBag.ControllerId, null, new { enctype = "multipart/form-data" }))
+{ 
+    @Html.UmbValidationSummary("Please correct the errors and try again.")
+    
+    @Html.UmbEditorBar();    
+
+    <div id="editorContent" class="has-editor-bar scrolling-content padded-content">
+        
+        @if (Model.Id.IsNullValueOrEmpty())
+        {
+            <p class="notice">@("File.UnSaved.Message".Localize())</p>
+        }
+        
+        @* Render Property editor on first tab *@
+        <div>
+            <div class="property-pane clearfix fill">
+                @Html.TextAreaFor(x => Model.FileContent)
+            </div>               
+        </div>
+        @* Render Umbraco Properties *@
+        <div>
+            <div class="property-pane clearfix">
+                @Html.EditorFor(f => Model, "CoreEntityModel")
+            </div>
+            @RenderBody()
+        </div>
+    </div>			
+    
+    @Html.HiddenFor(x => Model.ParentId)	
+}

@@ -1,0 +1,102 @@
+﻿@inherits RenderViewPage
+@using System.Web.Mvc.Html
+@using Umbraco.Cms.Web;
+@{
+    Layout = "_DevDatasetLayout.cshtml";
+    ViewBag.Title = DynamicModel.Name;
+}
+@section PageTitle
+{
+    @DynamicModel.Name
+}
+
+<h2>Weelcome to the Book Club example!</h2>
+
+<p>This is the Homepage template, you can see it at /Views/Umbraco/Homepage.cshtml on your filesystem. It contains some example markup for developers.</p>
+
+<h2>Putting values into your templates</h2>
+<p>This template is a standard View from the Model-View-Controller pattern on which Umbraco 5 is built.</p>
+<p>It uses Razor syntax, and in addition to the standard objects available to you in Views, we've added a couple of our own.</p>
+
+<h3>DynamicModel</h3>
+<p>First up we have <code>DynamicModel</code>. This allows you to access the fields of your piece of content in short-hand syntax.</p>
+<p>For example, this page is a Homepage type, so it has a Name field. By using the code <code>@@DynamicModel.Name</code> in this template, we get: <strong>@DynamicModel.Name</strong></p>
+<p>Let's put another field here, 'BodyText'. Using the same style code <code>@@DynamicModel.BodyText</code>, we get: <strong>@Umbraco.Truncate(DynamicModel.BodyText, 30)</strong>. <br />
+Actually, <code>BodyText</code> is a long field, so we truncated that using another new concept: the <code>Umbraco</code> helper object and its <code>Truncate</code> method.</p>
+<p>First a standard one: <code>Model</code>. <code>Model</code> is the statically-typed way of accessing data. </p>
+
+<h3>Model</h3>
+<p>Like regular MVC Views, you have a Model object to play with too. It's a style of accessing the same data as <code>DynamicModel</code>, and it's really just about your preference.<br />
+This is a "statically-typed" object, meaning you will get Intellisense in Visual Studio or WebMatrix if you choose to use it. Since <code>DynamicModel</code> has some of the handy shortcuts, its properties like 'BodyText'
+above are not known until the page is generated, so whilst it's shorter to write, Visual Studio can't help you.</p>
+<p>To get at the parts of your content, <code>Model</code> can be used with the <code>Field&lt;T&gt;(string fieldName)</code> helper method, like so: <code>@@Model.Field&lt;string&gt;("siteName")</code>. This gives: <strong>@(Model.Field<string>("siteName"))</strong>.</p>
+
+<h2>Hierarchy navigators</h2>
+<p>In the latest update we've added more hierarchy navigators to the model so that you can grab parents, children, ancestors and descendants of your data similarly to how you can in Umbraco 4. Here's some examples:</p>
+<ul>
+<li>@@DynamicModel.Parent</li>
+<li>@@DynamicModel.Children</li>
+<li>@@DynamicModel.Ancestors</li>
+<li>@@DynamicModel.AncestorsOrSelf</li>
+<li>@@DynamicModel.Descendants</li>
+<li>@@DynamicModel.DescendantsOrSelf</li>
+</ul>
+<p>Because @@DynamicModel is a .NET <code>dynamic</code> object, "extension methods" like Count() can't be used in their regular fashion, so instead of myDynamicObjects.Count() you'd have to run Enumerable.Count(myDynamicObjects). However, to keep some of this convenience, we've added these methods directly to the collection you get when you use one of these navigators:</p>
+<ul>
+<li>@@DynamicModel.Children.Count() (for your current site, this returns: <strong>@DynamicModel.Children.Count()</strong>)</li>
+<li>@@DynamicModel.Children.Any()</li>
+<li>@@DynamicModel.Children.First()</li>
+<li>@@DynamicModel.Children.FirstOrDefault()</li>
+<li>@@DynamicModel.Children.Last()</li>
+<li>@@DynamicModel.Children.LastOrDefault()</li>
+<li>@@DynamicModel.Children.Single()</li>
+<li>@@DynamicModel.Children.SingleOrDefault()</li>
+<li>@@DynamicModel.Children.ElementAt(int)</li>
+<li>@@DynamicModel.Children.ElementAtOrDefault(int)</li>
+<li>@@DynamicModel.Children.IndexOf(item)</li>
+</ul>
+
+<h2>Querying: A quick example query using Linq</h2>
+<p>In the current release, we've started to implement querying. At the moment, you can only do a query from the root rather than querying only the children. But it's still a powerful step.</p>
+@{
+    var publishersInClub = Hive.Content
+        .Where(x => x.ContentType.Alias == "BookPage")
+        .ToList()
+        .Select(x => x.Field<string>("publisher"))
+        .Distinct();
+    var publishersString = string.Join(", ", publishersInClub);
+}
+
+<p>Let's query for <em>Books in the club:</em> <strong>@Hive.Content.Count(x => x.ContentType.Alias == "BookPage")</strong></p>
+<p>Or how about a distinct list of <em>Publishers in the club:</em> <strong>@publishersString</strong></p>
+<p>Let's do that as a list:</p>
+<ul>
+    @foreach (var name in publishersInClub)
+    {
+        <li>@name</li>
+    }
+</ul>
+
+<h2>An example of querying using a string</h2>
+<p>For those coming from Umbraco 4.7, or if you're not comfortable or familiar with lambda expressions, we are working on dynamic queries using strings</p>
+@{var book = Hive.Content.First("publisher == \"APRESS\"");}
+<p>Let's get the first book published by APRESS: it is <strong>"@book.Name"</strong> and it has <strong>@book.NumberOfPages</strong> pages</p>
+<p>Here's the code for this:</p>
+<pre>
+@@{var book = Hive.Content.First(&quot;publisher == \&quot;APRESS\&quot;&quot;);}
+&lt;p&gt;Let&#39;s get the first book published by APRESS: it is &lt;strong&gt;&quot;@@book.Name&quot;&lt;/strong&gt; and it has &lt;strong&gt;@@book.NumberOfPages&lt;/strong&gt; pages&lt;/p&gt;
+
+</pre>
+<p>To avoid injection attacks or ugly escaping, you can also use parameters in your string query, like:</p>
+<pre>
+@@{var firstItem = Hive.Content.First(&quot;publisher == @@0&quot;, &quot;APRESS&quot;);}
+
+</pre>
+<h2>Other tips, including parents and children</h2>
+<ul>
+    <li>The current page was retrieved from Hive provider '@Model.Id.ProviderId', and matches Hive group @Model.Id.ProviderGroupRoot.ToString().</li>
+    <li>Its path is: @Model.NiceUrl()</li>
+</ul>
+
+<h2>Let's render a macro (a "partial view" in MVC)</h2>
+@Html.Partial("ChildContent")

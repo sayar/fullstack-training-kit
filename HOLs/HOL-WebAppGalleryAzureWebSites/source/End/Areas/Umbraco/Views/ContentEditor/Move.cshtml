@@ -1,0 +1,10 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.MoveModel
+@{
+    Layout = "MoveCopyLayout.cshtml";  
+    ViewBag.ActionName = "Move";
+    ViewBag.Title = "Move";
+    ViewBag.HeaderTitle = "Select where the document '" + Model.SelectedItemName + "' should be moved to below";
+
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}

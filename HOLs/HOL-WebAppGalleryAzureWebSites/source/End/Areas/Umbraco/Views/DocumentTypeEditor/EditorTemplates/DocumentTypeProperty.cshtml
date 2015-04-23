@@ -1,0 +1,21 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.DocumentTypeProperty
+@using Umbraco.Framework;
+@{
+    var availableDataTypes = new SelectListItem[ViewBag.AvailableDataTypes.Length];
+    Array.Copy(ViewBag.AvailableDataTypes, availableDataTypes, availableDataTypes.Length);
+    if (!Model.DataTypeId.IsNullValueOrEmpty())
+    {
+        foreach (var d in availableDataTypes)
+        {
+            d.Selected = HiveIdExtensions.CompareStrings(d.Value, Model.DataTypeId.ToString());
+        }
+    }
+}
+@{var tabList = new SelectList(ViewBag.AvailableTabs, "Value", "Text", Model.TabId);}
+@Html.UmbEditorFor(x => Model.Name)
+@Html.UmbEditorFor(x => Model.Alias)
+@Html.UmbEditorFor(x => Model.DataTypeId, Html.DropDownListFor(d => Model.DataTypeId, availableDataTypes))
+@Html.UmbEditorFor(x => Model.TabId, Html.DropDownListFor(d => Model.TabId, tabList))
+@Html.UmbEditorFor(x => Model.Description)
+@Html.HiddenFor(x => Model.SortOrder)
+@Html.EditorFor(x => Model.PreValueEditor, "PreValueOverrideProperties")

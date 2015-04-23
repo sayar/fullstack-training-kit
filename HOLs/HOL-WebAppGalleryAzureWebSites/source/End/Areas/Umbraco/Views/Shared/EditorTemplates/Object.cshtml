@@ -1,0 +1,24 @@
+﻿ @model dynamic
+
+ @* Allow for recursive objects *@
+
+ @foreach (var prop in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForEdit && !ViewData.TemplateInfo.Visited(pm))) {
+    
+     if (prop.HideSurroundingHtml)
+     {         
+        @Html.ValidationMessage(prop.PropertyName)
+        <div class="editor-field">            
+            @Html.Editor(prop.PropertyName)            
+        </div>
+     }
+     else
+     { 
+        @Html.ValidationMessage(prop.PropertyName)
+        <div class="editor-label">
+            @Html.Label(prop.PropertyName)
+        </div>
+        <div class="editor-field">            
+            @Html.Editor(prop.PropertyName)            
+        </div>
+    }
+}

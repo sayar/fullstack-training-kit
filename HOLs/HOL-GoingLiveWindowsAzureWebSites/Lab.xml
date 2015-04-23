@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Lab xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
+  <Id>GoingLiveWindowsAzureWebSites</Id>
+  <Technologies>
+    <Technology>Windows Azure</Technology>
+  </Technologies>
+  <Author>
+    <Blog></Blog>
+    <Email></Email>
+    <Name>wwegner</Name>
+  </Author>
+  <Description>In this Hands-On Lab you will configure a custom domain and secure socket layer on a web site application, redirecting traffic from HTTP to HTTPS endpoints.</Description>
+  <Document ConversionType="Html">.\HOL.md</Document>
+  <Title>Going Live with Windows Azure Web Sites</Title>
+  <Version>1.0.1</Version>
+  <Source>.\Source</Source>
+  <DependencyChecker>.\source\Setup\Dependencies.depi</DependencyChecker>
+  <CustomProperties>
+    <Property Name="ContentType" Value="VS2012" />
+    <Property Name="GitHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-GoingLiveWindowsAzureWebSites" />
+  </CustomProperties>
+</Lab>

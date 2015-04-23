@@ -1,0 +1,30 @@
+.collapse-panel 
+{
+	padding: 7px;	
+	background: url(Images/background.gif) #EEE repeat-x bottom;
+	border: 1px solid #CCC;
+	margin-bottom: 3px;	
+	display:block;
+}
+
+.collapse-panel.moveable 
+{
+	cursor: move;
+}
+
+.collapse-panel a
+{
+	cursor:pointer;
+	color:#000;
+}
+
+.collapse-panel .toggle-button 
+{
+	float:right;	
+}
+
+.collapse-panel .box 
+{
+	margin-top: 8px;
+	padding: 7px 0px 0px 7px;
+}

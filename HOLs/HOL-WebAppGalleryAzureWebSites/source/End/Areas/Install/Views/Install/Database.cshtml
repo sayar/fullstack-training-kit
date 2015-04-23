@@ -1,0 +1,266 @@
+﻿@model Umbraco.Cms.Web.Model.Install.DatabaseInstallModel
+@{
+    ViewBag.ActiveIndex = 1;
+}
+<!-- database box -->
+<div class="tab main-tabinfo">
+    <div class="container">
+        <h1>
+            Database configuration</h1>       
+        <p>
+            <strong>To complete this step you will either need a blank database or, if you do not
+                have a blank database available, choose the SQL CE 4 embedded database (This is
+                the recommended approach for first time users or if you are unsure).</strong></p>
+        <p>
+            If you are not using the SQL CE 4 embedded database you will need the connection
+            details for your database, such as the &quot;connection string&quot;. You may need
+            to contact your system administrator or web host for this information.</p>
+    </div>
+    <!-- database -->
+    <div class="database-hold">
+        @using (Html.BeginForm("Database", "Install", FormMethod.Post))
+        {
+            <fieldset>
+                <div class="step">
+                    <div class="container">
+                        <p>
+                            <strong>1. Select which database option best fits you:</strong>
+                        </p>
+                        <ul>
+                            <li>
+                                <input type="radio" id="databaseOptionBlank" name="database" value="blank" />
+                                <label for="databaseOptionBlank">
+                                    I already have a blank SQL Server <em>2008</em> database</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="databaseOptionEmbedded" name="database" value="embedded" />
+                                <label for="databaseOptionEmbedded">
+                                    I want to use SQL CE 4, a free, quick-and-simple embedded database</label>
+                            </li>
+                            
+                            <li>
+                                <input type="radio" id="databaseOptionAdvanced" name="database" value="advanced" />
+                                <label for="databaseOptionAdvanced">
+                                    I'm an advanced user, let me put in the connection string</label>
+                            </li>
+                           
+                            <li>
+                                <input type="radio" id="databaseOptionHelp" name="database" value="help" />
+                                <label for="databaseOptionHelp">
+                                    I need help</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.DatabaseType)
+                <!-- database options -->
+                <div id="database-options">
+                    <!-- blank option -->
+                    <div id="database-blank" class="database-option">
+                        <div class="step">
+                            <div class="container">
+                                <p>
+                                    <strong>2. Now choose your database type below.</strong></p>
+                                <div class="select">
+                                    <select id="databaseDropDown" class="sel">
+                                        <option value="">Please choose</option>
+                                        <option selected="selected" value="MSSQL">Microsoft SQL Server 2008</option>
+                                        <!--<option value="MySQL">MySQL</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step" id="database-blank-inputs">
+                            <div class="container">
+                                <p class="instructionText">
+                                    <strong>3. Connection details:</strong> Please fill out the connection information
+                                    for your database.</p>
+                                <div class="instruction-hold">
+                                    <div class="row sql" style="display: block;">
+                                        @Html.ValidationMessageFor(x => x.Server)
+                                        @Html.LabelFor(x => x.Server, "Server:")
+                                        <span>
+                                            @Html.TextBoxFor(x => x.Server, new { @class = "text" })
+                                        </span>
+                                    </div>
+                                    <div class="row sql" style="display: block;">
+                                        @Html.ValidationMessageFor(x => x.DatabaseName)
+                                        @Html.LabelFor(x => x.DatabaseName, "Database name:")
+                                        <span>
+                                            @Html.TextBoxFor(x => x.DatabaseName, new { @class = "text" })
+                                        </span>
+                                    </div>
+                                    <div class="row sql" style="display: block;">
+                                        @Html.ValidationMessageFor(x => x.Username)
+                                        @Html.LabelFor(x => x.Username, "Username:")
+                                        <span>
+                                            @Html.TextBoxFor(x => x.Username, new { @class = "text" })
+                                        </span>
+                                    </div>
+                                    <div class="row sql" style="display: block;">
+                                        @Html.ValidationMessageFor(x => x.Password)
+                                        @Html.LabelFor(x => x.Password, "Password:")
+                                        <span>
+                                            @Html.PasswordFor(x => x.Password, new { @class = "text", autocomplete = "off" })
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- btn box -->
+                        </div>
+                    </div>
+                    <!-- embedded option -->
+                    <div id="database-embedded" class="database-option">
+                        <div class="step">
+                            <div class="container">
+                                <p class="instructionText">
+                                    <strong>2. Simple file-based database:</strong></p>
+                                <div class="instruction-hold">
+                                    <div class="row embeddedError" style="display: none;">
+                                        <p>
+                                            <strong>Missing files:</strong> SQL CE 4 requires that you manually add the SQL
+                                            CE 4 runtime to your Umbraco installation.<br />
+                                            You can either use the following <a href="http://our.umbraco.org/wiki/install-and-setup/using-sql-ce-4-with-juno"
+                                                target="_blank">instructions</a> on how to add SQL CE 4 or select another database
+                                            type from the dropdown above.
+                                        </p>
+                                    </div>
+                                    <div class="row embedded" style="display: none;">
+                                        <p>
+                                            <strong>Nothing to configure:</strong>SQL CE 4 does not require any configuration,
+                                            simply click the "install" button to continue.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- advanced option -->
+                    <div id="database-advanced" class="database-option">
+                        <div class="step">
+                            <div class="container">
+                                <p>
+                                    <strong>2. Connection details:</strong> Please fill out the connection information
+                                    for your database (note: currently only supports SQL Server 2008 databases).</p>
+                                <div class="instruction-hold">
+                                    <div class="row custom">
+                                        @Html.ValidationMessageFor(x => x.ConnectionString)
+                                        @Html.LabelFor(x => x.ConnectionString, "Connection string:")
+                                        <span class="textarea">
+                                            @Html.TextAreaFor(x => x.ConnectionString, 2, 20, new { @class = "text textarea" })
+                                        </span>
+                                    </div>
+                                    <div class="row custom check-hold">
+                                        <p>
+                                            Example: <tt>Data Source=.\SQLExpress; Initial Catalog=Umbraco-v5;Integrated Security=false;user=******;password=*****;</tt>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- help option -->
+                    <div id="database-help" class="database-option">
+                        <div class="step">
+                            <div class="container">
+                                <p>
+                                    <strong>2. Getting a database setup for umbraco.</strong><br />
+                                    For first time users, we recommend you select "quick-and-simple file-based database".
+                                    This will install an easy to use database, that does not require any additional
+                                    software to use.<br />
+                                    Alternatively, you can install Microsoft SQL Server 2008 (including Express edition), which will require a bit more
+                                    work to get up and running.<br />
+                                    We have provided a step-by-step guide in the video instructions below.
+                                </p>
+                                <span class="btn-link"><a href="http://umbraco.org/getting-started" target="_blank">
+                                    Open video instructions</a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="btn-box installbtn">
+                        <div class="t">&nbsp;</div>
+                        <a class="single-tab submit btn-install"><span>install</span> </a>
+                    </footer>
+                </div>
+            </fieldset>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var hasEmbeddedDlls = true;
+    var currentVersion = '5.0.0';
+    var configured = true;
+
+    jQuery(document).ready(function () {
+
+        $("a.submit").click(function () {
+            $('form').submit();
+        });
+
+        var hiddenDbType = jQuery("#@Html.IdFor(x => x.DatabaseType)");
+
+        $("#databaseDropDown").change(function () {
+            if ($(this).val() != "") {
+                hiddenDbType.val($(this).val());
+            }
+        });
+
+        $("input[name='database']").change(function () {
+
+            switch ($(this).val()) {
+                case "blank":
+
+                    $(".database-option").hide();
+                    $("#database-blank").show();
+                    $(".installbtn").show();
+
+                    hiddenDbType.val("MSSQL");
+
+                    break;
+                case "embedded":
+                    $(".database-option").hide();
+                    $("#database-embedded").show();
+
+                    if (!hasEmbeddedDlls) {
+                        $('.embeddedError').show();
+                        $(".installbtn").hide();
+                    }
+                    else {
+                        $('.embedded').show();
+                        $(".installbtn").show();
+                    }
+
+                    hiddenDbType.val("SQLCE");
+
+                    break;
+                case "advanced":
+                    $(".database-option").hide();
+                    $("#database-advanced").show();
+                    $(".installbtn").show();
+
+                    hiddenDbType.val("Custom");
+
+                    break;
+                case "help":
+                    $(".database-option").hide();
+                    $("#database-help").show();
+                    $(".installbtn").hide();
+                    break;
+            }
+
+
+        });
+
+        if (hiddenDbType.val() == "Custom") {
+            $('#databaseOptionAdvanced').click();
+            $('#databaseOptionAdvanced').change();
+        }
+        else {
+            $('#databaseOptionBlank').click();
+            $('#databaseOptionBlank').change();
+        }
+
+
+    });
+
+</script>

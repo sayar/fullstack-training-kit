@@ -1,0 +1,11 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.CreateDataTypeModel
+@{
+    Layout = "../Shared/_CreateNewLayout.cshtml";
+    ViewBag.ControllerId = new Guid(CorePluginConstants.DataTypeEditorControllerId);
+    ViewBag.Title = "Create a new data type";
+
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+
+@Html.UmbNextButton()

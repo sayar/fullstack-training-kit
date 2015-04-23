@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Lab xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
+  <Id>WebAppGalleryWithAzureWebSites-Windows</Id>
+  <Technologies>
+    <Technology>Windows Azure</Technology>
+    <Technology>Microsoft WebMatrix</Technology>
+  </Technologies>
+  <Author>
+    <Blog></Blog>
+    <Email></Email>
+    <Name></Name>
+  </Author>
+  <Description>In this hands-on lab you will learn how to create a new Web Site in Windows Azure by using a template from the pre-packaged applications gallery. Once created, you will update the site using Web Matrix and deploy the changes.
+  </Description>
+  <Document ConversionType="Html">.\HOL.md</Document>
+  <Title>Creating Web Sites in Windows Azure using WebMatrix</Title>
+  <Version>1.0.2</Version>
+  <Source></Source>
+  <CustomProperties>
+    <Property Name="ContentType" Value="OSS" />
+    <Property Name="GitHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-WebAppGalleryAzureWebSites" />
+  </CustomProperties>
+</Lab>

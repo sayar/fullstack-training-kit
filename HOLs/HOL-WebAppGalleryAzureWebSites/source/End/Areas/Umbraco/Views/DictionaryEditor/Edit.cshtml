@@ -1,0 +1,63 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.DictionaryItemEditorModel
+@using Umbraco.Framework.Persistence.Model.Constants;
+@{
+    Layout = "../Shared/_ContentEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+
+    ViewBag.ControllerId = new Guid(CorePluginConstants.DictionaryEditorControllerId);
+    
+    //need to change the post action based on whether this is new content or existing content
+    //if it's new content, we need to post the doc type id to create the content with, if its 
+    //existing content, we just post the existing content id to lookup and bind.
+    ViewBag.Action = !Model.Id.IsNullValueOrEmpty() ? "Edit" : "Create";
+    //if the model is not null, then post the model id/revision back in the route params otherwise post
+    //the doc type id in the route params
+    ViewBag.UrlParams = !Model.Id.IsNullValueOrEmpty()
+        ? (object)new { id = Model.Id, revisionId = Model.RevisionId }
+        : (object)new { docTypeId = Model.DocumentTypeId, parentId = Model.ParentId };
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/ContentEditor.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+           $(document).ready(function () {                
+                Umbraco.Editors.ContentEditor.getInstance().init({
+                    activeTabIndex: @Model.ActiveTabIndex ,
+                    activeTabIndexField: $("#@Html.IdFor(x => Model.ActiveTabIndex)")
+                }); 
+            });
+        })(jQuery);
+    </script>
+}
+@section Tabs {
+    @{foreach (var t in Model.SortedTabs)
+      {
+        <li><a href="#t-@t.Id.ToString()"><span>@t.Name</span></a></li>
+      }}
+    <li><a href="#t-umb-properties"><span>Umbraco Properties</span></a></li>
+}
+@section UmbracoProperties{
+    <div class="property-pane clearfix">
+        @if(!Model.Id.IsNullValueOrEmpty()) {
+            @Html.UmbDisplayId(f => Model.Id)    
+        }        
+        @Html.UmbDisplayFor(m => Model.DocumentTypeName)
+        @Html.UmbDisplayFor(f => Model.UtcCreated)
+        @Html.UmbDisplayFor(f => Model.UtcModified)
+        @Html.UmbDisplayFor(f => Model.CreatedBy)
+        @Html.UmbDisplayFor(f => Model.UpdatedBy)
+        @Html.UmbEditorFor(f => Model.UtcPublishedDate)
+        @*@Html.UmbEditorFor(f => Model.UtcPublishScheduled)
+        @Html.UmbEditorFor(f => Model.UtcUnpublishScheduled)*@
+    </div>
+    <div class="property-pane clearfix">
+        @Html.UmbEditorFor(editor => Model.Name)
+    </div>
+        
+}
+
+@Html.HiddenFor(x => Model.RevisionId)
+<script type="text/javascript">
+    Umbraco.PropertyEditors.PropertyEditorManager.getInstance().init(@Html.RenderPropertyEditorUIElements(Model.Properties));
+</script>

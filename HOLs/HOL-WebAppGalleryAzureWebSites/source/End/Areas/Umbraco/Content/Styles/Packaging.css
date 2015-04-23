@@ -1,0 +1,65 @@
+﻿.package-list li 
+{
+    padding:3px;
+}
+.package-list .info
+{
+    float:left;
+}
+.package-list .info input[type='submit'] 
+{
+    float:right;
+}
+.package-list .action
+{
+    float:left;
+    width:120px;
+}
+.package-list .action button 
+{
+    border: 1px solid #EEE;
+}
+.package-list .action button.clickable 
+{
+    box-shadow: 1px 1px 1px #AAA;
+    -webkit-box-shadow: 1px 1px 1px #AAA;
+    -moz-box-shadow: 1px 1px 1px #AAA;
+    border: 1px solid #DDD;
+}
+.package-list h4 
+{
+    color:Black;
+}
+
+.package-list .icon 
+{
+    border:none;
+    width:32px;
+    height:32px;
+    float:right;
+}
+.package-list p 
+{
+    margin: 3px 0px;
+}
+
+#uploadPackage 
+{
+    
+}
+#uploadPackage label 
+{
+    display:inline-block;
+    width:100px; 
+    margin:0px;
+}
+#uploadPackage button ,
+#uploadPackage input[type=checkbox] 
+{
+    margin-left:105px;
+}
+
+#uploadPackage input[type=checkbox] 
+{
+    vertical-align: middle;
+}

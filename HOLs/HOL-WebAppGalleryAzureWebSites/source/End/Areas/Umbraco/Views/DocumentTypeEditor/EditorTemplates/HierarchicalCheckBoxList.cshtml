@@ -1,0 +1,34 @@
+﻿@model IEnumerable<HierarchicalSelectListItem>
+@using Umbraco.Cms.Web.Mvc
+
+@helper RenderRows(IEnumerable<HierarchicalSelectListItem> items, int level)
+{
+    foreach (var item in items)
+    {
+        var id = string.Concat(ViewData.ModelMetadata.PropertyName, "_", HiveId.Parse(item.Value).GetHtmlId());
+
+        <tr class="indent-@level">
+            @for (var i = 0; i < level; i++ )
+            {
+                <td class="check-box-cell indent indent-@i">&nbsp;</td>
+            }
+            <td class="check-box-cell indent indent-@level"><input type="checkbox" id="@id" 
+                        name="@ViewData.ModelMetadata.PropertyName" 
+                        value="@item.Value"
+                        data-parent-values="@string.Join(",", item.ParentValues)"
+                        @(item.Selected ? "checked='checked'" : "") /></td>
+            <td colspan="@(10 - level)"><label for="@id">@item.Text</label></td>
+        </tr>
+    
+            if (Model.Any(x => x.ParentValues.Contains(item.Value)))
+            {
+            @RenderRows(Model.Where(x => x.ParentValues.Contains(item.Value)), level + 1);
+            }
+    }  
+}
+
+<div class="table-box hierarchical-table-box @ViewBag.CssClass">
+    <table class="standard highlight-row">
+    @RenderRows(Model.Where(x => x.ParentValues == null || x.ParentValues.Length == 0), 0)
+    </table>
+</div>

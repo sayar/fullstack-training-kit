@@ -1,0 +1,29 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.ImplementSectionModel
+@using Umbraco.Framework.Persistence.Model.Constants;
+@{
+    Layout = "../Shared/_ModalLayout.cshtml";
+
+    Html.RequiresJs("Umbraco.Editors/Dialogs/ImplementSectionEditor.js", "Scripts");
+}
+@section Head {
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.ImplementSectionEditor.getInstance().init({
+                    availableSections: @Html.ToJsonString(@Model.AvailableSections)
+                });
+            });
+        })(jQuery);
+    </script>
+}
+
+<p class="notice" style="margin-top: 0;">Select a section name from the list below. You can only choose section's from the current template's master layout.</p>
+<div class="property-pane clearfix">
+    <div class="property-editor clearfix">
+        <div class="property-editor-label">Section Name</div>
+        <div class="property-editor-control">
+            <select data-bind="options: availableSections, value: selectedSection, optionsCaption: 'Choose...'"></select>
+        </div>
+    </div>
+</div>
+<button id="btnInsertSectionDefinition" data-bind="click: save">Insert</button> or <a id="btnCancelInsertSectionDefinition" href="#" class="cancel" data-bind="click: cancel">Cancel</a>

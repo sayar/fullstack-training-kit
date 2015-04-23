@@ -1,0 +1,54 @@
+@inherits RenderViewPage
+@using System.Web.Mvc
+@using Umbraco.Cms.Web;
+@{
+    Layout = "_DevDatasetLayout.cshtml";
+    ViewBag.Title = DynamicModel.Name;
+}
+@section Stylesheets
+{
+    <link href="@Url.Content("~/Content/Styles/Faqs.css")" rel="stylesheet" type="text/css" />
+}
+@section PageTitle
+{
+    @DynamicModel.Name
+}
+
+<h2>This page template contains some example markup for developers</h2>
+<p><em>This is so you can see how to place child content into pages.</em></p>
+
+<h2>
+    @DynamicModel.Name</h2>
+<p>
+    @Umbraco.Field(Model, "bodyText")
+</p>
+<div class="faqs">
+    <ul>
+        @foreach (var f in DynamicModel.Children)
+        {
+          if (f.ContentType.Alias == "FaqCategory")
+          {
+            <li class="category">@Html.Raw(f.BodyText)
+                <ul>
+                    @foreach (var q in f.Children)
+                    {
+
+                      if (q.ContentType.Alias == "FaqQuestion")
+                      {
+                        <li class="question">
+                            @MvcHtmlString.Create(q.QuestionText)
+                            <span class="answer">@MvcHtmlString.Create(q.BodyText)</span> </li>
+                      }
+                    }
+                </ul>
+            </li>
+          }
+          else if (f.ContentType.Alias == "FaqQuestion")
+          {
+            <li class="question">
+                @MvcHtmlString.Create(f.QuestionText)
+                <span class="answer">@MvcHtmlString.Create(f.BodyText)</span> </li>
+            }
+        }
+    </ul>
+</div>

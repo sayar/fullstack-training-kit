@@ -1,0 +1,15 @@
+﻿body
+{
+    margin: 20px;
+}
+
+h2
+{
+    margin-bottom: 10px;
+}
+
+ul li 
+{
+    margin: 5px 0 0 20px;
+    list-style: disc;    
+}

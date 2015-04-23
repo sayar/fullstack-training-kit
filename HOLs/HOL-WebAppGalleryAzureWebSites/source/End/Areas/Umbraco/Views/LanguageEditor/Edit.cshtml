@@ -1,0 +1,114 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.LanguageEditorModel
+@using Umbraco.Framework
+@using Umbraco.Framework.Persistence.Model.Constants
+@using Umbraco.Framework.Persistence.Model.Constants.Entities
+@using Umbraco.Framework.Persistence.Model.Constants.Schemas
+@{
+    Layout = "../Shared/_TabbedEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+
+    //Change the action to post to depending on if the entity is new or not
+    ViewBag.Action = !Model.Id.IsNullValueOrEmpty() ? "Edit" : "Create";
+    //if the model is not null, then DONT post any Id to the Create method, otherwise post
+    //the Id as per normal
+    ViewBag.UrlParams = !Model.Id.IsNullValueOrEmpty()
+        ? (object)new { id = Model.Id }
+        : (object)new { id = "" };
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/LanguageEditor.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+           $(document).ready(function () {                
+                Umbraco.Editors.LanguageEditor.getInstance().init({
+                    selectedLanguageCode: "@Model.IsoCode",
+                    installedLanguages: @Html.ToJsonString(Model.InstalledLanguages),
+                    fallbackLanguageCodes:  @Html.ToJsonString(Model.Fallbacks)       
+                }); 
+            });
+        })(jQuery);
+    </script>
+}
+@section Tabs {
+    <li><a href="#languageTab"><span>@(string.IsNullOrEmpty(Model.Name) ? "New Language" : Model.Name)</span></a></li>
+}
+@using (Html.BeginForm((string)ViewBag.Action, new Guid(CorePluginConstants.LanguageEditorControllerId), (object)ViewBag.UrlParams, new { enctype = "multipart/form-data" }))
+{
+    @Html.UmbValidationSummary("Please correct the errors and try again.")
+    
+    @Html.UmbEditorBar();
+    
+    if (!Model.Id.IsNullValueOrEmpty())
+    {
+        @Html.HiddenFor(x => Model.Id)
+    }   
+    
+    <div id="editorContent" class="has-editor-bar scrolling-content padded-content">
+        
+        @if (Model.Id.IsNullValueOrEmpty())
+        {
+            <p class="notice">@("Language.UnSaved.Message".Localize())</p>
+        }
+        
+        @Html.Hidden(Html.NameFor(x => Model.Name).ToString(), "Anything")
+
+        <div id="languageTab">
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(l => Model.IsoCode, Html.DropDownListFor(x => Model.IsoCode, Model.AvailableLanguages, "Choose...", new Dictionary<string, object> { { "data-bind", "value: selectedLanguageCode" } }))
+            </div>
+
+            <div class="property-pane clearfix">
+                <div class="property-editor clearfix sortable-checkbox-list">
+                    <div class="property-editor-label">ISO Code</div>
+                    <div class="property-editor-control" data-bind="text: selectedLanguageCode"></div>
+                </div>
+            </div>
+
+            <div class="property-pane clearfix">
+                <div class="property-editor clearfix sortable-checkbox-list">
+                    <div class="property-editor-label">Fallbacks</div>
+                    <div class="property-editor-control">
+                        <div class="col1">
+                            <p>Select fallback language(s)...</p>
+                            <div class="table-box list-picker checkboxlist">
+                                <table class="standard highlight-row">
+                                    <tbody>
+                                    @foreach (SelectListItem installedLanguage in Model.InstalledLanguages)
+                                    {
+                                        <tr>
+                                            <td class="check-box-cell">
+                                                <input 
+                                                    type="checkbox"
+                                                    id="@installedLanguage.Value" 
+                                                    value="@installedLanguage.Value"
+                                                    data-bind="checked: fallbackLanguageCodes"
+                                                    @(Model.Fallbacks != null && Model.Fallbacks.Contains(installedLanguage.Value) ? "checked='checked'" : "") />
+                                            </td>
+                                            <td>
+                                                <label for="@installedLanguage.Value">@installedLanguage.Text</label>
+                                            </td>
+                                        </tr> 
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col2" data-bind="visible: fallbackLanguageCodes().length > 0">
+                            <p>Set fallback order...</p>
+                            <ul class="selected" data-bind="template: { name: 'language', foreach: fallbackLanguages }">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<script id="language" type="text/html">
+    <li>
+        <input type="hidden" name="@Html.NameFor(x => Model.Fallbacks)" value="${ value }" />
+        ${ text }
+    </li>
+</script>

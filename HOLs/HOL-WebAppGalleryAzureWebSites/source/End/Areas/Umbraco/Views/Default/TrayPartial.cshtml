@@ -1,0 +1,32 @@
+﻿@using Umbraco.Cms.Web.Security;
+@using Umbraco.Cms.Web.Model.BackOffice;
+@model IEnumerable<ApplicationTrayModel>
+
+<div id="tray">
+	<ul class="clearfix">
+	@foreach(var t in Model)
+    {        
+        var spriteClass = t.IconType == Umbraco.Cms.Web.Model.BackOffice.IconType.Sprite ? t.Icon : "no-sprite";
+        
+     //if the icon isn't a sprite, then check if it starts with a ~, if not, then use the standard icons folder path and append the icon name/extension, if so then
+     //use the user provided full icon path   
+     var iconFilePath = t.IconType == Umbraco.Cms.Web.Model.BackOffice.IconType.Sprite
+                               ? ""
+                               : !t.Icon.StartsWith("~")
+                               ? Url.GetAppIconsFolder() + "/" + t.Icon
+                               : Url.Content(t.Icon);
+     
+		<li><a data-app-alias="@t.Alias.ToLower()"   
+                data-tree-url="@Url.Encode(t.TreeModel.TreeUrl)"
+                data-dashboard-url="@Url.Encode(t.DashboardUrl)"
+                href="@string.Concat("#a=", t.Alias.ToLower())" 
+                class='@spriteClass'>
+                @if (!string.IsNullOrEmpty(iconFilePath))
+                {
+                    <img alt="@t.Name" src="@iconFilePath" />
+                }
+                <span>@t.Name</span>
+            </a></li>
+ }
+	</ul>
+</div>

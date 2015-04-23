@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Lab xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
+  <Id>WebSitesAndVMsNode</Id>
+  <Technologies>
+    <Technology>Windows Azure</Technology>
+    <Technology>Node.js</Technology>
+  </Technologies>
+  <Author>
+    <Blog></Blog>
+    <Email></Email>
+    <Name></Name>
+  </Author>
+  <Description>A virtual machine in Windows Azure is a server in the cloud that you can control and manage. After you create a virtual machine in Windows Azure, you can start, stop, and delete it whenever you need to, and you can access the virtual machine just as you do with a server in your office. In this lab, you will learn how to create a virtual machine running Linux and use it as a database server for a Node.js application. You will see how diverse technologies can run and interact in Windows Azure's cloud-based infrastructure.</Description>
+  <Document ConversionType="Html">.\HOL.md</Document>
+  <Title>Windows Azure Web Sites and Virtual Machines for Node.js Applications (OS X)</Title>
+  <Version>1.1.0</Version>
+  <Source>.\Source</Source>
+  <DependencyChecker></DependencyChecker>
+  <CustomProperties>
+    <Property Name="ContentType" Value="OSS" />
+    <Property Name="GitHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-NodejsAzureWebSitesVMs-OSX" />
+  </CustomProperties>
+</Lab>

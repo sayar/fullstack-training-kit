@@ -1,0 +1,155 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.UserEditorModel
+@using Umbraco.Framework
+@using Umbraco.Framework.Persistence.Model.Constants
+@using Umbraco.Framework.Persistence.Model.Constants.Entities
+@using Umbraco.Framework.Persistence.Model.Constants.Schemas
+@{
+    Layout = "../Shared/_TabbedEditorLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+
+    //Change the action to post to depending on if the entity is new or not
+    ViewBag.Action = !Model.Id.IsNullValueOrEmpty() ? "Edit" : "Create";
+    //if the model is not null, then DONT post any Id to the Create method, otherwise post
+    //the Id as per normal
+    ViewBag.UrlParams = !Model.Id.IsNullValueOrEmpty()
+        ? (object)new { id = Model.Id }
+        : (object)new { id = "" };
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/UserEditor.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+           $(document).ready(function () {                
+                Umbraco.Editors.UserEditor.getInstance().init({
+                    activeTabIndex: @Model.ActiveTabIndex ,
+                    activeTabIndexField: $("#@Html.IdFor(x => Model.ActiveTabIndex)")
+                }); 
+            });
+        })(jQuery);
+    </script>
+}
+@section Tabs {
+    <li><a href="#macroPropertiesTab"><span>@(string.IsNullOrEmpty(Model.Name) ? "New User" : Model.Name)</span></a></li>
+    <li><a href="#umbracoPropertiesTab"><span>Umbraco Properties</span></a></li>
+}
+@using (Html.BeginForm((string)ViewBag.Action, new Guid(CorePluginConstants.UserEditorControllerId), (object)ViewBag.UrlParams, new { enctype = "multipart/form-data" }))
+{
+    @Html.UmbValidationSummary("Please correct the errors and try again.")
+    
+    @Html.UmbEditorBar();
+ 
+    @Html.HiddenFor(x => Model.ActiveTabIndex)
+    
+    if (!Model.Id.IsNullValueOrEmpty())
+    {
+        @Html.HiddenFor(x => Model.Id)
+    }   
+    
+    <div id="editorContent" class="has-editor-bar scrolling-content padded-content">
+        
+        @if (Model.Id.IsNullValueOrEmpty())
+        {
+            <p class="notice">@("User.UnSaved.Message".Localize())</p>
+        }
+        
+        @*Render User properties tab*@
+        <div id="macroPropertiesTab">
+            <div class="property-pane clearfix">
+                @Html.UmbEditorFor(x => Model.Name)
+                @Html.UmbEditorFor(x => Model.Username)
+                @Html.UmbEditorFor(x => Model.Password, Html.PasswordFor(x => Model.Password, new { autocomplete = "off" }))
+                @Html.UmbEditorFor(x => Model.ConfirmPassword, Html.PasswordFor(x => Model.ConfirmPassword, new { autocomplete = "off" }))
+                @Html.UmbEditorFor(x => Model.Email)
+                @*@{
+                    var userGroupProperty = Model.Properties.SingleOrDefault(x => x.Alias == UserSchema.UserGroupsAlias);
+                    if (userGroupProperty != null)
+                    {
+                        @Html.EditorFor(editor => userGroupProperty, "ContentProperty", userGroupProperty.Id.GetHtmlId())
+                    }
+                }*@
+                <div class="property-editor clearfix">
+                    <div class="property-editor-label">User Groups</div>
+                    <div class="property-editor-control">
+                        <div class="table-box list-picker checkboxlist">
+                            <table class="standard highlight-row">
+                                <tbody>
+                                @foreach (UserGroup userGroup in ViewBag.AvailableUserGroups)
+                                {
+                                    <tr>
+                                        <td class="check-box-cell">
+                                            <input 
+                                                type="checkbox"
+                                                id="@userGroup.Id.GetHtmlId()" 
+                                                name="@Html.NameFor(x => Model.UserGroups)" 
+                                                value="@userGroup.Id"
+                                                @(Model.UserGroups != null && Model.UserGroups.Contains(userGroup.Id) ? "checked='checked'" : "") />
+                                        </td>
+                                        <td>
+                                            <label for="@userGroup.Id.GetHtmlId()">@userGroup.Name</label>
+                                        </td>
+                                    </tr> 
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="persistanceSettings" class="property-pane clearfix">
+                @Html.UmbEditorFor(x => Model.IsApproved)
+                @Html.UmbEditorFor(
+                    x => Model.SessionTimeout,
+                    x => Model.SessionTimeout,
+                    @<text>@Html.TextBoxFor(x => Model.SessionTimeout, new { @Value = Model.SessionTimeout == null || Model.SessionTimeout == 0 ? 60 : Model.SessionTimeout })</text>)
+            </div>
+            <div class="property-pane clearfix">
+                <div class="property-editor clearfix">
+                    <div class="property-editor-label">Start Node in Content</div>
+                    <div class="property-editor-control">
+                       @Html.TreePickerFor(x => Model.StartContentHiveId, new TreePickerRenderModel
+                       {
+                           TreeControllerId = new Guid(CorePluginConstants.ContentTreeControllerId),
+                           TreeVirtualRootId = FixedHiveIds.ContentVirtualRoot,
+                           StartNodeId = new HiveId(new Guid(CorePluginConstants.ContentTreeControllerId))
+                       })
+                    </div>
+                </div>
+                <div class="property-editor clearfix">
+                    <div class="property-editor-label">Start Node in Media</div>
+                    <div class="property-editor-control">
+                       @Html.TreePickerFor(x => Model.StartMediaHiveId, new TreePickerRenderModel
+                       {
+                           TreeControllerId = new Guid(CorePluginConstants.MediaTreeControllerId),
+                           TreeVirtualRootId = FixedHiveIds.MediaVirtualRoot,
+                           StartNodeId = new HiveId(new Guid(CorePluginConstants.MediaTreeControllerId))
+                       })
+                    </div>
+                </div>
+            </div>
+            @{
+                var applicationsProperty = Model.Properties.SingleOrDefault(x => x.Alias == UserSchema.ApplicationsAlias);
+                if (applicationsProperty != null)
+                {
+                    @Html.EditorFor(editor => applicationsProperty, "ContentProperty", applicationsProperty.Id.GetHtmlId())
+                }
+            }
+        </div>
+        @*Render Umbraco properties tab*@
+        <div id="umbracoPropertiesTab">
+            <div class="property-pane clearfix">
+                @Html.UmbDisplayId(f => Model.Id)
+                @Html.UmbDisplayFor(m => Model.DocumentTypeName)
+                @Html.UmbDisplayFor(f => Model.UtcCreated)
+                @Html.UmbDisplayFor(f => Model.UtcModified)
+                @Html.UmbDisplayFor(f => Model.CreatedBy)
+                @Html.UmbDisplayFor(f => Model.UpdatedBy)
+            </div>
+            <div class="property-pane clearfix">
+                @Html.UmbDisplayFor(f => Model.LastActivityDate)
+                @Html.UmbDisplayFor(f => Model.LastLoginDate)
+                @Html.UmbDisplayFor(f => Model.LastPasswordChangeDate)
+            </div>
+        </div>
+    </div>
+}

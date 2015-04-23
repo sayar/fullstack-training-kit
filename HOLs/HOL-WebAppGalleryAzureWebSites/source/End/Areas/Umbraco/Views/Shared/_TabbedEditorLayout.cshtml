@@ -1,0 +1,38 @@
+﻿@model dynamic
+@{
+    Layout = "_Layout.cshtml";
+    //supports ViewBag.Status for the status message    
+}
+
+@section Head {
+    @RenderSection("head", false)
+}
+
+<div id="editor">
+    <div id="tabs">
+        <ul>
+            @RenderSection("tabs")
+        </ul>
+    </div>
+    <div class="panel">
+        <div class="boxbody">
+            @RenderBody()
+        </div>
+        <div class="boxfooter">
+            <div class="statusBar">
+                <h5>
+                    @ViewBag.Status
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //this places the cursor on the first available input that is not a button
+    (function ($) {
+        $(document).ready(function () {
+            $("form:first").focusFirst();
+        });        
+    })(jQuery);
+</script>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Lab xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
+  <Id>WebAppGalleryAzureWebSites-OSX</Id>
+  <Technologies>
+    <Technology>Windows Azure</Technology>
+  </Technologies>
+  <Author>
+    <Blog></Blog>
+    <Email></Email>
+    <Name></Name>
+  </Author>
+  <Description>In this hands-on lab you will learn how to create a new web site in Windows Azure by using a template from the pre-packaged applications gallery. Once created, you will edit the site using a text editor and update the site using FTP.
+</Description>
+  <Document ConversionType="Html">.\HOL.md</Document>
+  <Title>Creating Web Sites in Windows Azure (OS X)</Title>
+  <Version>1.0.2</Version>
+  <Source></Source>
+  <CustomProperties>
+    <Property Name="ContentType" Value="OSS"></Property>
+    <Property Name="GitHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-WebAppGalleryAzureWebSites-OSX" />
+  </CustomProperties>
+</Lab>

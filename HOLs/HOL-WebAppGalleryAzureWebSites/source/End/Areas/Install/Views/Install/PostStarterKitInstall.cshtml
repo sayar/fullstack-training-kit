@@ -1,0 +1,12 @@
+﻿@using Umbraco.Framework
+@model string
+@{
+    ViewBag.ActiveIndex = 3;
+    Layout = "_RestartAppLayout.cshtml";
+    ViewBag.Title = "Installing Starter kit";
+    ViewBag.Message = "Please wait while the application restarts and the starter kit is configured.";
+    ViewBag.NextButtonUrl = Url.Action("Finish", "Install");
+    ViewBag.PrevButtonUrl = Url.Action("StarterKit", "Install");
+    ViewBag.GetProgressUrl = Url.Action("RunPackageActions", "Install", new { id = Model });
+    ViewBag.RestartUrl = Url.Action("PerformRecycleApplication", "Install");
+}

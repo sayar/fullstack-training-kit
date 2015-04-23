@@ -1,0 +1,12 @@
+﻿@model dynamic
+
+@* Render out each property of the pre-value model *@
+
+@foreach (var prop in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForEdit && !ViewData.TemplateInfo.Visited(pm))) {
+    
+    //uses the existing template hint if set, otherwise checks for an embedded view
+    var template = string.IsNullOrEmpty(prop.TemplateHint) ? Html.GetEmbeddedViewPath((object)prop.Model) : prop.TemplateHint;
+    
+    @Html.UmbEditor(prop.PropertyName, template, null, "")
+     
+}

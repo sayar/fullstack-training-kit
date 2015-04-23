@@ -1,0 +1,36 @@
+﻿@using Umbraco.Framework.Persistence.Model.Constants
+@model Tab
+           
+@{
+    var inherited = !Model.SchemaId.IsNullValueOrEmpty();
+
+    if (inherited || Model.Alias == FixedGroupDefinitions.GeneralGroupAlias)
+    {
+        <li class="draggable-rows inherited">
+            @Html.TextBoxFor(x => Model.Name, new { disabled = "disabled" })
+            @Html.TextBoxFor(x => Model.SortOrder, new { disabled = "disabled", @class = "ordinal" })
+            @Html.HiddenFor(x => Model.Id)
+        </li>
+        @*<tr>
+            <td>@Html.TextBoxFor(x => Model.Name, new { disabled = "disabled" })</td>
+            <td>@Html.TextBoxFor(x => Model.SortOrder, new { disabled = "disabled", @class = "ordinal" })</td>
+            <td>@Html.HiddenFor(x => Model.Id)</td>
+        </tr>*@
+    }
+    else
+    {
+        <li class="draggable-rows">
+            @Html.TextBoxFor(x => Model.Name)
+            @Html.TextBoxFor(x => Model.SortOrder, new { @class = "ordinal" })
+            @Html.HiddenFor(x => Model.Id)
+            <button name="submit.DeleteTab" value="@Model.Id" title="Delete tab" class="delete-button"></button>
+        </li>
+        @*<tr>
+            <td>@Html.TextBoxFor(x => Model.Name)</td>
+            <td>@Html.TextBoxFor(x => Model.SortOrder, new { @class = "ordinal" })</td>
+            <td>@Html.HiddenFor(x => Model.Id)
+            <button name="submit.DeleteTab" value="@Model.Id" title="Delete tab" class="delete-button"></button></td>
+        </tr>*@
+    }
+}
+

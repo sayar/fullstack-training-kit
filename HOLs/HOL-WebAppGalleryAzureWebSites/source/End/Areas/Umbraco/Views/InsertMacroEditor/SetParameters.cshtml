@@ -1,0 +1,33 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.TinyMCE.InsertMacro.SetParametersModel
+@using Umbraco.Framework.Persistence.Model.Constants;
+@{
+    Layout = "../Shared/_ModalLayout.cshtml";
+
+    Html
+        .RequiresJs("Umbraco.Editors/Dialogs/InsertMacroEditor/SetParameters.js", "Scripts");
+}
+@section Head {
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.InsertMacroEditor.SetParameters.getInstance().init();
+            });
+        })(jQuery);
+    </script>
+}
+
+@using (Html.BeginForm("InsertMacro", "InsertMacroEditor", FormMethod.Get))
+{
+    @Html.HiddenFor(x => Model.MacroAlias)
+
+	<h2>Set Parameters</h2>
+
+    foreach (var parameter in Model.MacroParameters)
+    {
+        @Html.EditorFor(editor => parameter, "MacroParameter", parameter.Alias)  
+    }   	
+
+    <div class="button-bar">
+        <input type="submit" value="OK" /> or <a href="#" data-bind="click: cancel">Cancel</a>
+    </div>
+}

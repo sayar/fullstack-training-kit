@@ -1,0 +1,21 @@
+﻿@model MacroParameterModel
+@if (Model.ParameterEditorModel != null)
+{
+    <div id="@Model.Alias" class="content-property">
+        <div class="property-pane clearfix">
+            <div class="property-validator">
+                @Html.ValidationMessage(Model.Alias)
+            </div>
+            @Html.UmbEditorFor(
+                label => Model,
+                validation => Model.ParameterEditorModel.PropertyEditorModel,
+                editor => Model.ParameterEditorModel.PropertyEditorModel,
+                Html.GetEmbeddedViewPath((object)Model.ParameterEditorModel.PropertyEditorModel),
+                string.Empty,
+                string.Empty,
+                Model.Alias,
+                (bool)Model.ParameterEditorModel.PropertyEditorModel.ShowUmbracoLabel,
+                new {UmbracoPropertyId = Model.Alias})
+        </div>
+    </div>
+}

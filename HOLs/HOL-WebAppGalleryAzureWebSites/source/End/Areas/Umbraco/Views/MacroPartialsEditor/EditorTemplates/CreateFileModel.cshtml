@@ -1,0 +1,63 @@
+﻿@model CreateFileModel
+
+@{Html.RequiresJs("Umbraco.Editors/CreateFileDialog.js", "Scripts");}
+
+<h2>Current path: @Model.CurrentFolderPath</h2>
+<hr />
+
+<div class="editor-field clearfix float-all">
+    @Html.RadioButtonFor(x => Model.CreateType, "File",
+                    new Dictionary<string, object> { { "Id", "isFile" }, { "data-bind", "checked: createType" } })
+
+    <label for="isFile">Create file</label>
+    @Html.RadioButtonFor(x => Model.CreateType, "Folder",
+                       new Dictionary<string, object> { { "Id", "isFolder" }, { "data-bind", "checked: createType" } })
+
+    <label for="isFolder">Create folder</label>    
+</div>
+<hr />
+
+@Html.ValidationMessageFor(x => Model.Name)
+<div class="editor-label">
+    @Html.LabelFor(x => Model.Name)
+</div>
+<div class="editor-field" data-bind="css: { 'file-data': createType() == 'File' }">            
+    @Html.TextBoxFor(x => Model.Name)
+    @Html.DropDownListFor(x => Model.FileExtension, new SelectList(Model.AvailableFileExtensions),
+                                    new Dictionary<string, object> { { "data-bind", "visible: createType() == 'File', options: availableFileExtensions, value: selectedFileExtension,  optionsCaption: 'Choose...'" } })
+</div>
+
+@if (Model.AvailableStubs != null && Model.AvailableStubs.Count() > 0)
+{
+    <div data-bind="visible: createType() == 'File'">
+        <div class="editor-label">
+            @Html.LabelFor(x => Model.Stub)
+        </div>
+        <div class="editor-field"> 
+            @Html.DropDownListFor(x => Model.Stub, Model.AvailableStubs, "None",
+                    new Dictionary<string, object> { { "data-bind", "options: filteredStubs, optionsText: 'text', optionsValue: 'value'" } })
+        </div>
+    </div>
+}
+
+<div class="editor-label" data-bind="visible: createType() == 'File'">
+    <input type="checkbox" id="createMacro" name="createMacro" value="true" checked="checked "/> <label for="createMacro">Create a matching Macro?</label>
+</div>
+
+<div class="editor-field">
+    <img data-bind="visible: createType() == 'Folder'" src="@Model.FolderThumbnail" alt="File" />
+    <img data-bind="visible: createType() == 'File'" src="@Model.FileThumbnail" alt="Folder" />
+</div>
+
+@Html.EditorFor(x => Model.ParentId)
+
+<script type="text/javascript">
+    (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.CreateFileDialog.getInstance().init({
+                    availableFileExtensions: @Html.ToJsonString(@Model.AvailableFileExtensions),
+                    availableStubs: @Html.ToJsonString(@Model.AvailableStubs)
+                }); 
+            });
+        })(jQuery);
+</script>

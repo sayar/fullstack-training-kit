@@ -1,0 +1,133 @@
+﻿.toolbar-button {
+	display:block;
+	width:22px;
+	height:23px;
+	cursor:pointer;
+	border:1px solid transparent;
+    text-indent: -999px;
+}
+#editorBar .toolbar-button:hover {
+	width:22px;
+	height:23px;
+    border:1px solid #0A246A;
+    background-color:#B2BBD0;
+}
+
+.save-button 
+{
+	background:transparent url("../images/save.gif") no-repeat 0px 0px;
+}
+
+.publish-button 
+{
+	background:transparent url("../images/publish.gif") no-repeat 0px 0px;
+}
+
+.preview-button 
+{
+	background:transparent url("../images/preview.gif") no-repeat 0px 2px;
+}
+
+.implement-section-button 
+{
+	background:transparent url("../images/section.gif") no-repeat 0px 0px;
+}
+
+.define-section-button 
+{
+	background:transparent url("../images/renderSection.gif") no-repeat 0px 0px;
+}
+
+.insert-field-button 
+{
+	background:transparent url("../images/field.gif") no-repeat 0px 0px;
+}
+
+.insert-partial-button 
+{
+	background:transparent url("../images/partial.gif") no-repeat 0px 0px;
+}
+
+.insert-macro-button 
+{
+	background:transparent url("../images/macro.gif") no-repeat 0px 0px;
+}
+
+.layout-select-list
+{
+    width: 200px;
+}
+
+.close-button 
+{
+	display:block;
+	width:15px;
+	height:15px;
+	background:transparent url("../images/close.png") no-repeat 0px 0px;
+	cursor:pointer;
+	border:none;
+}
+
+.expand-button 
+{
+	width:15px;
+	height:15px;
+	background: transparent url(../Images/expand.png) no-repeat 0px 0px;	
+	cursor:pointer;
+	border:none;
+}
+
+.collapse-button 
+{
+	width:15px;
+	height:15px;
+	background: transparent url(../Images/collapse.png) no-repeat 0px 0px;	
+	cursor:pointer;
+	border:none;
+}
+
+.delete-button 
+{
+	width:16px;
+	height:16px;
+	background: transparent url(../Images/delete.png) no-repeat 0px 0px;	
+	cursor:pointer;
+	border:none;
+}
+
+.create-button 
+{
+	width:16px;
+	height:16px;
+	background: transparent url(../Images/create.png) no-repeat 0px 0px;	
+	cursor:pointer;
+	border:none;
+}
+
+.big-add-button 
+{
+	width:96px;
+	height:96px;
+	background: transparent url(../Images/big-add.png) no-repeat 0px 0px;	
+	cursor:pointer;
+	border:none;
+}
+
+.big-install-button 
+{
+	width:96px;
+	height:96px;
+	background: transparent url(../Images/app-install.png) no-repeat 0px 0px;	
+	cursor:pointer;
+	border:none;
+}
+
+.big-remove-button 
+{
+	width:96px;
+	height:96px;
+	background: transparent url(../Images/app-remove.png) no-repeat 0px 0px;	
+	cursor:pointer;
+	border:none;
+}
+

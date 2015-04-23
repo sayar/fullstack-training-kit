@@ -1,0 +1,103 @@
+﻿@using Umbraco.Framework
+@model IEnumerable<PackageModel>
+@{
+    ViewBag.ActiveIndex = 3;
+
+    ViewBag.NextButtonUrl = Url.Action("Finish", "Install");
+}
+<!-- Choose starter kit -->
+<div>
+    <div class="tab install-tab" id="browseSkins">
+        <div class="container">
+            <h1>
+                Install a Starter kit</h1>
+            <div class="accept-hold">
+                <p>
+                </p>
+            </div>
+        </div>
+
+        
+
+        @using (Html.BeginForm("StarterKit", "Install", FormMethod.Post,
+            new
+            {
+              @id = "starterKitForm"
+            }))
+        {
+            @Html.Hidden("starterKitId")
+
+            <div class="gallery">
+		    <a href="#" class="btn-prev"><span>prev</span></a>
+		    <a href="#" class="btn-next"><span>next</span></a>
+
+		    <div class="hold">
+		    <div class="gal-box">
+
+		    <div class="box zoom-list2">
+		    <ul>
+
+            @foreach (var p in Model)
+            {
+                var icon = p.Metadata.IconUrl != null ?
+                    p.Metadata.IconUrl.ToString() :
+                    Url.Content("~/Areas/Install/Content/Images/devdataset.png");
+                
+                <li>
+                <div class="image-hold">
+	            <img class="faik-mask" src="@Url.Content("~/Areas/Install/Content/Images/bg-img.png")" alt="image description" width="152" height="129">
+	            <img class="faik-mask-ie6" src="@Url.Content("~/Areas/Install/Content/Images/bg-img-ie.png")" alt="image description" width="201" height="178">
+                <div class="image">
+                <img class="zoom-img" src="@icon" alt="@p.Metadata.Title" width="134" height="103">
+                    <div class="gal-drop">
+                        <a href="#lightbox" class="btn-preview" title="@p.Metadata.Title"><span>Preview</span></a>
+                        <a class="single-tab btn-install-gal" id="@p.Metadata.Id" title="@p.Metadata.Title" href="javascript:void(0);"><span>Install</span></a>
+                        <div class="gal-desc" style="display: none">@p.Metadata.Description</div>
+                        <div class="gal-owner" style="display: none">Created by: <a href="@p.Metadata.ProjectUrl" target="_blank">@String.Join(" ,",p.Metadata.Authors)</a></div>
+                    </div>
+                </div>
+                </div>
+                </li>
+            }   
+            
+        </ul>
+		</div>
+
+        <div class="paging">
+		<div class="w1">
+				<div class="w2">
+				<span>Pages:</span>
+				<ul class="swicher">
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		</div></div></div>
+                              
+        }
+
+      
+        <!-- btn box -->
+        <footer class="btn-box">
+            <div class="t">
+                &nbsp;</div>
+            <a class="btn btn-skip" href="@Url.Action("Finish", "Install")"><span>Skip</span></a>
+        </footer>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var numberOfSkins = @Model.Count();
+    $(document).ready(function () {
+        $("a.btn-install-gal").click(function (ev) {
+            ev.preventDefault();
+            $("#starterKitId").val($(this).attr('id'));
+            $("#starterKitForm").submit();
+        });
+    });
+</script>

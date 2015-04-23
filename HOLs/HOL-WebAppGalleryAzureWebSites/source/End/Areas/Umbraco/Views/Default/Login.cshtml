@@ -1,0 +1,104 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.LoginModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    @*This is used so that JavaScript knows that when it sees this meta tag that it represents the login page*@
+    <meta name="umbraco-page-type" content="umbraco-login-page" />
+    
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/x-icon" href='@Url.Content("~/Areas/Umbraco/Content/Images/umbracoFavicon.ico")' />
+    @{
+        Html
+           .RequiresCss("ericmeyer.reset.css", "Styles", 0)
+           .RequiresCss("Site.css", "Styles", 1)
+           .RequiresCss("Panel/style.css", "Modules", 3)
+           .RequiresCss("jQueryUI/v4/jquery-ui-umbraco-v4.css", "Modules", 3)
+           .RequiresCss("Login.css", "Styles")
+           .RequiresCss("Validation.css", "Styles");
+    }
+    @{
+        Html
+           .RequiresJs("jQuery/jquery.js", "Scripts", 0)
+            .RequiresJs("Base2/base2.js", "Scripts", 0)
+           .RequiresJs("Umbraco.System/NamespaceManager.js", "Scripts", 0)
+           .RequiresJs("Umbraco.System/Extensions.js", "Scripts", 2)
+           .RequiresJs("Umbraco.System/QueryStrings.js", "Scripts", 2)
+           .RequiresJs("jQuery/jquery.validate.min.js", "Scripts", 2)
+           .RequiresJs("jQuery/jquery.unobtrusive-ajax.min.js", "Scripts", 3)
+           .RequiresJs("jQuery/jquery.validate.unobtrusive.min.js", "Scripts", 4)
+           .RequiresJs("Umbraco.System/WindowManager.js", "Scripts", 11)
+           .RequiresJs("Umbraco.System/UmbracoApplication.js", "Scripts", 20)
+           .RequiresJs("Umbraco.System/ClientApiManager.js", "Scripts", 22)
+           .RequiresJs("jQuery/jquery-ui-1.8.7.custom.min.js", "Scripts", 30);
+           
+    }
+    @* Render styles/scripts *@
+    @Html.Raw(Html.RenderCssHere(Url.GetStylesPath()))
+    @Html.Raw(Html.RenderJsHere(new List<IClientDependencyPath>() { Url.GetScriptsPath(), Url.GetModulesPath() }))
+    
+    @switch (Model.DisplayType)
+    {
+        case LoginDisplayType.StandardPage:
+        
+            <script type="text/javascript">
+                //determine if this is not the top window (it should always be)
+                if (self != window.top) {
+                    $u.Sys.ApiMgr.getApp().reloadTopWindow();
+                }    
+            </script>
+    
+            break;
+        case LoginDisplayType.DisplayingOverlay:
+            break;
+        case LoginDisplayType.ShowOverlay:
+    
+            <script type="text/javascript">
+                //launch the login overlay
+                Umbraco.System.WindowManager.getInstance().showModal({ id: "login-dialog", isGlobal: true, title: "Login Expired", modalClass: "login", forceContentInIFrame: true, contentUrl: "@Url.Action("Login", "Default", new { displayType = LoginDisplayType.DisplayingOverlay })", showClose: false });                   
+            </script>
+    
+            break;                                                                                                                                                                                  break;
+    }
+
+</head>
+    <body>
+        @if (Model.DisplayType != LoginDisplayType.ShowOverlay)
+        {
+         <div id="container" class="login-box">
+            <div class="panel fill">
+                <div class="boxhead">
+                    <h2>Welcome...</h2>
+                </div>
+                <div class="boxbody">
+                    <div class="logo">
+                    </div>
+                    <p>Welcome to umbraco, type your username and password in the boxes below:</p>
+                    <div id="inputFields" >
+                        @* Enable validation stuff *@
+                        @{Html.EnableClientValidation();}
+                        @{Html.EnableUnobtrusiveJavaScript();}
+                        @using (Html.BeginForm("Login", "Default", new { ReturnUrl = Request["ReturnUrl"] }, FormMethod.Post))
+                        {
+                            @Html.EditorFor(x => Model)
+                            <input type="submit" value="Login" />
+                        }
+                    </div>
+                    <div id="pageValidation">
+                        @Html.ValidationMessage("Login.Invalid")
+                    </div>
+                </div>
+                <div class="boxfooter">
+                    <div class="statusBar">
+                        <h5> </h5>
+                    </div>
+                </div>
+            </div>
+        </div>   
+        }        
+    </body>
+</html>

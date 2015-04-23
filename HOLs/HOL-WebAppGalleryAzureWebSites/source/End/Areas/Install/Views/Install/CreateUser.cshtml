@@ -1,0 +1,93 @@
+﻿@model Umbraco.Cms.Web.Model.Install.CreateNewUserModel
+@{
+    ViewBag.ActiveIndex = 2;
+}
+<!-- create box -->
+<div class="tab main-tabinfo">
+    <div class="container">
+        <h1>
+            Create User</h1>
+        <div class="create-hold">
+            <p>
+                You can now setup a new admin user to log into Umbraco, we recommend using a stong
+                password for this (a password which is more than 4 characters and contains a mix
+                of letters, numbers and symbols). Please make a note of the chosen password.</p>
+            <p>
+                The password can be changed once you have completed the installation and logged
+                into the admin interface.</p>
+        </div>
+    </div>
+    <div class="database-hold">
+        @using (Html.BeginForm("CreateUser", "Install", FormMethod.Post))
+        {
+            <fieldset>
+                <div class="container">
+                    <div class="instruction-hold">
+                        <div class="row">
+                            @Html.ValidationMessageFor(x => x.Name)
+                            @Html.LabelFor(x => x.Name, "Name:")
+                            <span>
+                                @Html.TextBoxFor(x => x.Name, new { @class = "text" })
+                            </span>
+                        </div>
+                        <div class="row">
+                            @Html.ValidationMessageFor(x => x.Email)
+                            @Html.LabelFor(x => x.Email, "Email:")
+                            <span>
+                                @Html.TextBoxFor(x => x.Email, new { @class = "text" })
+                            </span>
+                        </div>
+                        <div class="row">
+                            @Html.ValidationMessageFor(x => x.Username)
+                            @Html.LabelFor(x => x.Username, "Username:")
+                            <span>
+                                @Html.TextBoxFor(x => x.Username, new { @class = "text" })
+                            </span>
+                        </div>
+                        <div class="row" style="height: 35px; overflow: hidden;">
+                            @Html.ValidationMessageFor(x => x.Password)
+                            @Html.LabelFor(x => x.Password, "Password:")
+                            <span>
+                                @Html.PasswordFor(x => x.Password, new { @class = "text password" })
+                            </span>
+                        </div>
+                        <div class="row">
+                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                            @Html.LabelFor(x => x.ConfirmPassword, "Confirm Password:")
+                            <span>
+                                @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "text" })
+                            </span>
+                        </div>
+                        <div class="check-hold">
+                            @Html.CheckBoxFor(x => x.SignUpForNewsletter)
+                            @Html.LabelFor(x => x.SignUpForNewsletter, "Sign up for our monthly newsletter?")
+                        </div>
+                    </div>
+                </div>
+                <footer class="btn-box">
+                    <div class="t">
+                        &nbsp;</div>
+                    <a class="btn-create submit" href="#"><span>Create user</span></a>
+                </footer>
+            </fieldset>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("a.submit").click(function () {
+            $('form').submit();
+        });
+        
+        jQuery("input.password").passStrength({
+            shortPass: "invalidaing",
+            badPass: "invalidaing",
+            goodPass: "validaing",
+            strongPass: "validaing",
+            baseStyle: "basevalidaing",
+            userid: jQuery("#ctl09_tb_login").val(),
+            messageloc: 1
+        });
+    });
+</script>

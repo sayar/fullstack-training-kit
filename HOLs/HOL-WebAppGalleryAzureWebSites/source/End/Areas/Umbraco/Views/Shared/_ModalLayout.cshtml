@@ -1,0 +1,16 @@
+﻿@model dynamic
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section Head {
+    <style type="text/css">
+        #editor .property-editor > .property-editor-label { width: 25%; }
+        .panel { background-image: none !important; }
+    </style>
+    @RenderSection("Head", false)
+}
+<div id="editor" style="padding: 10px;">
+    <div class="panel">
+        @RenderBody()
+    </div>
+</div>

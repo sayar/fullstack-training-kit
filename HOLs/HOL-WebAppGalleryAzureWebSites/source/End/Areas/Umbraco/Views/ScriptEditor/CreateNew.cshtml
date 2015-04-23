@@ -1,0 +1,18 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.Editors.CreateFileModel
+@{
+    Layout = "../Shared/_CreateNewLayout.cshtml";
+
+    if (ViewBag.ControllerId == null || (Guid)ViewBag.ControllerId == default(Guid))
+    {
+        ViewBag.ControllerId = new Guid(CorePluginConstants.ScriptEditorControllerId);
+    }    
+    
+    if (string.IsNullOrEmpty(ViewBag.Title))
+    {
+        ViewBag.Title = "Create a script";
+    }
+
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@Html.UmbNextButton()

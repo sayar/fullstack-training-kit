@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Lab xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
+  <Id>ScalingWindowsAzureWebSites</Id>
+  <Technologies>
+    <Technology>Windows Azure</Technology>
+  </Technologies>
+  <Author>
+    <Blog></Blog>
+    <Email></Email>
+    <Name>wwegner</Name>
+  </Author>
+  <Description>Windows Azure provides a set of features that allows you to monitor and scale your Web Site whenever is required. Moving static assets to a Storage account will leverage the load of your Web Site and with Auto-Scaling, your Windows Azure Web Sites will automatically scale accordingly with their traffic load. Additionally, you can use Endpoint monitoring to measure the response time of your Web site from different locations. </Description>
+  <Document ConversionType="Html">.\HOL.md</Document>
+  <Title>Automatically Scaling Web Applications on Windows Azure Web Sites</Title>
+  <Version>1.0.0</Version>
+  <Source>.\Source</Source>
+  <DependencyChecker>.\source\Setup\Dependencies.depi</DependencyChecker>
+  <CustomProperties>
+    <Property Name="ContentType" Value="VS2012" />
+    <Property Name="GitHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-ScalingWindowsAzureWebSites" />
+  </CustomProperties>
+</Lab>

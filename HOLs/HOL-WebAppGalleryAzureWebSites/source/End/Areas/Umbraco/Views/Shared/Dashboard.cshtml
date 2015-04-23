@@ -1,0 +1,35 @@
+﻿@model Umbraco.Cms.Web.Model.BackOffice.DashboardApplicationModel
+@{
+    Layout = "_TabbedEditorLayout.cshtml";
+}
+@section Head {
+    @{Html.RequiresJs("Umbraco.Editors/DefaultDashboard.js", "Scripts");}
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                Umbraco.Editors.DefaultDashboard.getInstance().init({
+                    activeTabIndex: 0,
+                    activeTabIndexField: $("#activeTabIndex")
+                });
+            });
+        })(jQuery);
+    </script>
+}
+@section Tabs {
+    @foreach (var t in Model.Tabs)
+    {
+        <li><a href="#t-@t.Id.ToString()"><span>@t.Name</span></a></li>
+    }
+}
+<input type="hidden" id="activeTabIndex" />
+<div id="dashboardContent" class="scrolling-content padded-content">
+    @foreach (var t in Model.Tabs)
+    {
+        <div>
+            @foreach (var d in Model.Dashboards.Where(x => x.TabId == t.Id))
+            {            
+                @Html.RenderDashboard(d)
+            }
+        </div>
+    }
+</div>
