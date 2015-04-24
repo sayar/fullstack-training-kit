@@ -1,12 +1,6 @@
 # Build a Node.js web application using DocumentDB
 
-This tutorial shows you how to use the Azure DocumentDB service to store and access data from a Node.js Express application hosted on Azure Websites.
-
-We recommend getting started by watching the following video, where we show you how to provision an Azure DocumentDB database account and store JSON documents in your Node.js application. 
-
-> [AZURE.VIDEO azure-demo-getting-started-with-azure-documentdb-on-nodejs-in-linux]
-
-Then, return to this article, where you'll learn the answers to the following questions:
+This hands-on lab shows you how to use the Azure DocumentDB service to store and access data from a Node.js Express application hosted on Azure Websites. You'll learn the answers to the following questions:
 
 - How do I work with DocumentDB using the documentdb npm module?
 - How do I deploy the web application to Azure Websites?
@@ -22,7 +16,7 @@ Don't have time to complete the tutorial and just want to get the complete solut
 
 ## Prerequisites
 
-> [AZURE.TIP] This tutorial assumes that you have some prior experience using Node.js and Azure Websites.
+> This tutorial assumes that you have some prior experience using Node.js and Azure Websites.
 
 Before following the instructions in this article, you should ensure
 that you have the following:
@@ -34,7 +28,7 @@ that you have the following:
 
 ## Step 1: Create a DocumentDB database account
 
-Let's start by creating a DocumentDB account. If you already have an account, you can skip to [Step 2: Create a new Node.js application](#_Toc395783178).
+Let's start by creating a DocumentDB account. If you already have an account, you can skip to Step 2: Create a new Node.js application.
 
 1.	Sign in to the [Azure Preview portal](https://portal.azure.com/).
 2.	In the Jumpbar, click **New**, then select **Data + storage**, and then click **DocumentDB**. 
@@ -53,11 +47,11 @@ Let's start by creating a DocumentDB account. If you already have an account, yo
 
 	- In the **Id** box, enter a name to identify the DocumentDB account. This value becomes the host name within the URI. The **Id** may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters. 
 	
-		> [AZURE.NOTE] *documents.azure.com* is appended to the endpoint name you choose, the result of which will become your DocumentDB account endpoint.
+		> *documents.azure.com* is appended to the endpoint name you choose, the result of which will become your DocumentDB account endpoint.
 
 	- The **Account Tier** lens is locked because DocumentDB supports a single standard account tier. For more information, see [DocumentDB pricing](http://go.microsoft.com/fwlink/p/?LinkID=402317&clcid=0x409).
 
-	- In **Resource group**, select or create a resource group for your DocumentDB account.  By default, a new Resource group will be created.  You may, however, choose to select an existing resource group to which you would like to add your DocumentDB account. For more information, see [Using resource groups to manage your Azure resources](azure-preview-portal-using-resource-groups.md).
+	- In **Resource group**, select or create a resource group for your DocumentDB account.  By default, a new Resource group will be created.  You may, however, choose to select an existing resource group to which you would like to add your DocumentDB account.
 
 	- For **Subscription**, select the Azure subscription that you want to use for the DocumentDB account. If your account has only one subscription, that account will be selected automatically.
  
@@ -74,13 +68,13 @@ Let's start by creating a DocumentDB account. If you already have an account, yo
 
 5.	After the DocumentDB account has been created, it is ready for use with the default settings.
 
-	> [AZURE.NOTE] The default consistency of the DocumentDB account will be set to Session.  You can adjust the default consistency setting via the [Preview portal](https://portal.azure.com/#gallery/Microsoft.DocumentDB).  
+	> The default consistency of the DocumentDB account will be set to Session.  You can adjust the default consistency setting via the [Preview portal](https://portal.azure.com/#gallery/Microsoft.DocumentDB).  
  
-    ![Screen shot of the Resource Group blade](.media/documentdb-create-dbaccount/ca7.png)  
+    ![Screen shot of the Resource Group blade](./media/documentdb-create-dbaccount/ca7.png)  
 
-       Now navigate to the Keys blade of your DocumentDB account as we will use these values in the web application we create next.
+Now navigate to the Keys blade of your DocumentDB account as we will use these values in the web application we create next.
 
-       ![Screen shot of the Azure Preview portal, showing a DocumentDB account, with the Keys button highlighted on the DocumentDB account blade, and the URI, PRIMARY KEY and SECONDARY KEY values highlighted on the Keys blade](./media/documentdb-keys/keys.png)
+![Screen shot of the Azure Preview portal, showing a DocumentDB account, with the Keys button highlighted on the DocumentDB account blade, and the URI, PRIMARY KEY and SECONDARY KEY values highlighted on the Keys blade](./media/documentdb-keys/keys.png)
 
 ## Step 2: Create a new Node.js application
 
@@ -138,6 +132,7 @@ That takes care of all the initial setup and configuration, now let’s get down
 3. In the same **models** directory, create another new file named **docdbUtils.js**. This file will contain some useful, reusable, code that we will use throughout our application. 
 4. Copy the following code in to **docdbUtils.js**
 
+```node
 		var DocumentDBClient = require('documentdb').DocumentClient;
 			
 		var DocDBUtils = {
@@ -208,18 +203,21 @@ That takes care of all the initial setup and configuration, now let’s get down
 				
 		module.exports = DocDBUtils;
 
-> [AZURE.TIP] createCollection takes an optional requestOptions parameter that can be used to specify the Offer Type for the Collection. If no requestOptions.offerType value is supplied then the Collection will be created using the default Offer Type.
-> For more information on DocumentDB Offer Types please refer to [Performance levels in DocumentDB](documentdb-performance-levels.md) 
+```
+> createCollection takes an optional requestOptions parameter that can be used to specify the Offer Type for the Collection. If no requestOptions.offerType value is supplied then the Collection will be created using the default Offer Type.
 		
 3. Save and close the **docdbUtils.js** file.
 
 4. At the beginning of the **taskDao.js** file, add the following code to reference the **DocumentDBClient** and the **docdbUtils.js** we created above:
 
+```node
         var DocumentDBClient = require('documentdb').DocumentClient;
 		var docdbUtils = require('./docdbUtils');
+```
 
 4. Next, you will add code to define and export the Task object. This is responsible for initializing our Task object and setting up the Database and Document Collection we will use.
 
+```node
 		function TaskDao(documentDBClient, databaseId, collectionId) {
 		  this.client = documentDBClient;
 		  this.databaseId = databaseId;
@@ -230,9 +228,11 @@ That takes care of all the initial setup and configuration, now let’s get down
 		}
 		
 		module.exports = TaskDao;
+```
 
 5. Next, add the following code to define additional methods on the Task object, which allow interactions with data stored in DocumentDB.
 
+```node
 		TaskDao.prototype = {
 		    init: function (callback) {
 		        var self = this;
@@ -327,6 +327,7 @@ That takes care of all the initial setup and configuration, now let’s get down
 		        });
 		    }
 		};
+```
 
 6. Save and close the **taskDao.js** file. 
 
@@ -335,6 +336,7 @@ That takes care of all the initial setup and configuration, now let’s get down
 1. In the **routes** directory of your project, create a new file named **tasklist.js**. 
 2. Add the following code to **tasklist.js**. This loads the DocumentDBClient and async modules, which are used by **tasklist.js**. This also defined the **TaskList** function, which is passed an instance of the **Task** object we defined earlier:
 
+```node
 		var DocumentDBClient = require('documentdb').DocumentClient;
 		var async = require('async');
 		
@@ -343,9 +345,11 @@ That takes care of all the initial setup and configuration, now let’s get down
 		}
 		
 		module.exports = TaskList;
+```
 
 3. Continue adding to the **tasklist.js** file by adding the methods used to **showTasks, addTask**, and **completeTasks**:
-		
+
+```node		
 		TaskList.prototype = {
 		    showTasks: function (req, res) {
 		        var self = this;
@@ -404,7 +408,7 @@ That takes care of all the initial setup and configuration, now let’s get down
 		        });
 		    }
 		};
-
+```
 
 4. Save and close the **tasklist.js** file.
  
@@ -413,6 +417,7 @@ That takes care of all the initial setup and configuration, now let’s get down
 1. In your project directory create a new file named **config.js**.
 2. Add the following to **config.json**. This defines configuration settings and values needed for our application.
 
+```node
 		var config = {}
 		
 		config.host = process.env.HOST || "[the URI value from the DocumentDB Keys blade on http://portal.azure.com]";
@@ -421,6 +426,7 @@ That takes care of all the initial setup and configuration, now let’s get down
 		config.collectionId = "Items";
 		
 		module.exports = config;
+```
 
 3. In the **config.js** file, update the values of HOST and AUTH_KEY using the values found in the Keys blade of your DocumentDB account on the [Azure Preview portal](http://portal.azure.com):
 
@@ -430,20 +436,25 @@ That takes care of all the initial setup and configuration, now let’s get down
 
 1. In the project directory, open the **app.js** file. This file was created earlier when the Express web application was created.
 2. Add the following code to the top of **app.js**
-	
+
+```node	
 		var DocumentDBClient = require('documentdb').DocumentClient;
 		var config = require('./config');
 		var TaskList = require('./routes/tasklist');
 		var TaskDao = require('./models/taskDao');
+```
 
 3. This code defines the config file to be used, and proceeds to read values out of this file in to some variables we will use soon.
 4. Replace the following two lines in **app.js** file:
 
+```node
 		app.use('/', routes);
 		app.use('/users', users); 
+```
 
       with the following snippet:
 
+```node
 		var docDbClient = new DocumentDBClient(config.host, {
 		    masterKey: config.authKey
 		});
@@ -454,7 +465,7 @@ That takes care of all the initial setup and configuration, now let’s get down
 		app.get('/', taskList.showTasks.bind(taskList));
 		app.post('/addtask', taskList.addTask.bind(taskList));
 		app.post('/completetask', taskList.completeTask.bind(taskList));
-
+```
 
 6. These lines define a new instance of our **TaskDao** object, with a new connection to DocumentDB (using the values read from the **config.js**), initialize the task object and then bind form actions to methods on our **TaskList** controller. 
 
@@ -467,6 +478,7 @@ Now let’s turn our attention to building the user interface so a user can actu
 1. The **layout.jade** file in the **views** directory is used as a global template for other **.jade** files. In this step you will modify it to use [Twitter Bootstrap](https://github.com/twbs/bootstrap), which is a toolkit that makes it easy to design a nice looking website. 
 2. Open the **layout.jade** file found in the **views** folder and replace the contents with the following;
 	
+```jade
 		doctype html
 		html
 		  head
@@ -480,7 +492,7 @@ Now let’s turn our attention to building the user interface so a user can actu
 		    block content
 		    script(src='//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.2.min.js')
 		    script(src='//ajax.aspnetcdn.com/ajax/bootstrap/3.3.2/bootstrap.min.js')
-
+```
 
 
 	This effectively tells the **Jade** engine to render some HTML for our application and creates a **block** called **content** where we can supply the layout for our content pages.
@@ -488,6 +500,7 @@ Now let’s turn our attention to building the user interface so a user can actu
 
 4. Now open the **index.jade** file, the view that will be used by our application, and replace the content of the file with the following:
 
+```jade
 		extends layout
 		
 		block content
@@ -525,6 +538,7 @@ Now let’s turn our attention to building the user interface so a user can actu
 		    input(name="category", type="textbox")
 		    br
 		    button.btn(type="submit") Add item
+```
 
 	This extends layout, and provides content for the **content** placeholder we saw in the **layout.jade** file earlier.
 	
@@ -536,6 +550,7 @@ Now let’s turn our attention to building the user interface so a user can actu
 
 5. Open the **style.css** file in **public\stylesheets** directory and replace the code with the following:
 
+```css
 		body {
 		  padding: 50px;
 		  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -553,6 +568,7 @@ Now let’s turn our attention to building the user interface so a user can actu
 		  margin-top: 5px;
 		  border: outset 1px #C8C8C8;
 		}
+```
 
 	Save and close this **style.css** file.
 
@@ -561,7 +577,6 @@ Now let’s turn our attention to building the user interface so a user can actu
 1. To test the application on your local machine, run `npm start` in a terminal to start your application, and launch a browser with a page that looks like the image below:
 
 	![Screenshot of the MyTodo List application in a browser window](./media/documentdb-nodejs-application/image18.png)
-
 
 2. Use the provided fields for Item, Item Name and Category to enter
 information, and then click **Add Item**.
@@ -576,7 +591,7 @@ and then click **Update tasks**.
 
 ## Step 7: Deploy your application to Azure Websites
 
-1. If you haven't already, enable a git repository for your Azure Website. You can find instructions on how to do this [here](web-sites-publish-source-control-git.md#step4).
+1. If you haven't already, enable a git repository for your Azure Website.
 
 2. Add your Azure Website as a git remote.
 
@@ -595,7 +610,7 @@ running in Azure!
 Congratulations! You have just built your first Node.js Express Web
 Application using Azure DocumentDB and published it to Azure Websites.
 
-The source code for the complete reference application can be downloaded [here](https://github.com/Azure/azure-documentdb-node/tree/master/tutorial/todo).
+The source code for the complete reference application is in the folder or can be downloaded [here](https://github.com/Azure/azure-documentdb-node/tree/master/tutorial/todo).
 
   [Node.js]: http://nodejs.org/
   [Git]: http://git-scm.com/
