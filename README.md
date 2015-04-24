@@ -33,13 +33,13 @@ Here’s a snapshot of the sessions that will be covered and demonstrated with e
 | **Session** | **Time** | ** Duration ** |
 |---|---|---|
 | Registration/Breakfast | 8:30 - 9:00 | 30 |
-| Keynote - Future of JS | 9:00 - 9:30 | 30 |
-| Introduction to Node.JS & Express | 9:30 - 10:15 | 45 | 
+| [Keynote - Future of JS](https://github.com/sayar/fullstack-training-kit/blob/master/decks/1%20-%20Keynote.pptx) | 9:00 - 9:30 | 30 |
+| [Introduction to Node.JS & Express](https://github.com/sayar/fullstack-training-kit/blob/master/decks/2%20-%20Building%20Backends%20with%20NodeJS.pptx) | 9:30 - 10:15 | 45 | 
 | Break | 10:15 - 10:30 |  15 |
-| HOL - Building REST APIs with Node.JS | 10:30 - 11:45 | 45 |
-| HOL - Deploying Node Apps to Azure Web Sites | 11:45 - 12:30 | 45 |
+| [HOL - Building REST APIs with Node.JS](https://github.com/sayar/fullstack-training-kit/tree/master/HOLs/HOL-NodejsRESTAPI) | 10:30 - 11:45 | 45 |
+| [HOL - Deploying Node Apps to Azure Web Sites](https://github.com/sayar/fullstack-training-kit/tree/master/HOLs/HOL-NodejsAzureWebSites) | 11:45 - 12:30 | 45 |
 | Lunch | 12:00 - 1:00 | 60 |
-| HOL - Azure DocumentDB | 1:30 - 2:15 | 45 |
+| [HOL - Azure DocumentDB](https://github.com/sayar/fullstack-training-kit/tree/master/HOLs/HOL-NodejsDocumentDB) | 1:30 - 2:15 | 45 |
 | Introduction to AngularJS | 2:15 - 3:00 | 45 |
 | Break | 3:00 - 3:15 | 15 |
 | Advanced AngularJS | 3:15 - 4:00 | 45 |
