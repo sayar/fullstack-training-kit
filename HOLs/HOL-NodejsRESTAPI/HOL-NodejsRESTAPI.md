@@ -99,9 +99,8 @@ download any of the following editions of Visual Studio and then install
 the free [Node Tools for Visual
 Studio](http://nodejstools.codeplex.com/releases/view/119433).
 
--   **[THIS ONE IS FREE]** Visual Studio 2013 Express for Web (requires
-    Update 2). [Download
-    here](http://www.microsoft.com/en-ca/download/details.aspx?id=40747).
+-   **[THIS ONE IS FREE]** Visual Studio 2013 Community Edition. [Download
+    here](https://www.visualstudio.com/en-us/news/vs2013-community-vs.aspx).
 
 -   Visual Studio 2013 Pro or higher (requires Update 2)
 
