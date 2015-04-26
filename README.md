@@ -27,6 +27,10 @@ Attendee Prerequisites:
 * (Optional) [Azure SDK for VS2013](http://go.microsoft.com/fwlink/p/?linkid=323510&clcid=0x409)
  
 * (Optional) [Azure Command Line tools](http://azure.microsoft.com/en-us/documentation/articles/xplat-cli/)
+
+**[Repository for Angular/Node Full Stack Sample](https://github.com/grgzmy/splitwithfriends)**
+
+### Agenda
  
 Here’s a snapshot of the sessions that will be covered and demonstrated with extensive hands on labs:
 
@@ -44,7 +48,4 @@ Here’s a snapshot of the sessions that will be covered and demonstrated with e
 | Break | 3:00 - 3:15 | 15 |
 | Advanced AngularJS | 3:15 - 4:00 | 45 |
 | HOL - Using AngularJS to Create a SPA & Connecting your Node App via REST API | 4:00 - 4:45 | 45 | 
-
-
-
 
