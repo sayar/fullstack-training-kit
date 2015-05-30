@@ -465,22 +465,23 @@ In Express, when you define your routes, you can map it to a URL like above:
 var app = express();
 app.get('/api/dogs', function (req, res) {
     res.json({message:'dogs dogs dogs'});
-}
+});
 app.get('/api/dogs/:id', function (req, res) {
     console.log(req.param('id'));
     res.json({message:'dog'});
-}
+});
 app.post('/api/dogs/', function (req, res) {
     res.json({message:'created dog'});
-}
+});
 app.put('/api/dogs/:id', function (req, res) {
     console.log(req.param('id'));
     res.json({message:'update dog'});
-}
+});
 app.delete('/api/dogs/:id', function (req, res) {
     console.log(req.param('id'));
     res.json({message:'deleted dog'});
-}
+});
+```
 
 By returning a response with `.json()`, Express will set the `Content-Type` to `application\json` and 
 format your JavaScript object into valid JSON which your client-side can reinterpret as an object. 
